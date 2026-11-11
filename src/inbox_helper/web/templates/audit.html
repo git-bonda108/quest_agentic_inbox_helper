@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Audit trail{% endblock %}
+{% block main %}
+<h1>Audit trail</h1>
+<p class="meta">Every step, in order. Reviewer decisions carry the reviewer's name and the first characters of the hash of the text they decided on.</p>
+<div class="scroll">
+<table>
+  <thead><tr><th>#</th><th>Time (UTC)</th><th>Who</th><th>Event</th><th>Message</th><th>Detail</th></tr></thead>
+  <tbody>
+  {% for e in events %}
+  <tr><td>{{ e.id }}</td><td>{{ e.at.strftime("%H:%M:%S") }}</td><td>{{ e.actor }}</td><td>{{ e.event }}</td><td>{{ e.message_id or "" }}</td><td>{{ e.detail }}</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

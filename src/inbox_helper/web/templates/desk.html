@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block main %}
+<h1>Review desk</h1>
+<p class="summary">{{ waiting }} to review · {{ escalated|length }} need a person · {{ sent|length }} sent · {{ rejected|length }} rejected · {{ ignored|length }} set aside{% if failed %} · {{ failed|length }} failed{% endif %}</p>
+
+{% for label, rows in groups %}
+<section>
+  <h2>{{ label }} <span class="count">{{ rows|length }}</span></h2>
+  {% for row in rows %}
+  <article class="card">
+    <div class="msg">
+      <h3>{{ row.message.subject }}</h3>
+      <p class="meta">{{ row.message.from_name }} · {{ row.message.from_email }}{% if row.message.stage %} · {{ row.message.stage.value.replace("_", " ") }}{% endif %}</p>
+      <p class="body">{{ row.message.body }}</p>
+      <p class="meta">Why this group: {{ row.triage.reason }} ({{ "%.0f"|format(row.triage.confidence * 100) }}% confident)</p>
+    </div>
+    <form method="post" action="/messages/{{ row.message.id }}/approve" class="reply">
+      <input type="hidden" name="csrf" value="{{ csrf }}">
+      <label>Reply to {{ row.message.from_name }}{% if row.draft and row.draft.origin == "reviewer" %} (edited by a reviewer){% endif %}
+        <textarea name="text" rows="8" required>{{ row.draft.text if row.draft else "" }}</textarea>
+      </label>
+      <div class="actions">
+        <button class="primary">Approve and send</button>
+        <button class="danger" formaction="/messages/{{ row.message.id }}/reject" formnovalidate>Reject</button>
+      </div>
+      <p class="meta">Approving sends exactly the text in the box. Edit it first if it needs changing.</p>
+    </form>
+  </article>
+  {% endfor %}
+</section>
+{% endfor %}
+{% if not groups %}<p class="card">Nothing is waiting for review.</p>{% endif %}
+
+{% if escalated %}
+<section>
+  <h2>Needs a person <span class="count">{{ escalated|length }}</span></h2>
+  <p class="meta">No draft was written for these. Reply to them yourself.</p>
+  {% for row in escalated %}
+  <article class="card flag">
+    <h3>{{ row.message.subject }}</h3>
+    <p class="meta">{{ row.message.from_name }} · {{ row.message.from_email }}</p>
+    <p class="body">{{ row.message.body }}</p>
+    <p class="meta">Why: {{ row.triage.reason }}</p>
+  </article>
+  {% endfor %}
+</section>
+{% endif %}
+
+{% if failed %}
+<section>
+  <h2>Failed to process <span class="count">{{ failed|length }}</span></h2>
+  {% for row in failed %}<article class="card flag"><h3>{{ row.message.subject }}</h3><p class="body">{{ row.message.body }}</p></article>{% endfor %}
+</section>
+{% endif %}
+
+{% if sent %}
+<section>
+  <h2>Sent <span class="count">{{ sent|length }}</span></h2>
+  {% for row in sent %}
+  <article class="card done">
+    <p class="meta">To {{ row.entry.to_email }} · re: {{ row.message.subject }}</p>
+    <p class="body">{{ row.entry.text }}</p>
+  </article>
+  {% endfor %}
+</section>
+{% endif %}
+
+{% if rejected %}
+<section>
+  <h2>Rejected <span class="count">{{ rejected|length }}</span></h2>
+  {% for row in rejected %}<article class="card"><p class="meta">{{ row.message.from_name }} · {{ row.message.subject }} · rejected by {{ row.decision.reviewer }}</p></article>{% endfor %}
+</section>
+{% endif %}
+
+{% if ignored %}
+<section>
+  <h2>Set aside <span class="count">{{ ignored|length }}</span></h2>
+  {% for row in ignored %}<article class="card"><p class="meta">{{ row.message.from_name }} · {{ row.message.subject }} · {{ row.triage.reason }}</p></article>{% endfor %}
+</section>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}Review desk{% endblock %} · Inbox helper</title>
+<link rel="stylesheet" href="/static/desk.css">
+</head>
+<body>
+<header class="bar">
+  <a class="brand" href="/">Inbox helper</a>
+  {% if reviewer %}
+  <nav>
+    <a href="/">Desk</a>
+    <a href="/audit">Audit trail</a>
+    <form method="post" action="/logout" class="inline">
+      <input type="hidden" name="csrf" value="{{ csrf }}">
+      <button class="link">Sign out {{ reviewer }}</button>
+    </form>
+  </nav>
+  {% endif %}
+</header>
+<p class="notice">Synthetic data. “Send” writes to a simulated outbox; no email leaves this app. Drafts come from: {{ source }}.</p>
+<main>{% block main %}{% endblock %}</main>
+</body>
+</html>

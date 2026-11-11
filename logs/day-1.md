@@ -17,7 +17,10 @@ session; it wrote the code and ran the commands, and I directed and approved.
   `gpt-5.6-luna`, critic on `gpt-5.5`.
 - Offline replay of recorded model outputs, and an evaluation gate on it.
 
-Not built yet: the review desk a person uses to approve drafts.
+- The review desk: a small web app where a signed-in person approves, edits
+  or rejects each draft. Checked in a real browser: signed in, edited a
+  draft, approved it, and saw it in the outbox and the audit trail.
+- A README whose run command needs no account, and CI for every push.
 
 ## Numbers
 
@@ -50,7 +53,7 @@ What these numbers do not show:
 
 ## The build itself
 
-- First tool call 06:58, first scored live run 07:42.
+- First tool call 06:58, first scored live run 07:42, working review desk 07:45.
 - Times I had to act for the build to move: 4. One approval of a cloud
   environment, one sign-in attempt, and two rounds of commands in Azure Cloud
   Shell.
@@ -81,3 +84,5 @@ What these numbers do not show:
   identity library needs for async use. Added and pinned.
 - **Repository settings are locked** from the build session, so I set the
   repository description by hand.
+- **The review desk has 11 tests but no reviewer has used it.** Whether a
+  recruiter finds it quick is unmeasured.
