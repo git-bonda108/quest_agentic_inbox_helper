@@ -186,6 +186,11 @@ class Store:
             decided_at=decided_at,
         )
 
+    def record_failure(self, message_id: str, detail: str) -> None:
+        """Note that a message could not be processed, so it is never silently dropped."""
+        with self.transaction() as db:
+            self.log(db, SYSTEM_ACTOR, "failed", message_id, detail)
+
     def log(
         self,
         db: sqlite3.Connection,

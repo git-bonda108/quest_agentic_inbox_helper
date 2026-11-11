@@ -5,6 +5,8 @@ description = "Groups candidate messages by intent and drafts replies. Nothing i
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "azure-identity>=1.25",
+    "openai-agents>=0.24,<0.25",
     "pydantic>=2.14,<3",
 ]
 
