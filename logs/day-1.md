@@ -84,5 +84,10 @@ What these numbers do not show:
   identity library needs for async use. Added and pinned.
 - **Repository settings are locked** from the build session, so I set the
   repository description by hand.
+- **I could not open the review desk.** The AI ran it in its cloud session and
+  gave me `http://127.0.0.1:8000`, an address that only works on the machine
+  running the tool. My browser refused the connection. The README also assumed
+  I already had the code and `uv`. It now starts from an empty terminal on my
+  own computer: install, clone, run.
 - **The review desk has 11 tests but no reviewer has used it.** Whether a
   recruiter finds it quick is unmeasured.
