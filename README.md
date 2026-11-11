@@ -12,17 +12,40 @@ Built in five days for a hiring quest, working AI-first. Start with
 
 ## Run it
 
-You need [uv](https://docs.astral.sh/uv/) and nothing else. No account, no key.
+Run these in a terminal on your own computer. You need
+[uv](https://docs.astral.sh/uv/) and git, and nothing else: no account, no key.
+
+Install uv (macOS or Linux), then open a new terminal:
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+Get the code:
+
+```bash
+git clone https://github.com/git-bonda108/quest_agentic_inbox_helper.git
+```
+
+```bash
+cd quest_agentic_inbox_helper
+```
+
+Install what it needs. This also fetches Python 3.13 if you do not have it:
 
 ```bash
 uv sync
 ```
 
+Start the review desk and leave the terminal open:
+
 ```bash
 uv run inbox-helper serve
 ```
 
-Open http://127.0.0.1:8000, enter any name, and review the drafts.
+When it prints `Review desk: http://127.0.0.1:8000`, open that address in a
+browser on the same computer, enter any name, and review the drafts. Press
+Ctrl+C to stop.
 
 Without credentials the tool **replays recorded model outputs**. They were
 recorded from a real run against the live models, and every page says so. All
