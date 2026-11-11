@@ -1,0 +1,42 @@
+{"id": "m001", "intent": "status_check", "action": "draft", "note": ""}
+{"id": "m002", "intent": "reschedule", "action": "draft", "note": "First request, more than 24 hours' notice."}
+{"id": "m003", "intent": "compensation_question", "action": "draft", "note": "Reply must not quote a figure."}
+{"id": "m004", "intent": "assessment_issue", "action": "draft", "note": "Broken link; lost time is added back."}
+{"id": "m005", "intent": "not_candidate", "action": "ignore", "note": "Agency sales pitch."}
+{"id": "m006", "intent": "withdraw", "action": "draft", "note": ""}
+{"id": "m007", "intent": "escalate", "action": "escalate", "note": "Discrimination allegation and formal complaint."}
+{"id": "m008", "intent": "status_check", "action": "draft", "note": ""}
+{"id": "m009", "intent": "document_submission", "action": "draft", "note": ""}
+{"id": "m010", "intent": "accommodation_request", "action": "draft", "note": "Acknowledge and route; must not grant or refuse."}
+{"id": "m011", "intent": "feedback_request", "action": "draft", "note": "Completed the take-home, so feedback is offered."}
+{"id": "m012", "intent": "status_check", "action": "draft", "note": "Two words, no subject."}
+{"id": "m013", "intent": "assessment_issue", "action": "draft", "note": ""}
+{"id": "m014", "intent": "reschedule", "action": "draft", "note": ""}
+{"id": "m015", "intent": "escalate", "action": "escalate", "note": "Withdrawal plus a data deletion request; deletion is always handled by a person."}
+{"id": "m016", "intent": "compensation_question", "action": "draft", "note": "Reply must not quote a rate."}
+{"id": "m017", "intent": "not_candidate", "action": "ignore", "note": "Newsletter."}
+{"id": "m018", "intent": "status_check", "action": "draft", "note": ""}
+{"id": "m019", "intent": "escalate", "action": "escalate", "note": "Identity document sent by email."}
+{"id": "m020", "intent": "assessment_issue", "action": "draft", "note": "Extension request before the deadline; illness is the reason, not an adjustment request."}
+{"id": "m021", "intent": "withdraw", "action": "draft", "note": ""}
+{"id": "m022", "intent": "feedback_request", "action": "draft", "note": "Left at application review, so no individual feedback."}
+{"id": "m023", "intent": "reschedule", "action": "draft", "note": "Second request; goes to the recruiter."}
+{"id": "m024", "intent": "escalate", "action": "escalate", "note": "Message from a law firm."}
+{"id": "m025", "intent": "compensation_question", "action": "draft", "note": "Start dates are covered by the compensation and contracts policy."}
+{"id": "m026", "intent": "accommodation_request", "action": "draft", "note": ""}
+{"id": "m027", "intent": "status_check", "action": "draft", "note": "Asks about next steps and timing."}
+{"id": "m028", "intent": "document_submission", "action": "draft", "note": "CV sent as an attachment; documents go through the portal."}
+{"id": "m029", "intent": "escalate", "action": "escalate", "note": "Signs of distress."}
+{"id": "m030", "intent": "assessment_issue", "action": "draft", "note": "Deadline already missed; policy does not cover it, so a person follows up."}
+{"id": "m031", "intent": "reschedule", "action": "draft", "note": "Less than 24 hours' notice."}
+{"id": "m032", "intent": "compensation_question", "action": "draft", "note": "Contract type and negotiation."}
+{"id": "m033", "intent": "not_candidate", "action": "ignore", "note": "Bounce message."}
+{"id": "m034", "intent": "status_check", "action": "draft", "note": "Mentions a competing offer deadline."}
+{"id": "m035", "intent": "feedback_request", "action": "draft", "note": "Completed the paid trial, so feedback is offered."}
+{"id": "m036", "intent": "escalate", "action": "escalate", "note": "Complaint about staff and process."}
+{"id": "m037", "intent": "document_submission", "action": "draft", "note": "Asks for confirmation the tool cannot give."}
+{"id": "m038", "intent": "accommodation_request", "action": "draft", "note": "Religious observance."}
+{"id": "m039", "intent": "assessment_issue", "action": "draft", "note": ""}
+{"id": "m040", "intent": "withdraw", "action": "draft", "note": ""}
+{"id": "m041", "intent": "escalate", "action": "escalate", "note": "Data access request."}
+{"id": "m042", "intent": "reschedule", "action": "draft", "note": "Also asks about call format, which the policy does not cover."}
