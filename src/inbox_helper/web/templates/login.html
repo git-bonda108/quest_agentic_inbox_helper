@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Sign in{% endblock %}
+{% block main %}
+<section class="card narrow">
+  <h1>Sign in to review</h1>
+  <p>Your name is recorded against every decision you make.</p>
+  {% if error %}<p class="error" role="alert">{{ error }}</p>{% endif %}
+  <form method="post" action="/login">
+    <input type="hidden" name="csrf" value="{{ csrf }}">
+    <label>Your name <input name="name" maxlength="40" required autocomplete="name"></label>
+    {% if passcode_required %}
+    <label>Passcode <input name="passcode" type="password" required autocomplete="off"></label>
+    {% endif %}
+    <button class="primary">Sign in</button>
+  </form>
+</section>
+{% endblock %}

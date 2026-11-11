@@ -97,20 +97,78 @@ async def _eval(args: argparse.Namespace) -> int:
     return 1 if report.failures or report.escalations_drafted else 0
 
 
+async def _load_demo(args: argparse.Namespace, store: Store) -> str:
+    """Process the bundled inbox into the store and say where the drafts came from."""
+    messages = load_messages(args.inbox)
+    if args.live:
+        from inbox_helper.foundry_team import FoundryTeam  # imported late: needs cloud packages
+
+        endpoint = os.environ.get("FOUNDRY_PROJECT_ENDPOINT")
+        if not endpoint:
+            raise SystemExit("FOUNDRY_PROJECT_ENDPOINT is not set; see .env.example")
+        live = FoundryTeam(endpoint, WORKER_MODEL, CRITIC_MODEL, args.policy.read_text("utf-8"))
+        try:
+            await process_inbox(store, live, messages)
+        finally:
+            await live.aclose()
+        return f"live models ({WORKER_MODEL}, critic {CRITIC_MODEL})"
+    replay = RecordedTeam(args.recording)
+    await process_inbox(store, replay, messages)
+    return (
+        f"RECORDED model outputs from {replay.meta.get('recorded_at', '?')} "
+        f"({replay.meta.get('worker_model', '?')}, critic {replay.meta.get('critic_model', '?')})"
+    )
+
+
+def _serve(args: argparse.Namespace) -> int:
+    import secrets
+
+    import uvicorn
+
+    from inbox_helper.desk import create_app
+
+    store = Store(":memory:")
+    source = asyncio.run(_load_demo(args, store))
+    local = args.host in {"127.0.0.1", "localhost"}
+    passcode = os.environ.get("INBOX_HELPER_PASSCODE") or None
+    if passcode is None and not local:
+        raise SystemExit("Set INBOX_HELPER_PASSCODE before serving on a public address.")
+    app = create_app(
+        store,
+        passcode=passcode,
+        session_secret=os.environ.get("INBOX_HELPER_SESSION_SECRET") or secrets.token_urlsafe(32),
+        source=source,
+        https_only=not local,
+    )
+    print(f"Review desk: http://{args.host}:{args.port}  (drafts from {source})")
+    uvicorn.run(app, host=args.host, port=args.port, log_level="warning", proxy_headers=True)
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="inbox-helper", description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
+
     ev = commands.add_parser("eval", help="process the labelled inbox and score it")
-    ev.add_argument("--inbox", type=Path, default=DEFAULT_INBOX)
     ev.add_argument("--labels", type=Path, default=DEFAULT_LABELS)
-    ev.add_argument("--policy", type=Path, default=DEFAULT_POLICY)
-    ev.add_argument("--recording", type=Path, default=DEFAULT_RECORDING)
-    ev.add_argument("--live", action="store_true", help="call live models instead of replaying")
     ev.add_argument("--record", action="store_true", help="with --live: save answers for replay")
     ev.add_argument("--limit", type=int, default=None, help="only the first N messages")
     ev.add_argument("--concurrency", type=int, default=4)
     ev.add_argument("--out", type=Path, default=None, help="write the report as JSON")
+
+    sv = commands.add_parser("serve", help="process the inbox and open the review desk")
+    sv.add_argument("--host", default="127.0.0.1")
+    sv.add_argument("--port", type=int, default=8000)
+
+    for sub in (ev, sv):
+        sub.add_argument("--inbox", type=Path, default=DEFAULT_INBOX)
+        sub.add_argument("--policy", type=Path, default=DEFAULT_POLICY)
+        sub.add_argument("--recording", type=Path, default=DEFAULT_RECORDING)
+        sub.add_argument("--live", action="store_true", help="call live models, not the replay")
+
     args = parser.parse_args(argv)
+    if args.command == "serve":
+        return _serve(args)
     return asyncio.run(_eval(args))
 
 
