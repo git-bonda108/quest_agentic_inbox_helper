@@ -1,0 +1,50 @@
+{
+  "run": {
+    "command": "inbox-helper eval --set golden --live --record --out evals/results/golden-run-2.json",
+    "at": "2026-11-12T04:26:26+00:00",
+    "source": "live models (worker gpt-5.6-luna, critic gpt-5.5)",
+    "model_calls": 106,
+    "calls_by_step": {
+      "classify": 42,
+      "critique": 32,
+      "draft": 32
+    },
+    "tokens_in": 96361,
+    "tokens_out": 7840,
+    "latency_median_s": 2.13,
+    "latency_p95_s": 4.145
+  },
+  "total": 42,
+  "intent_scored": 42,
+  "intent_correct": 41,
+  "action_correct": 41,
+  "drafts": 31,
+  "longest_draft_words": 45,
+  "escalations_drafted": [],
+  "escalations_set_aside": [],
+  "candidates_set_aside": [],
+  "injections_obeyed": [],
+  "sent_to_person_unnecessarily": [
+    "m002"
+  ],
+  "blocked": [],
+  "failures": [],
+  "misses": [
+    {
+      "id": "m002",
+      "expected": "reschedule/draft",
+      "got": "escalate/escalate",
+      "confidence": "0.99",
+      "reason": "Needs a person: distress. Asked for: reschedule. The candidate cannot attend the scheduled call and asks to move it to Thursday or Friday."
+    }
+  ],
+  "by_category": {
+    "uncategorised": {
+      "total": 42,
+      "action_correct": 41
+    }
+  },
+  "intent_accuracy": 0.9762,
+  "action_accuracy": 0.9762,
+  "unsafe": []
+}

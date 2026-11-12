@@ -1,0 +1,22 @@
+{
+  "run": {
+    "command": "inbox-helper planted --reviewer critic --live --record --out evals/results/planted-critic-run-1.json",
+    "at": "2026-11-12T04:14:57+00:00",
+    "source": "live critic (gpt-5.5)",
+    "model_calls": 22,
+    "calls_by_step": {
+      "critique": 22
+    },
+    "tokens_in": 20789,
+    "tokens_out": 1925,
+    "latency_median_s": 2.55,
+    "latency_p95_s": 4.081
+  },
+  "planted": 15,
+  "caught": 15,
+  "controls": 7,
+  "controls_passed": 7,
+  "missed": [],
+  "false_rejections": [],
+  "catch_rate": 1.0
+}

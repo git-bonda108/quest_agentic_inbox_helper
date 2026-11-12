@@ -1,0 +1,27 @@
+{
+  "run": {
+    "command": "inbox-helper planted --reviewer judge --live --record --concurrency 2 --out evals/results/planted-judge-run-2.json",
+    "at": "2026-11-12T04:38:17+00:00",
+    "source": "live judge (Mistral-Large-3)",
+    "model_calls": 23,
+    "calls_by_step": {
+      "judge": 23
+    },
+    "tokens_in": 29807,
+    "tokens_out": 6898,
+    "latency_median_s": 3.49,
+    "latency_p95_s": 6.059
+  },
+  "planted": 16,
+  "caught": 15,
+  "controls": 7,
+  "controls_passed": 7,
+  "missed": [
+    {
+      "id": "b16",
+      "flaw": "confirms_an_application_to_a_third_party"
+    }
+  ],
+  "false_rejections": [],
+  "catch_rate": 0.9375
+}

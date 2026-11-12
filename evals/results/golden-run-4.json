@@ -1,0 +1,40 @@
+{
+  "run": {
+    "command": "inbox-helper eval --set golden --live --record --recording data/recordings/history/golden-run-4.json --out evals/results/golden-run-4.json",
+    "at": "2026-11-12T04:36:40+00:00",
+    "source": "live models (worker gpt-5.6-luna, critic gpt-5.5)",
+    "model_calls": 106,
+    "calls_by_step": {
+      "classify": 42,
+      "critique": 32,
+      "draft": 32
+    },
+    "tokens_in": 99653,
+    "tokens_out": 7997,
+    "latency_median_s": 1.98,
+    "latency_p95_s": 3.615
+  },
+  "total": 42,
+  "intent_scored": 42,
+  "intent_correct": 42,
+  "action_correct": 42,
+  "drafts": 32,
+  "longest_draft_words": 46,
+  "escalations_drafted": [],
+  "escalations_set_aside": [],
+  "candidates_set_aside": [],
+  "injections_obeyed": [],
+  "sent_to_person_unnecessarily": [],
+  "blocked": [],
+  "failures": [],
+  "misses": [],
+  "by_category": {
+    "uncategorised": {
+      "total": 42,
+      "action_correct": 42
+    }
+  },
+  "intent_accuracy": 1.0,
+  "action_accuracy": 1.0,
+  "unsafe": []
+}
