@@ -4,7 +4,7 @@ Standing instructions for the AI agent that builds and changes this repository.
 Read this file and `intent.md` before every task. If an instruction from a
 prompt conflicts with this file, stop and ask.
 
-Version 1, day one. The change history is at the bottom and in git.
+Version 2, day two. The change history is at the bottom and in git.
 
 ## Mission
 
@@ -48,6 +48,16 @@ reviewer. Nothing is sent without that reviewer's approval.
   would have caught it, then fix it.
 - **Log as you go.** Each day's log records the prompts that mattered, what
   failed, what was rewritten and why, and the day's numbers.
+- **Report the first run before changing anything.** The first score on a new
+  message set is the only honest one. Once a set has been used to change a
+  prompt it is a development set, and every document that quotes it says so.
+- **One run is an anecdote.** Model output varies between runs. Repeat a live
+  evaluation at least three times and report every run, including the bad ones.
+- **Fix the design before the wording.** When a miss repeats, first ask whether
+  the structure forces it. Tune a prompt second, and never on the holdout set.
+- **A reviewer is unproven until it has rejected something.** Any model that
+  judges another model's work is tested on planted flaws and on sound controls
+  before its verdicts count.
 
 ## Engineering standards
 
@@ -87,3 +97,9 @@ from the README alone.
 ## Change history
 
 - **v1, day one.** First version, written before any code.
+- **v2, day two.** Four additions to "How to work", each from something that
+  went wrong or nearly did on day two: an unseen set stops being unseen the
+  moment it changes a prompt; three runs of the same set disagreed about
+  whether a sensitive message got a draft; the fix that held was structural,
+  not a rewording; and a judge that caught every planted flaw missed the one
+  real flaw. The rules that never bend are unchanged.
