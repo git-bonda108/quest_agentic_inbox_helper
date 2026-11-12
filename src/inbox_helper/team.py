@@ -11,7 +11,7 @@ from typing import Protocol
 
 from pydantic import BaseModel, ConfigDict
 
-from inbox_helper.models import Intent, Message
+from inbox_helper.models import Handoff, Intent, Message
 
 
 class _Output(BaseModel):
@@ -19,14 +19,25 @@ class _Output(BaseModel):
 
 
 class Classification(_Output):
+    """What the sender wants, and separately, every reason a person must handle it."""
+
     intent: Intent
     confidence: float
     reason: str
+    handoff: list[Handoff]
 
 
 class Critique(_Output):
     acceptable: bool
     problems: list[str]
+
+
+class InputBlockedError(Exception):
+    """The platform's content filter refused to pass this message to a model."""
+
+    def __init__(self, categories: Sequence[str]) -> None:
+        self.categories = tuple(categories)
+        super().__init__(f"blocked by the content filter: {', '.join(self.categories)}")
 
 
 class Team(Protocol):

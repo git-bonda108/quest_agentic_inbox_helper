@@ -1,0 +1,176 @@
+{
+  "calls": {
+    "classify:03920a4c5245e71bf235": {
+      "confidence": 0.99,
+      "handoff": [
+        "complaint",
+        "discrimination"
+      ],
+      "intent": "escalate",
+      "reason": "The candidate reports being mocked for a stammer and asks for the incident to be investigated."
+    },
+    "classify:0509b8e46d3cb4d88068": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "reschedule",
+      "reason": "The candidate missed a People team call and asks to book it again."
+    },
+    "classify:093d0dc846676e9426f1": {
+      "confidence": 0.99,
+      "handoff": [
+        "distress"
+      ],
+      "intent": "reschedule",
+      "reason": "The candidate asks to move their call to Friday and also expresses personal hopelessness and a possible crisis."
+    },
+    "classify:09508c9edc2e96625d5d": {
+      "confidence": 0.99,
+      "handoff": [
+        "third_party"
+      ],
+      "intent": "status_check",
+      "reason": "The sender asks for Lena Fischer's current application status and future correspondence."
+    },
+    "classify:0f14ed6b3d53d0348760": {
+      "confidence": 0.99,
+      "handoff": [
+        "third_party"
+      ],
+      "intent": "status_check",
+      "reason": "The sender asks for the status of her son's take-home assessment."
+    },
+    "classify:16e340c10702390b6654": {
+      "confidence": 0.99,
+      "handoff": [
+        "complaint"
+      ],
+      "intent": "assessment_issue",
+      "reason": "The candidate reports repeated timeout failures while uploading the take-home assessment."
+    },
+    "classify:276f7055860aaabbbf1c": {
+      "confidence": 0.99,
+      "handoff": [
+        "discrimination"
+      ],
+      "intent": "feedback_request",
+      "reason": "The candidate asks for feedback on their take-home task and alleges age-based unfair treatment in the selection process."
+    },
+    "classify:4b2418b5a6f9fea39b8d": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "status_check",
+      "reason": "The candidate asks what happens after the People team call."
+    },
+    "classify:4c45c8435fcb32fc6633": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "compensation_question",
+      "reason": "The candidate asks whether the role would be structured as a contractor or employee."
+    },
+    "classify:513227644fd28c4c14a3": {
+      "confidence": 1.0,
+      "handoff": [],
+      "intent": "not_candidate",
+      "reason": "This is a promotional event invitation, not a candidate message about an application."
+    },
+    "classify:68103a4334372a0d3dac": {
+      "confidence": 0.98,
+      "handoff": [],
+      "intent": "document_submission",
+      "reason": "The candidate is asking whether a reference document sent on their behalf was received."
+    },
+    "classify:6b846c559c8e2212229b": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "status_check",
+      "reason": "The candidate asks how long the review of their take-home submission will take."
+    },
+    "classify:7979099a1586d749e123": {
+      "confidence": 0.99,
+      "handoff": [
+        "identity_document"
+      ],
+      "intent": "document_submission",
+      "reason": "The candidate is submitting an updated CV."
+    },
+    "classify:8beddc2b52df8833667c": {
+      "confidence": 0.99,
+      "handoff": [
+        "complaint"
+      ],
+      "intent": "document_submission",
+      "reason": "The candidate asks where to upload a reference letter."
+    },
+    "classify:9480448b38cbbfadcef5": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "accommodation_request",
+      "reason": "The candidate requests a schedule adjustment for a religious observance during Ramadan."
+    },
+    "classify:c6a1d7dc70e9d8269d61": {
+      "confidence": 1.0,
+      "handoff": [
+        "threat_or_abuse"
+      ],
+      "intent": "withdraw",
+      "reason": "The candidate asks to withdraw their application and insults a recruiter."
+    },
+    "classify:d92c50434f032da737bb": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "status_check",
+      "reason": "The candidate is asking for an update on the status of their application."
+    },
+    "classify:dfff856524b25b548f1c": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "assessment_issue",
+      "reason": "The candidate misread the take-home deadline and requests a short extension."
+    },
+    "critique:01867b2b8576dd3ba162": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:665292f0c1e8e7b16269": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:9900e6c4f114998ead87": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:99a09a070c8768c888ff": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:a1e33d4e217c8cba5a8c": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:a6cfca6d05e463ef9c85": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:a73f4f84b035fe7bc8da": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:e9d2a9d549216954fed3": {
+      "acceptable": true,
+      "problems": []
+    },
+    "draft:0dccd9fbf541f678021c": "Hi Viktor,\n\nTake-home submissions are reviewed within 5 business days.\n\nLarkfield Labs Hiring Team",
+    "draft:17d52f9409ae82ebd844": "Hi Ines,\n\nA member of the hiring team will follow up about whether your former manager\u2019s reference arrived.\n\nLarkfield Labs Hiring Team",
+    "draft:3be818ef982369a9485b": "Hi Thabo,\n\nYou may reschedule your People team call once with at least 24 hours\u2019 notice using the scheduling link in your invitation email.\n\nLarkfield Labs Hiring Team",
+    "draft:497b1487cf45ee81c93e": "Hi Efua,\n\nThanks for following up. Applications are reviewed within 5 business days of submission. A member of the hiring team will follow up regarding your application.\n\nLarkfield Labs Hiring Team",
+    "draft:5101517be499135b89d5": "Hi Siobhan,\n\nContract terms are discussed on the People team call rather than by email. The hiring team can address your question during the call.\n\nLarkfield Labs Hiring Team",
+    "draft:594a6602a7789e394cc3": "Hi Amina,\n\nThank you for letting us know. The People team handles adjustment requests and will respond within 2 business days.\n\nLarkfield Labs Hiring Team",
+    "draft:e20f22ff54387ea4a88b": "Hi Hugo,\n\nThe next listed stage after the People team call is a paid trial lasting 3 days. A recruiter will share any outcome.\n\nLarkfield Labs Hiring Team",
+    "draft:ebc37c8f92ddf1cfa93d": "Hi Matteo,\n\nA one-time extension of up to 48 hours is available for the take-home task if requested before the deadline. A member of the hiring team will follow up regarding your request.\n\nLarkfield Labs Hiring Team"
+  },
+  "meta": {
+    "critic": "gpt-5.5",
+    "recorded_at": "2026-11-12T04:33:18+00:00",
+    "worker": "gpt-5.6-luna"
+  }
+}

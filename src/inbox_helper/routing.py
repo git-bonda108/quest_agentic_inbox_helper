@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
-from inbox_helper.models import Action, Intent
+from collections.abc import Collection
+
+from inbox_helper.models import Action, Handoff, Intent
 
 # Below this confidence the classifier's answer is not trusted and a person takes over.
 CONFIDENCE_FLOOR = 0.70
@@ -21,8 +23,11 @@ _ACTIONS: dict[Intent, Action] = {
 }
 
 
-def route(intent: Intent, confidence: float) -> Action:
-    """Map a classified intent to an action. Low confidence always goes to a person."""
-    if confidence < CONFIDENCE_FLOOR:
+def route(intent: Intent, confidence: float, handoff: Collection[Handoff] = ()) -> Action:
+    """Map a classified intent to an action.
+
+    Any reason for a person wins over the intent, and so does low confidence.
+    """
+    if handoff or confidence < CONFIDENCE_FLOOR:
         return Action.ESCALATE
     return _ACTIONS[intent]

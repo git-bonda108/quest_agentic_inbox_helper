@@ -73,6 +73,10 @@ what this file contains.
 - Data access or deletion requests.
 - Messages showing distress or a personal crisis.
 - Identity documents sent by email.
+- Threats, or abuse aimed at staff.
+- Requests about a candidate from anyone who is not that candidate. A reply
+  never tells a third party anything about a candidate's application, including
+  that it exists.
 
 ## Tone
 
