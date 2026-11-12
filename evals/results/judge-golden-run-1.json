@@ -1,0 +1,28 @@
+{
+  "run": {
+    "command": "inbox-helper judge --set golden --live --record --concurrency 2 --out evals/results/judge-golden-run-1.json",
+    "at": "2026-11-12T04:43:23+00:00",
+    "source": "live judge (Mistral-Large-3)",
+    "model_calls": 32,
+    "calls_by_step": {
+      "judge": 32
+    },
+    "tokens_in": 41336,
+    "tokens_out": 9321,
+    "latency_median_s": 5.62,
+    "latency_p95_s": 29.668
+  },
+  "drafts_from": "RECORDED model outputs from 2026-11-12T04:31:53+00:00 (critic gpt-5.5, worker gpt-5.6-luna)",
+  "drafts_judged": 32,
+  "drafts_flagged": 0,
+  "flags_by_criterion": {
+    "grounded": 0,
+    "policy_applied": 0,
+    "responsive": 0,
+    "no_commitments": 0,
+    "privacy": 0,
+    "not_manipulated": 0,
+    "tone": 0
+  },
+  "flagged": []
+}

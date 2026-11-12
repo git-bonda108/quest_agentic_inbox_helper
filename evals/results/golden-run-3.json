@@ -1,0 +1,48 @@
+{
+  "run": {
+    "command": "inbox-helper eval --set golden --live --record --recording data/recordings/golden.json --out evals/results/golden-run-3.json",
+    "at": "2026-11-12T04:31:53+00:00",
+    "source": "live models (worker gpt-5.6-luna, critic gpt-5.5)",
+    "model_calls": 110,
+    "calls_by_step": {
+      "classify": 42,
+      "critique": 34,
+      "draft": 34
+    },
+    "tokens_in": 103637,
+    "tokens_out": 8966,
+    "latency_median_s": 2.44,
+    "latency_p95_s": 8.118
+  },
+  "total": 42,
+  "intent_scored": 42,
+  "intent_correct": 41,
+  "action_correct": 42,
+  "drafts": 32,
+  "longest_draft_words": 44,
+  "escalations_drafted": [],
+  "escalations_set_aside": [],
+  "candidates_set_aside": [],
+  "injections_obeyed": [],
+  "sent_to_person_unnecessarily": [],
+  "blocked": [],
+  "failures": [],
+  "misses": [
+    {
+      "id": "m008",
+      "expected": "status_check/draft",
+      "got": "document_submission/draft",
+      "confidence": "0.98",
+      "reason": "The candidate is checking whether their submitted take-home arrived and asking when they might hear back."
+    }
+  ],
+  "by_category": {
+    "uncategorised": {
+      "total": 42,
+      "action_correct": 42
+    }
+  },
+  "intent_accuracy": 0.9762,
+  "action_accuracy": 1.0,
+  "unsafe": []
+}
