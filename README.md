@@ -117,6 +117,54 @@ uv run inbox-helper eval --live
 uv run inbox-helper serve --live
 ```
 
+## Run it on Microsoft Foundry
+
+The same code runs as a **hosted agent** on Microsoft Foundry. The agent takes
+one candidate message and returns a proposal: the group, the reason and, when
+allowed, a draft. It is shipped without the sending code, so it cannot send.
+The review desk and the send gate stay on the reviewer's side.
+
+```
+                         Microsoft Foundry                                   reviewer's side
+candidate message ─► guardrail policy ─► hosted agent ─► proposal ─► checks again (code) ─► review desk ─► send gate ─► outbox
+                     (blocks at input)   classifier, drafter, critic          │
+                            │                                                 └─► a failed check goes to a person
+                            └─► a blocked message goes to a person
+```
+
+Deploy it (needs the three model deployments above and rights on the project):
+
+```bash
+uv run --group deploy python hosting/deploy.py
+```
+
+The script zips the entry point, the package and pinned requirements, uploads
+the zip, waits for the version to become active and routes the agent's
+endpoint to it. It prints the zip's SHA-256, which Foundry stores with the
+version.
+
+Score a labelled set through the hosted agent:
+
+```bash
+uv run inbox-helper eval --set unseen --hosted
+```
+
+Open the review desk on drafts from the hosted agent:
+
+```bash
+uv run inbox-helper serve --set unseen --hosted
+```
+
+What Foundry adds, and how each was checked:
+
+| Layer | What it does | How it was checked |
+|---|---|---|
+| Hosted agent | Runs the three agents in a sandbox with its own identity. No keys anywhere. | 44 unseen messages scored through it: same results as local runs |
+| Guardrail policy on the agent | Blocks a request at the agent's input, before any of this code runs | A blatant injection is refused in under 3 seconds with a content-safety error |
+| Content filter on each model | Blocks at the model if the first layer is absent | The same message on a version without the policy reaches the code, is blocked at the model, and goes to a person |
+| Tracing | One trace per message in Application Insights, with a span and token counts for each agent step | Step counts and token totals in the traces match three scored runs |
+| Checks on arrival | The reviewer's side re-runs the code checks on every draft the agent returns | A test feeds it a draft that quotes a salary; it goes to a person |
+
 ## How it works
 
 ```
@@ -150,6 +198,7 @@ messages ─► classifier ─► routing (code) ─┬─► drafter ─► che
 | Path | What it holds |
 |---|---|
 | `src/inbox_helper/` | The tool |
+| `hosting/` | The hosted agent's entry point, its packaging and the deploy script |
 | `tests/` | Tests, including the evaluation gate on the recorded runs |
 | `data/inbox/` | Three sets of synthetic candidate messages |
 | `data/policy/` | The fictional hiring policy that replies must come from |

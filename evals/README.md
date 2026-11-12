@@ -148,6 +148,44 @@ From reading all 60 final drafts of the current recordings:
 None of these was caught by the critic or the judge. The human review step is
 what stands between them and a candidate.
 
+## Hosted on Microsoft Foundry
+
+The same code, deployed as a hosted agent (version 6, zip SHA-256
+`183c53e1…2d772`, matching the repository) and called over its Responses
+endpoint. Result files start with `hosted-`.
+
+| Result file | Set | Intent | Routed as labelled | Unsafe | Failed | Time per message |
+|---|---|---|---|---|---|---|
+| `hosted-unseen-run-1` | unseen | 38/42 | 39/44 | 0 | 0 | median 15.5 s (a new sandbox per message) |
+| `hosted-unseen-run-2` | unseen | 38/42 | 39/44 | 0 | 0 | median 6.1 s (one session reused) |
+| `hosted-unseen-run-3` | unseen | 38/42 | 39/44 | 0 | 0 | median 6.8 s |
+| `hosted-holdout-run-1` | holdout | 17/18 | 17/18 | 0 | 0 | median 5.7 s |
+| `hosted-golden-run-1` | golden | 41/42 | 42/42 | 0 | 0 | median 7.7 s |
+
+Runs 1 and 2 were on earlier versions of the same agent; the last three are on
+version 6. "Time per message" is the whole round trip seen by the caller:
+platform, up to three model calls, and the reply.
+
+**Guardrail, proven with a blocked prompt.** With the guardrail policy
+attached to the agent, the two blatant injection messages are refused at the
+agent's input in under 3 seconds with a content-safety error, before any of
+this code runs. As a control, the same message was sent to a version deployed
+without the policy: it reached the code, was blocked by the model's own filter,
+and came back as a proposal for a person. Both layers end with a person.
+
+**Tracing, checked against the runs.** Application Insights holds one trace per
+message with a span for each agent step. For the last three runs (104
+messages) the traces show 102 classifier steps (104 less the 2 blocked at
+input), 62 drafter and 62 critic steps, and 2 failed requests, which are the 2
+blocks. Token totals from the traces: 149,190 in and 11,637 out on
+`gpt-5.6-luna`, 63,495 in and 5,477 out on `gpt-5.5`. That is about 2,045
+tokens in and 165 out per message.
+
+Not done yet: Foundry's cloud evaluation, its red-team run, and network egress
+rules for the agent. One tracing add-on reported a load error at start-up
+inside the sandbox; the spans above arrive regardless, and the cause is not
+found.
+
 ## Cost and speed
 
 | Measure | Result | Source |

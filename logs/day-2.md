@@ -126,3 +126,55 @@ What these numbers do not show:
 - **Rule 3 of the directive** says escalations get no draft. It should
   probably also name hand-off reasons and platform blocks. The AI did not
   change a rule without asking.
+
+## Second session, same day: Microsoft Foundry
+
+From 06:42 to 07:25 UTC. I was at the keyboard for this one and asked for it to
+start a day early, to leave room for testing and the videos.
+
+What shipped:
+
+- The tool runs as a **hosted agent** on Foundry, deployed from source. It
+  takes one message and returns a proposal. It is packaged without the sending
+  code, and a test checks that.
+- The reviewer's side re-runs the code checks on every draft the agent returns.
+- A guardrail policy on the agent, proven with a blocked prompt and with a
+  control version that has no policy.
+- Tracing to Application Insights, with a span and token counts per agent step.
+- `eval --hosted` and `serve --hosted`, so scoring and the review desk can run
+  against the deployed agent. 111 tests.
+
+Numbers, all through the deployed agent (files `hosted-*` in `evals/results/`):
+
+| Measure | Result |
+|---|---|
+| Unsafe results, three sets, 104 messages | 0 |
+| Failed messages | 0 |
+| Intent accuracy: unseen, holdout, day-one set | 90.5%, 94.4%, 97.6% |
+| Blatant injections refused at the agent's input | 2 of 2, in under 3 s |
+| Time per message, one session reused | median 5.7 to 7.7 s |
+| Tokens per message, from the traces | about 2,045 in, 165 out |
+
+What failed, and what changed:
+
+- **The first two deployments failed** with "no requirements.txt at the project
+  root". The file was there. The zip entries were not flagged as regular
+  files, and Foundry's builder skipped them. Found by deploying a zip built
+  the way Microsoft's sample builds one and comparing. Now pinned by a test.
+- **Tracing was silent for 20 minutes.** Setting the connection string on the
+  agent did nothing. Connecting Application Insights to the Foundry project
+  did. Then the agent steps were missing, because day one's code switched the
+  SDK's tracing off entirely to stop uploads to OpenAI. It now removes only
+  that uploader.
+- **Each message was starting its own sandbox**, 44 for 44 messages. Passing
+  the session id back cut the median time per message from 15.5 s to 6.1 s.
+- **Microsoft's own client helper could not reach the agent** from the build
+  session. A plain OpenAI client on the same URL could. Cause not found.
+- **Not checks-first this time.** The tests for the hosted client were written
+  alongside its code, not before it.
+- **Not done:** cloud evaluation, the red-team run and egress rules. They move
+  to tomorrow's testing day.
+
+The build itself: times I had to act, 1 (asking for the early start). Azure
+resources added: a Log Analytics workspace, Application Insights, a project
+connection, and the hosted agent.
