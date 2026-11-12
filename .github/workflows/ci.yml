@@ -17,7 +17,7 @@ jobs:
           fetch-depth: 0
       - uses: astral-sh/setup-uv@v5
       - name: Install
-        run: uv sync --frozen
+        run: uv sync --frozen --all-groups
       - name: Lint
         run: uv run ruff check .
       - name: Format
@@ -28,7 +28,7 @@ jobs:
         run: uv run pytest
       - name: Dependency audit
         run: |
-          uv export --format requirements-txt --no-emit-project -o requirements.txt
+          uv export --all-groups --format requirements-txt --no-emit-project -o requirements.txt
           uvx pip-audit -r requirements.txt
       - name: Secrets scan
         uses: gitleaks/gitleaks-action@v2

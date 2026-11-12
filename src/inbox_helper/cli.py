@@ -33,6 +33,7 @@ CASES = ROOT / "evals" / "critic" / "cases.jsonl"
 WORKER_MODEL = os.environ.get("INBOX_HELPER_WORKER_MODEL", "gpt-5.6-luna")
 CRITIC_MODEL = os.environ.get("INBOX_HELPER_CRITIC_MODEL", "gpt-5.5")
 JUDGE_MODEL = os.environ.get("INBOX_HELPER_JUDGE_MODEL", "Mistral-Large-3")
+AGENT_NAME = os.environ.get("INBOX_HELPER_AGENT_NAME", "inbox-helper")
 
 
 @dataclass(frozen=True)
@@ -171,7 +172,25 @@ async def _eval(args: argparse.Namespace, argv: Sequence[str]) -> int:
     labels = load_labels(data.labels)
     store = Store(":memory:")
     calls: Sequence[Call] = ()
-    if args.live:
+    timing: dict[str, Any] = {}
+    if args.hosted:
+        from inbox_helper.hosted import FoundryAgent, process_inbox_hosted
+
+        agent = FoundryAgent(_endpoint(), AGENT_NAME)
+        try:
+            outcomes = await process_inbox_hosted(
+                store, agent, messages, concurrency=args.concurrency
+            )
+        finally:
+            await agent.aclose()
+        source = f"hosted agent '{AGENT_NAME}' on Microsoft Foundry"
+        seconds = sorted(agent.seconds)
+        timing = {
+            "agent_calls": len(seconds),
+            "seconds_per_message_median": round(statistics.median(seconds), 2),
+            "seconds_per_message_p95": seconds[max(0, round(0.95 * len(seconds)) - 1)],
+        }
+    elif args.live:
         live = _live_team()
         meta = {"worker": WORKER_MODEL, "critic": CRITIC_MODEL}
         recorder = RecordedTeam(recording, live=live, meta=meta)
@@ -189,8 +208,13 @@ async def _eval(args: argparse.Namespace, argv: Sequence[str]) -> int:
         outcomes = await process_inbox(store, replay, messages, concurrency=args.concurrency)
         source = replay.describe()
     report = evaluate(store, outcomes, labels)
-    run = _run_block(argv, source, calls)
+    run = _run_block(argv, source, calls) | timing
     _print_run(run)
+    if timing:
+        print(
+            f"time per message:  median {timing['seconds_per_message_median']:.2f}s, "
+            f"p95 {timing['seconds_per_message_p95']:.2f}s ({timing['agent_calls']} agent calls)"
+        )
     _print_report(report)
     _write(args.out, run, json.loads(report.to_json()))
     return 1 if report.failures or report.unsafe else 0
@@ -311,6 +335,15 @@ async def _load_demo(args: argparse.Namespace, store: Store) -> str:
     """Process the chosen inbox into the store and say where the drafts came from."""
     data = SETS[args.set]
     messages = load_messages(data.inbox)
+    if args.hosted:
+        from inbox_helper.hosted import FoundryAgent, process_inbox_hosted
+
+        agent = FoundryAgent(_endpoint(), AGENT_NAME)
+        try:
+            await process_inbox_hosted(store, agent, messages)
+        finally:
+            await agent.aclose()
+        return f"the hosted agent '{AGENT_NAME}' on Microsoft Foundry, live"
     if args.live:
         live = _live_team()
         try:
@@ -374,6 +407,8 @@ def main(argv: list[str] | None = None) -> int:
         sub.add_argument("--out", type=Path, default=None, help="write the result as JSON")
     for sub in (ev, pl, jd, sv):
         sub.add_argument("--live", action="store_true", help="call live models, not a replay")
+    for sub in (ev, sv):
+        sub.add_argument("--hosted", action="store_true", help="use the agent hosted on Foundry")
 
     args = parser.parse_args(argv)
     if args.command == "serve":
