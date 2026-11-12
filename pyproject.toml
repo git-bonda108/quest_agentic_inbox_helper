@@ -36,6 +36,7 @@ packages = ["src/inbox_helper"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["tests"]
 addopts = "-q --strict-markers"
 
 [tool.ruff]
@@ -53,4 +54,5 @@ select = ["E", "F", "W", "I", "B", "UP", "S", "SIM", "RUF", "PT", "C4", "N"]
 python_version = "3.13"
 strict = true
 files = ["src", "tests"]
+mypy_path = "tests"
 plugins = ["pydantic.mypy"]

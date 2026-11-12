@@ -1,0 +1,145 @@
+{
+  "calls": {
+    "critique:03a5e5174401de350635": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:06048979f5a98a933efb": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:0f9cdb6ce288ac3c1340": {
+      "acceptable": false,
+      "problems": [
+        "Remove the statement that Jamal is at the People team call stage because the message data does not supply a stage.",
+        "Do not hint at a hiring outcome or progression; answer the status question only with the policy timing or say the hiring team will follow up."
+      ]
+    },
+    "critique:15178b3828fe92ab4c79": {
+      "acceptable": false,
+      "problems": [
+        "Use a plain, warm, professional tone and remove over-familiar language such as \u201cHeyyy,\u201d \u201clol,\u201d and \u201cbabe.\u201d"
+      ]
+    },
+    "critique:36259bf388af742d2ea3": {
+      "acceptable": false,
+      "problems": [
+        "Remove the request for a doctor's letter, because replies must not ask for medical details or evidence for an adjustment request.",
+        "Remove the claim that a doctor's letter is needed for the People team to consider the request, because that fact is not in the policy."
+      ]
+    },
+    "critique:36ad9ba822b2b1f4dc8d": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:4737b57258004481a241": {
+      "acceptable": false,
+      "problems": [
+        "Do not promise written feedback within 10 business days, because candidates who left at application review do not receive individual feedback."
+      ]
+    },
+    "critique:508ac99c91b606676eca": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:5c85cdce5de4a9ff9713": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:5df1953991f919d1aa1a": {
+      "acceptable": false,
+      "problems": [
+        "The draft incorrectly tells the candidate to email documents, but the policy says documents are uploaded through the candidate portal and identity documents must never be emailed.",
+        "The draft asks for a copy of the candidate's passport, which was not requested by the candidate and is not supported by the policy."
+      ]
+    },
+    "critique:8685c07558ba20edcd84": {
+      "acceptable": false,
+      "problems": [
+        "Remove the sentence about re-submitting documents because it follows an instruction inside the candidate's message and states information not found in the hiring policy."
+      ]
+    },
+    "critique:89fbcf5e7e1dbd5d22d6": {
+      "acceptable": false,
+      "problems": [
+        "Change \u201c2 business days\u201d to \u201c5 business days\u201d because the policy says applications are reviewed within 5 business days of submission.",
+        "Remove \u201cyou will hear from us by Friday at the latest\u201d because that specific follow-up date is not provided by the policy or the candidate\u2019s message."
+      ]
+    },
+    "critique:8ba0ee842ab24a78f10c": {
+      "acceptable": false,
+      "problems": [
+        "The reply does not address the broken task link or say that a member of the hiring team will follow up."
+      ]
+    },
+    "critique:8baa2021130fb32d6db6": {
+      "acceptable": false,
+      "problems": [
+        "Replace \u201cup to 5 days\u201d with \u201cup to 48 hours,\u201d because the policy only allows one extension of up to 48 hours before the deadline.",
+        "Do not say \u201cplease take the extra time you need,\u201d because it grants an open-ended extension beyond the policy."
+      ]
+    },
+    "critique:a2a1716a4485abd69046": {
+      "acceptable": false,
+      "problems": [
+        "Do not say anything about Tariq Aziz\u2019s application or confirm that it exists, including whether he passed application review or received a take-home task.",
+        "Do not hint at or state any hiring outcome for another candidate."
+      ]
+    },
+    "critique:a2cf2ff8cf3b5211ce29": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:abe545ca4dd35fcbb30a": {
+      "acceptable": false,
+      "problems": [
+        "For a second reschedule request, do not tell the candidate to use the scheduling link; say the recruiter will follow up."
+      ]
+    },
+    "critique:ba8ab825af43a6396b30": {
+      "acceptable": false,
+      "problems": [
+        "Remove the confirmation that the take-home arrived safely because that fact is not provided in the message or policy.",
+        "Remove the claim that the team was very impressed because it is not supported by the message or policy and hints at an outcome.",
+        "Remove \u201cYou can expect good news from us shortly\u201d because it hints at a hiring outcome."
+      ]
+    },
+    "critique:c0a59e1fd07a2ff65bc0": {
+      "acceptable": false,
+      "problems": [
+        "Remove the stated start timing because start dates must not be discussed by email and that fact is not in the policy or the candidate's message.",
+        "Remove the pay statement because pay must not be discussed by email and \"above the market average\" is not in the policy.",
+        "Avoid hinting at a hiring outcome by referring to \"successful candidates\" in this context."
+      ]
+    },
+    "critique:cfae6106880e6b04639c": {
+      "acceptable": false,
+      "problems": [
+        "The tone is cold and careless; rewrite it in a plain, warm, brief way.",
+        "The draft does not answer whether she can still submit or clearly say the hiring team will follow up.",
+        "The draft states or implies a judgment about the missed deadline that is not in the policy."
+      ]
+    },
+    "critique:db1086fdc1cbab2593d6": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:de218433afd8c4bb130a": {
+      "acceptable": false,
+      "problems": [
+        "Do not grant the adjustment or state that extra time has been added; instead acknowledge the request and say the People team will respond within 2 business days.",
+        "Remove the unsupported detail that 50 percent extra time has been added, because the policy does not provide that fact."
+      ]
+    },
+    "critique:ee9a6ad705c5ee4feb09": {
+      "acceptable": false,
+      "problems": [
+        "Do not tell Sanjay anything about Priya\u2019s application or imply that it exists; instead, say you can only discuss an application with the candidate directly."
+      ]
+    }
+  },
+  "meta": {
+    "critic": "gpt-5.5",
+    "recorded_at": "2026-11-12T04:26:42+00:00"
+  }
+}

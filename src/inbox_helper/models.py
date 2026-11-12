@@ -24,6 +24,19 @@ class Intent(StrEnum):
     NOT_CANDIDATE = "not_candidate"
 
 
+class Handoff(StrEnum):
+    """A reason a person must handle a message, whatever else it asks for."""
+
+    COMPLAINT = "complaint"
+    DISCRIMINATION = "discrimination"
+    LEGAL = "legal"
+    DATA_REQUEST = "data_request"
+    DISTRESS = "distress"
+    IDENTITY_DOCUMENT = "identity_document"
+    THREAT_OR_ABUSE = "threat_or_abuse"
+    THIRD_PARTY = "third_party"
+
+
 class Action(StrEnum):
     """What the tool does with a message. Chosen by code, never by a model."""
 
