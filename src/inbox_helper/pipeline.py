@@ -29,7 +29,7 @@ class Outcome:
     blocked: bool = False
 
 
-def _hand_to_a_person(
+def hand_to_a_person(
     store: Store, message: Message, intent: Intent | None, blocked: InputBlockedError
 ) -> Outcome:
     """The platform refused the message. Nobody guesses; a person reads it."""
@@ -53,7 +53,7 @@ async def process_message(store: Store, team: Team, message: Message) -> Outcome
     try:
         classification = await team.classify(message)
     except InputBlockedError as blocked:
-        return _hand_to_a_person(store, message, None, blocked)
+        return hand_to_a_person(store, message, None, blocked)
     confidence = classification.confidence if 0.0 <= classification.confidence <= 1.0 else 0.0
     asked, handoff = classification.intent, classification.handoff
     action = route(asked, confidence, handoff)
@@ -88,7 +88,7 @@ async def process_message(store: Store, team: Team, message: Message) -> Outcome
                 problems = critique.problems or ["The critic rejected the draft without a reason."]
             feedback = problems
     except InputBlockedError as blocked:
-        return _hand_to_a_person(store, message, intent, blocked)
+        return hand_to_a_person(store, message, intent, blocked)
 
     # No draft passed. A person takes over, and sees why.
     store.save_triage(

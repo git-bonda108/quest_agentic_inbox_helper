@@ -18,7 +18,7 @@ from agents import (
     OpenAIChatCompletionsModel,
     OpenAIResponsesModel,
     Runner,
-    set_tracing_disabled,
+    set_trace_processors,
 )
 from azure.identity.aio import DefaultAzureCredential, get_bearer_token_provider
 from openai import AsyncOpenAI, BadRequestError
@@ -31,6 +31,11 @@ from inbox_helper.models import Intent, Message
 from inbox_helper.team import Classification, Critique, InputBlockedError
 
 FOUNDRY_SCOPE = "https://ai.azure.com/.default"
+
+# The SDK's built-in trace exporter uploads to OpenAI and needs an OpenAI key. Remove it
+# at import, before any host starts. On Foundry the agent server then adds its own
+# OpenTelemetry processor, so each agent step is traced to Application Insights.
+set_trace_processors([])
 
 CLASSIFIER_INSTRUCTIONS = """\
 You sort messages that arrive in the hiring inbox of Larkfield Labs.
@@ -169,9 +174,6 @@ def render_message(message: Message) -> str:
 
 def foundry_client(endpoint: str) -> tuple[AsyncOpenAI, DefaultAzureCredential]:
     """An OpenAI client for a Foundry project, signed in by identity. Close the credential."""
-    # The SDK's built-in tracing uploads to OpenAI and needs an OpenAI key.
-    # Tracing for this project goes through OpenTelemetry instead.
-    set_tracing_disabled(True)
     credential = DefaultAzureCredential()
     client = AsyncOpenAI(
         base_url=f"{endpoint.rstrip('/')}/openai/v1",
