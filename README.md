@@ -61,15 +61,50 @@ uv run pytest
 uv run inbox-helper eval
 ```
 
-`eval` processes the 42 labelled messages and prints the scores. The latest
-recorded run is in [`evals/results/`](evals/results/).
+`eval` processes a labelled inbox and prints the scores. There are three
+labelled sets, chosen with `--set`:
+
+| Set | Messages | What it is for |
+|---|---|---|
+| `golden` | 42 | The day-one set. The prompts were written with it in view. |
+| `unseen` | 44 | Written on day two before any prompt saw it: injections, personal data, mixed intents, other languages, abuse, third parties. |
+| `holdout` | 18 | Boundary cases, written after a fix and before the fix was run. Never used to tune a prompt. |
+
+```bash
+uv run inbox-helper eval --set unseen
+```
+
+Two more commands test the reviewers themselves:
+
+```bash
+uv run inbox-helper planted --reviewer critic
+```
+
+```bash
+uv run inbox-helper judge --set unseen
+```
+
+`planted` runs 23 hand-written drafts past the critic (or the judge): 16 carry
+one planted flaw each and 7 are sound. `judge` scores a run's final drafts
+against [`evals/rubric.md`](evals/rubric.md) with a model from a different
+vendor.
+
+To review the adversarial inbox in the desk:
+
+```bash
+uv run inbox-helper serve --set unseen
+```
+
+Every result, including the runs where a target was missed, is in
+[`evals/README.md`](evals/README.md).
 
 ## Run it against live models
 
 The agents run on Microsoft Foundry and sign in with your Azure identity. There
 are no API keys.
 
-1. Create a Foundry project with two model deployments.
+1. Create a Foundry project with three model deployments: a worker, a critic,
+   and a judge from a different vendor.
 2. Give your identity the **Foundry User** role on the Foundry resource.
 3. Sign in with `az login`.
 4. Copy `.env.example` to `.env`, fill it in, and export the variables.
@@ -92,13 +127,19 @@ messages ─► classifier ─► routing (code) ─┬─► drafter ─► che
 
 - **Three agents, one job each**, on the OpenAI Agents SDK. The classifier and
   drafter use one model; the critic uses a different one.
+- **The classifier answers two questions**: what the sender wants, and whether
+  anything in the message means a person must handle it. A reschedule request
+  that also contains a complaint goes to a person, with both facts shown.
 - **Code decides.** Routing, the word limit, the money check and the approval
   rule are plain code with tests. The agents classify and write.
 - **Agents cannot send.** `dispatch.py` is the only module that writes to the
   outbox, and a test enforces that. It refuses unless the reviewer's latest
   decision approves the exact text, and it sends at most once.
-- **Some messages get no draft.** Complaints, legal threats, data requests and
-  signs of distress go to a person.
+- **Some messages get no draft.** Complaints, legal threats, data requests,
+  signs of distress, threats and requests from third parties go to a person.
+- **A message the platform refuses goes to a person.** Microsoft Foundry's
+  content filter blocks blatant prompt injection before a model reads it. The
+  tool records the block and hands the message to a reviewer with the reason.
 - **Replies come from a written policy**,
   [`data/policy/hiring_policy.md`](data/policy/hiring_policy.md). If the policy
   does not cover it, the reply says a person will follow up.
@@ -109,8 +150,9 @@ messages ─► classifier ─► routing (code) ─┬─► drafter ─► che
 | Path | What it holds |
 |---|---|
 | `src/inbox_helper/` | The tool |
-| `tests/` | Tests, including the evaluation gate on the recorded run |
-| `data/inbox/` | 42 synthetic candidate messages |
-| `evals/golden/` | Expected intent and action for each message, kept apart from the inputs |
-| `data/recordings/` | Recorded model outputs for offline replay |
+| `tests/` | Tests, including the evaluation gate on the recorded runs |
+| `data/inbox/` | Three sets of synthetic candidate messages |
+| `data/policy/` | The fictional hiring policy that replies must come from |
+| `data/recordings/` | Recorded model outputs for offline replay; `history/` holds earlier runs |
+| `evals/` | Labels kept apart from the inputs, planted drafts, the rubric, and every result |
 | `logs/` | One log per day: numbers, failures, changes of plan |
