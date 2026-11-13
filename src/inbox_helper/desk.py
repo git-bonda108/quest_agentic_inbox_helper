@@ -128,6 +128,11 @@ def create_app(
         }
         return templates.TemplateResponse(request, name, context, status_code=status)
 
+    @app.exception_handler(HTTPException)
+    async def explain(request: Request, error: HTTPException) -> Response:
+        """Tell the reviewer what was refused, on a page, keeping the status code."""
+        return page(request, "error.html", status=error.status_code, message=str(error.detail))
+
     @app.get("/healthz")
     async def healthz() -> dict[str, str]:
         return {"status": "ok"}
