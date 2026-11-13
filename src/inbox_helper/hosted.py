@@ -14,7 +14,13 @@ from typing import Protocol
 
 from inbox_helper.checks import draft_problems
 from inbox_helper.models import Action, Message, Triage
-from inbox_helper.pipeline import DEFAULT_CONCURRENCY, Outcome, hand_to_a_person
+from inbox_helper.pipeline import (
+    DEFAULT_CONCURRENCY,
+    Outcome,
+    admit,
+    duplicate,
+    hand_to_a_person,
+)
 from inbox_helper.service import Reply
 from inbox_helper.store import Store
 from inbox_helper.team import InputBlockedError
@@ -127,11 +133,12 @@ async def process_inbox_hosted(
     concurrency: int = DEFAULT_CONCURRENCY,
 ) -> list[Outcome]:
     """Process a pile of messages through the hosted agent. One failure never stops the rest."""
-    for message in messages:
-        store.add_message(message)
+    fresh = admit(store, messages)
     gate = asyncio.Semaphore(concurrency)
 
-    async def guarded(message: Message) -> Outcome:
+    async def guarded(message: Message, is_new: bool) -> Outcome:
+        if not is_new:
+            return duplicate(message)
         async with gate:
             try:
                 return await _one(store, agent, message)
@@ -140,4 +147,4 @@ async def process_inbox_hosted(
                 store.record_failure(message.id, detail)
                 return Outcome(message.id, None, None, drafted=False, error=detail)
 
-    return list(await asyncio.gather(*(guarded(message) for message in messages)))
+    return list(await asyncio.gather(*map(guarded, messages, fresh)))

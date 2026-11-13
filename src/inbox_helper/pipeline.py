@@ -11,7 +11,7 @@ from dataclasses import dataclass
 from inbox_helper.checks import draft_problems
 from inbox_helper.models import Action, Intent, Message, Triage
 from inbox_helper.routing import route
-from inbox_helper.store import Store
+from inbox_helper.store import DuplicateMessageError, Store
 from inbox_helper.team import InputBlockedError, Team
 
 MAX_DRAFT_ATTEMPTS = 2
@@ -50,6 +50,18 @@ def hand_to_a_person(
 
 
 async def process_message(store: Store, team: Team, message: Message) -> Outcome:
+    if not (message.subject + message.body).strip():
+        # Nothing to classify. A model asked to read nothing will still answer something.
+        store.save_triage(
+            Triage(
+                message_id=message.id,
+                intent=Intent.ESCALATE,
+                action=Action.ESCALATE,
+                confidence=1.0,
+                reason="The message is empty, so no model read it. A person should look at it.",
+            )
+        )
+        return Outcome(message.id, Intent.ESCALATE, Action.ESCALATE, drafted=False)
     try:
         classification = await team.classify(message)
     except InputBlockedError as blocked:
@@ -111,11 +123,12 @@ async def process_inbox(
     concurrency: int = DEFAULT_CONCURRENCY,
 ) -> list[Outcome]:
     """Process a pile of messages. One failure is reported and never stops the rest."""
-    for message in messages:
-        store.add_message(message)
+    fresh = admit(store, messages)
     gate = asyncio.Semaphore(concurrency)
 
-    async def guarded(message: Message) -> Outcome:
+    async def guarded(message: Message, is_new: bool) -> Outcome:
+        if not is_new:
+            return duplicate(message)
         async with gate:
             try:
                 return await process_message(store, team, message)
@@ -124,4 +137,24 @@ async def process_inbox(
                 store.record_failure(message.id, detail)
                 return Outcome(message.id, None, None, drafted=False, error=detail)
 
-    return list(await asyncio.gather(*(guarded(message) for message in messages)))
+    return list(await asyncio.gather(*map(guarded, messages, fresh)))
+
+
+def admit(store: Store, messages: list[Message]) -> list[bool]:
+    """Add each message to the store. False marks a repeat of an id already held."""
+    fresh = []
+    for message in messages:
+        try:
+            store.add_message(message)
+            fresh.append(True)
+        except DuplicateMessageError:
+            store.record_failure(
+                message.id, "duplicate id: an earlier message has it; this one was skipped"
+            )
+            fresh.append(False)
+    return fresh
+
+
+def duplicate(message: Message) -> Outcome:
+    error = "duplicate id: an earlier message has it; this one was skipped"
+    return Outcome(message.id, None, None, drafted=False, error=error)
