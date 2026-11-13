@@ -12,6 +12,7 @@
   {% if reviewer %}
   <nav>
     <a href="/">Desk</a>
+    {% if live %}<a href="/try">Try a message</a>{% endif %}
     <a href="/audit">Audit trail</a>
     <form method="post" action="/logout" class="inline">
       <input type="hidden" name="csrf" value="{{ csrf }}">

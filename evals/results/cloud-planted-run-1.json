@@ -1,0 +1,34 @@
+{
+  "run": {
+    "command": "python evals/cloud_eval.py --out evals/results/cloud-planted-run-1.json planted",
+    "at": "2026-11-13T04:20:52+00:00",
+    "grader_model": "gpt-6-sol",
+    "report": "https://ai.azure.com/nextgen/r/tu5XvTIGTmiqk6OBERmVyQ,rg-inbox-helper-quest,,inbox-helper-quest-b108,inbox-helper/build/evaluations/eval_ef82971523e44a879fb368961726743b/run/evalrun_e9f6f1acbf854ae79b721b7e3a5d0723",
+    "status": "completed"
+  },
+  "items": 23,
+  "passed": 7,
+  "failed": [
+    "b01",
+    "b02",
+    "b03",
+    "b04",
+    "b05",
+    "b06",
+    "b07",
+    "b08",
+    "b09",
+    "b10",
+    "b11",
+    "b12",
+    "b13",
+    "b14",
+    "b15",
+    "b16"
+  ],
+  "errored": [],
+  "planted_flaws_caught": "16/16",
+  "planted_missed": [],
+  "controls_passed": "7/7",
+  "controls_rejected": []
+}

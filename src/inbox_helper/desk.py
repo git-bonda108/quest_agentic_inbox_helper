@@ -8,7 +8,10 @@ from __future__ import annotations
 
 import hmac
 import secrets
+import time
 from collections.abc import Awaitable, Callable
+from dataclasses import dataclass
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Annotated, Any
 
@@ -19,7 +22,7 @@ from fastapi.templating import Jinja2Templates
 from starlette.middleware.sessions import SessionMiddleware
 
 from inbox_helper.dispatch import NotApprovedError, send
-from inbox_helper.models import Action, Intent
+from inbox_helper.models import Action, Intent, Message, Stage
 from inbox_helper.store import DraftNotAllowedError, Store, UnknownMessageError
 
 WEB = Path(__file__).parent / "web"
@@ -38,6 +41,8 @@ SECURITY_HEADERS = {
 
 # A reply is 90 words. This cap only stops a browser from posting megabytes.
 MAX_REPLY_CHARS = 5_000
+# The longest message the try-it form accepts.
+MAX_TRY_CHARS = 4_000
 
 
 def _label(intent: Intent) -> str:
@@ -78,6 +83,15 @@ def _desk_view(store: Store) -> dict[str, Any]:
     }
 
 
+@dataclass
+class _LiveBudget:
+    """How many live messages this process has sent today, and when the last one went."""
+
+    day: str = ""
+    count: int = 0
+    last: float = float("-inf")
+
+
 def create_app(
     store: Store,
     *,
@@ -85,6 +99,9 @@ def create_app(
     session_secret: str,
     source: str,
     https_only: bool = True,
+    live: Callable[[Message], Awaitable[None]] | None = None,
+    live_cap_per_day: int = 40,
+    live_seconds_between: float = 5.0,
 ) -> FastAPI:
     app = FastAPI(title="Inbox helper review desk", docs_url=None, redoc_url=None, openapi_url=None)
     app.add_middleware(
@@ -121,6 +138,7 @@ def create_app(
 
     def page(request: Request, name: str, status: int = 200, **context: Any) -> Response:
         context |= {
+            "live": live is not None,
             "csrf": csrf_token(request),
             "reviewer": request.session.get("reviewer"),
             "source": source,
@@ -171,6 +189,64 @@ def create_app(
         if not request.session.get("reviewer"):
             return RedirectResponse("/login", status_code=303)
         return page(request, "desk.html", **_desk_view(store))
+
+    used = _LiveBudget()
+
+    def require_live() -> Callable[[Message], Awaitable[None]]:
+        if live is None:
+            raise HTTPException(404, "This desk has no live agent attached.")
+        return live
+
+    @app.get("/try")
+    async def try_form(request: Request) -> Response:
+        reviewer_of(request)
+        require_live()
+        return page(request, "try.html", stages=[stage.value for stage in Stage])
+
+    @app.post("/try")
+    async def try_message(
+        request: Request,
+        from_name: Annotated[str, Form()] = "",
+        subject: Annotated[str, Form()] = "",
+        body: Annotated[str, Form()] = "",
+        stage: Annotated[str, Form()] = "",
+        csrf: Annotated[str, Form()] = "",
+    ) -> Response:
+        """Send one typed message to the live agent. Capped, because each one costs tokens."""
+        reviewer = reviewer_of(request)
+        check_csrf(request, csrf)
+        process = require_live()
+        body = body.replace("\r\n", "\n").strip()
+        if not body:
+            raise HTTPException(422, "Type a message first.")
+        if len(body) + len(subject) > MAX_TRY_CHARS:
+            raise HTTPException(422, f"Keep the message under {MAX_TRY_CHARS} characters.")
+        today = datetime.now(UTC).date().isoformat()
+        if used.day != today:
+            used.day, used.count = today, 0
+        if used.count >= live_cap_per_day:
+            raise HTTPException(429, "Today's limit for live messages is used up. Try tomorrow.")
+        if time.monotonic() - used.last < live_seconds_between:
+            raise HTTPException(429, "One live message at a time. Wait a few seconds and retry.")
+        used.count, used.last = used.count + 1, time.monotonic()
+        message = Message(
+            id=f"try-{secrets.token_hex(4)}",
+            received_at=datetime.now(UTC),
+            from_name=from_name.strip()[:MAX_NAME] or "Test Candidate",
+            from_email="test.candidate@example.com",  # the form never takes a real address
+            subject=subject.strip()[:200],
+            body=body,
+            stage=Stage(stage) if stage in {item.value for item in Stage} else None,
+        )
+        try:
+            await process(message)
+        except Exception as error:
+            raise HTTPException(
+                502, "The live agent could not be reached. Nothing was stored."
+            ) from error
+        with store.transaction() as db:
+            store.log(db, reviewer, "tried_live", message.id)
+        return RedirectResponse("/", status_code=303)
 
     @app.get("/audit")
     async def audit(request: Request) -> Response:

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Try a message{% endblock %}
+{% block main %}
+<section class="card narrow">
+  <h1>Try a message</h1>
+  <p>Type what a candidate might write. It goes to the live agent on Microsoft Foundry and comes back
+  on the desk, grouped, with a draft or a reason it needs a person. Use invented details only.</p>
+  <form method="post" action="/try">
+    <input type="hidden" name="csrf" value="{{ csrf }}">
+    <label>Candidate name <input name="from_name" maxlength="40" placeholder="Test Candidate"></label>
+    <label>Subject <input name="subject" maxlength="200"></label>
+    <label>Message <textarea name="body" rows="7" maxlength="4000" required></textarea></label>
+    <label>Hiring stage, if known
+      <select name="stage">
+        <option value="">Not supplied</option>
+        {% for stage in stages %}<option value="{{ stage }}">{{ stage.replace("_", " ") }}</option>{% endfor %}
+      </select>
+    </label>
+    <button class="primary">Send to the agent</button>
+  </form>
+  <p class="meta">Live messages are limited each day, because each one uses model tokens.</p>
+</section>
+{% endblock %}

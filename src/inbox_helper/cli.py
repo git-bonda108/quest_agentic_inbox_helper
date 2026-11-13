@@ -381,12 +381,29 @@ def _serve(args: argparse.Namespace) -> int:
     passcode = os.environ.get("INBOX_HELPER_PASSCODE") or None
     if passcode is None and not local:
         raise SystemExit("Set INBOX_HELPER_PASSCODE before serving on a public address.")
+    live = None
+    if args.try_hosted:
+        from inbox_helper.hosted import FoundryAgent, process_inbox_hosted
+        from inbox_helper.models import Message
+
+        agent = FoundryAgent(_endpoint(), AGENT_NAME)
+
+        async def live(message: Message) -> None:
+            [outcome] = await process_inbox_hosted(store, agent, [message])
+            if outcome.error:
+                raise RuntimeError(outcome.error)
+
+        source += (
+            f"; typed messages go live to the hosted agent '{AGENT_NAME}' on Microsoft Foundry"
+        )
     app = create_app(
         store,
         passcode=passcode,
         session_secret=os.environ.get("INBOX_HELPER_SESSION_SECRET") or secrets.token_urlsafe(32),
         source=source,
         https_only=not local,
+        live=live,
+        live_cap_per_day=int(os.environ.get("INBOX_HELPER_LIVE_CAP", "40")),
     )
     print(f"Review desk: http://{args.host}:{args.port}  (drafts from {source})")
     uvicorn.run(app, host=args.host, port=args.port, log_level="warning", proxy_headers=True)
@@ -409,6 +426,11 @@ def main(argv: list[str] | None = None) -> int:
     sv = commands.add_parser("serve", help="process an inbox and open the review desk")
     sv.add_argument("--host", default="127.0.0.1")
     sv.add_argument("--port", type=int, default=8000)
+    sv.add_argument(
+        "--try-hosted",
+        action="store_true",
+        help="add a form that sends one typed message to the hosted agent",
+    )
 
     for sub in (ev, jd, sv):
         sub.add_argument("--set", choices=sorted(SETS), default="golden", help="which inbox")
