@@ -274,3 +274,17 @@ def test_a_blank_reviewer_name_cannot_sign_in() -> None:
 
 def test_good_is_a_draft_the_checks_accept() -> None:
     assert GOOD.endswith(SIGN_OFF)
+
+
+def test_a_refused_action_is_explained_on_a_page_not_in_raw_json() -> None:
+    """A reviewer on a stale page sees what happened and a way back, with the right status."""
+    store = _store_with_draft()
+    rita, omar = _client(store), _client(store)
+    rita_csrf, omar_csrf = _sign_in(rita, "Rita"), _sign_in(omar, "Omar")
+    rita.post("/messages/m1/approve", data={"text": DRAFT, "csrf": rita_csrf})
+    late = omar.post("/messages/m1/approve", data={"text": EDITED, "csrf": omar_csrf})
+    assert late.status_code == 409
+    assert late.headers["content-type"].startswith("text/html")
+    assert "already sent" in late.text
+    assert 'href="/"' in late.text
+    assert late.headers["content-security-policy"].startswith("default-src 'none'")
