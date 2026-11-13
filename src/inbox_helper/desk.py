@@ -36,6 +36,10 @@ SECURITY_HEADERS = {
 }
 
 
+# A reply is 90 words. This cap only stops a browser from posting megabytes.
+MAX_REPLY_CHARS = 5_000
+
+
 def _label(intent: Intent) -> str:
     return intent.value.replace("_", " ").capitalize()
 
@@ -183,8 +187,14 @@ def create_app(
             triage = store.triage(message_id)
             if triage is None or triage.action is not Action.DRAFT:
                 raise HTTPException(409, "This message is handled by a person, not by a draft.")
+            if store.sent(message_id) is not None:
+                raise HTTPException(409, "This reply was already sent. Nothing was changed.")
             if not text:
                 raise HTTPException(422, "A reply cannot be empty.")
+            if len(text) > MAX_REPLY_CHARS:
+                raise HTTPException(
+                    422, f"A reply cannot be longer than {MAX_REPLY_CHARS} characters."
+                )
             current = store.draft(message_id)
             if current is None or current.text != text:
                 store.save_draft(message_id, text, origin="reviewer", actor=reviewer)
@@ -203,6 +213,9 @@ def create_app(
         reviewer = reviewer_of(request)
         check_csrf(request, csrf)
         try:
+            store.message(message_id)  # raises if the id is unknown
+            if store.sent(message_id) is not None:
+                raise HTTPException(409, "This reply was already sent. It cannot be rejected now.")
             store.record_decision(message_id, reviewer=reviewer, approved=False)
         except UnknownMessageError as error:
             raise HTTPException(404, "No such message or draft.") from error

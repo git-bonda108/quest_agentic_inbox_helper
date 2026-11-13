@@ -71,6 +71,10 @@ class UnknownMessageError(LookupError):
     """The message id is not in the store."""
 
 
+class DuplicateMessageError(ValueError):
+    """A message with this id is already in the store."""
+
+
 class DraftNotAllowedError(PermissionError):
     """The message is not routed to drafting, so it may not hold a draft."""
 
@@ -106,12 +110,15 @@ class Store:
     # -- writes ---------------------------------------------------------------
 
     def add_message(self, message: Message) -> None:
-        with self.transaction() as db:
-            db.execute(
-                "INSERT INTO messages (id, payload) VALUES (?, ?)",
-                (message.id, message.model_dump_json()),
-            )
-            self.log(db, SYSTEM_ACTOR, "message_added", message.id)
+        try:
+            with self.transaction() as db:
+                db.execute(
+                    "INSERT INTO messages (id, payload) VALUES (?, ?)",
+                    (message.id, message.model_dump_json()),
+                )
+                self.log(db, SYSTEM_ACTOR, "message_added", message.id)
+        except sqlite3.IntegrityError as error:
+            raise DuplicateMessageError(message.id) from error
 
     def save_triage(self, triage: Triage) -> None:
         with self.transaction() as db:
@@ -239,6 +246,10 @@ class Store:
             (message_id,),
         ).fetchone()
         return None if row is None else Decision.model_validate(dict(row))
+
+    def sent(self, message_id: str) -> OutboxEntry | None:
+        """The reply that went out for this message, if one did."""
+        return next((entry for entry in self.outbox() if entry.message_id == message_id), None)
 
     def outbox(self) -> list[OutboxEntry]:
         rows = self._db.execute(
