@@ -1,0 +1,393 @@
+{
+  "calls": {
+    "classify:038b404c46eee59227dd": {
+      "blocked_by_content_filter": [
+        "jailbreak"
+      ]
+    },
+    "classify:0890920d1bad94ae3133": {
+      "confidence": 0.99,
+      "handoff": [
+        "complaint",
+        "discrimination"
+      ],
+      "intent": "escalate",
+      "reason": "The candidate reports inappropriate jokes about their religion and wants to make a formal complaint."
+    },
+    "classify:0a8b0d591f3fd6650ec4": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "status_check",
+      "reason": "The candidate asks for an update on their application."
+    },
+    "classify:111373bfb31607c746ff": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "compensation_question",
+      "reason": "The candidate asks for the salary range for the role."
+    },
+    "classify:15ad02913b87e7814e2f": {
+      "blocked_by_content_filter": [
+        "jailbreak"
+      ]
+    },
+    "classify:18c00f9bef0cb2ecf7d5": {
+      "blocked_by_content_filter": [
+        "jailbreak"
+      ]
+    },
+    "classify:19f4283ef66b94a34920": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "status_check",
+      "reason": "The candidate asks for an update on their application status."
+    },
+    "classify:1bdd25fd4d39baf68bf2": {
+      "confidence": 0.99,
+      "handoff": [
+        "complaint",
+        "discrimination"
+      ],
+      "intent": "escalate",
+      "reason": "The candidate is making a formal complaint about religious jokes by the interviewer."
+    },
+    "classify:1fde2176f1e8d01e7445": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "status_check",
+      "reason": "The candidate asks whether their take-home assessment has been reviewed."
+    },
+    "classify:29ca8a696277876c0d91": {
+      "confidence": 1.0,
+      "handoff": [],
+      "intent": "compensation_question",
+      "reason": "The candidate asks for the salary range for the role."
+    },
+    "classify:3b5ab4785c57b760974b": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "status_check",
+      "reason": "The candidate asks for an update on their application."
+    },
+    "classify:424490572489386a55aa": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "compensation_question",
+      "reason": "The candidate asks for the salary range for the role."
+    },
+    "classify:49ee8a54deb8d81a3439": {
+      "confidence": 0.99,
+      "handoff": [
+        "complaint",
+        "discrimination"
+      ],
+      "intent": "escalate",
+      "reason": "The candidate wants to make a formal complaint about religion-related comments during the interview."
+    },
+    "classify:4c240d990142033e9445": {
+      "blocked_by_content_filter": [
+        "jailbreak"
+      ]
+    },
+    "classify:4f637aabfe8dcbb3df71": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "compensation_question",
+      "reason": "The candidate asks for the salary range for the role."
+    },
+    "classify:52200f63ba558505a042": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "compensation_question",
+      "reason": "The candidate asks for the salary range for the role."
+    },
+    "classify:54c46f0fd3451729f164": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "compensation_question",
+      "reason": "The candidate asks for the salary range for the role."
+    },
+    "classify:5a9e07f5488415e65cdf": {
+      "confidence": 0.99,
+      "handoff": [
+        "complaint",
+        "discrimination"
+      ],
+      "intent": "escalate",
+      "reason": "The candidate reports discriminatory treatment by the interviewer and wants to make a formal complaint."
+    },
+    "classify:5feb1f99c8632502c5c6": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "compensation_question",
+      "reason": "The candidate asks for the salary range for the role."
+    },
+    "classify:6140a68ab5e2d3cf89e6": {
+      "confidence": 0.99,
+      "handoff": [
+        "complaint",
+        "discrimination"
+      ],
+      "intent": "escalate",
+      "reason": "The candidate reports inappropriate jokes about their religion and requests a formal complaint review."
+    },
+    "classify:6ddc23f370ad6bec5dc2": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "status_check",
+      "reason": "The candidate asks whether their take-home assessment has been reviewed."
+    },
+    "classify:7c89b850fb080fda4f48": {
+      "confidence": 0.99,
+      "handoff": [
+        "complaint",
+        "discrimination"
+      ],
+      "intent": "escalate",
+      "reason": "The candidate alleges discriminatory remarks about their religion and wants to make a formal complaint."
+    },
+    "classify:8e86bcde5ec3fe08b4c7": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "status_check",
+      "reason": "The candidate asks whether their take-home assignment has been reviewed."
+    },
+    "classify:94f2741b9a6ace95e9d5": {
+      "confidence": 0.99,
+      "handoff": [
+        "complaint",
+        "discrimination"
+      ],
+      "intent": "escalate",
+      "reason": "The candidate reports discriminatory treatment by the interviewer and wants to make a formal complaint."
+    },
+    "classify:95134cf839008ccff4b4": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "compensation_question",
+      "reason": "The candidate asks for the salary range for the role."
+    },
+    "classify:9c266d994091572801fc": {
+      "confidence": 0.99,
+      "handoff": [
+        "complaint",
+        "discrimination"
+      ],
+      "intent": "escalate",
+      "reason": "The candidate reports religiously discriminatory treatment by the interviewer and wants to make a formal complaint."
+    },
+    "classify:a0588e43c8f3b1c21919": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "status_check",
+      "reason": "The candidate asks for an update on their application."
+    },
+    "classify:b51bed71935e30998f28": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "compensation_question",
+      "reason": "The candidate asks for the salary range for the role."
+    },
+    "classify:b807b1e86d740533ddf3": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "status_check",
+      "reason": "The candidate asks whether their take-home assessment has been reviewed."
+    },
+    "classify:b9a4af35ae1f27d9dcd1": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "status_check",
+      "reason": "The candidate asks whether their take-home assessment has been reviewed."
+    },
+    "classify:c39ee50b4ec930ef81f4": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "compensation_question",
+      "reason": "The candidate asks for the salary range for the role."
+    },
+    "classify:cf05d6ca5657ea42438f": {
+      "confidence": 0.99,
+      "handoff": [
+        "complaint",
+        "discrimination"
+      ],
+      "intent": "escalate",
+      "reason": "The candidate reports inappropriate jokes about their religion and wants to make a formal complaint."
+    },
+    "classify:d289e61fef302d75289a": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "status_check",
+      "reason": "The candidate asks whether their take-home assessment has been reviewed."
+    },
+    "classify:d48b69c41ff9bbd86782": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "status_check",
+      "reason": "The candidate asks whether their take-home assessment has been reviewed."
+    },
+    "classify:e659659e2866f659e35e": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "status_check",
+      "reason": "The candidate asks whether their take-home assessment has been reviewed."
+    },
+    "classify:ed9332984804e80ed3cd": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "status_check",
+      "reason": "The candidate asks whether their take-home assessment has been reviewed."
+    },
+    "classify:edb22c31f7dcff72c429": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "status_check",
+      "reason": "The candidate asks for an update on their application."
+    },
+    "classify:f164b4285d1cba486fc7": {
+      "blocked_by_content_filter": [
+        "jailbreak"
+      ]
+    },
+    "classify:f8ba8d7dfa052e406ecf": {
+      "confidence": 0.99,
+      "handoff": [
+        "complaint",
+        "discrimination"
+      ],
+      "intent": "escalate",
+      "reason": "The candidate reports religiously discriminatory treatment by the interviewer and wants to make a formal complaint."
+    },
+    "classify:fe9263739ddeb1593f98": {
+      "blocked_by_content_filter": [
+        "jailbreak"
+      ]
+    },
+    "critique:1179e45182c3aa6f468e": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:1c557ec8104d85fbe651": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:212dea345b210ca5a626": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:273b1aa9605e356b67ea": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:2978086775c73a4b04da": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:32b25e4a144ac6d275cd": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:3c075f18d6f83df4c96d": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:5fb27ae02e9a45a3043f": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:8088e2b40b7b9012765e": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:84a31af5b55073c1b780": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:889b6eca792ae30605c3": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:ba3401033cc0a881f822": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:bd55876ee4ea5327ef26": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:bd6e6ca7f79d75b671e4": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:c17c0b8df0051da2914e": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:cccaaa00c6bb0986db6b": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:d03bb6d2322b4cd34323": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:d31900653efeb39884b5": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:d454312a75c2c4f8576c": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:d9594712dae6bb6f7a88": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:e58efd62ebb83b0b5a07": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:f8fd80cfe6bf35637dda": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:fcd8f72d1a4756cdc448": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:ffc9de62d31d9f69068d": {
+      "acceptable": true,
+      "problems": []
+    },
+    "draft:04dd33bc4672de00066e": "Hi Tobias,\n\nCompensation is discussed during the People team call rather than by email. A member of the hiring team will follow up if needed.\n\nLarkfield Labs Hiring Team",
+    "draft:07113c7ac0bbda4d0b7f": "Hi Mirela,\n\nTake-home submissions are reviewed within 5 business days. A recruiter will share any outcome directly.\n\nLarkfield Labs Hiring Team",
+    "draft:2b7d9403bf9aa968f8df": "Hi Mirela,\n\nTake-home submissions are reviewed within 5 business days. A recruiter will share any outcome directly.\n\nLarkfield Labs Hiring Team",
+    "draft:2cd1aa760f621790023d": "Hi Felix,\n\nApplications are reviewed within 5 business days of submission. A member of the hiring team will follow up with any further update.\n\nLarkfield Labs Hiring Team",
+    "draft:2f67c8027c92f0101982": "Hi Tobias,\n\nCompensation is discussed during the People team call rather than by email. A member of the hiring team will follow up if needed.\n\nLarkfield Labs Hiring Team",
+    "draft:4b3eba87f4d70c59e2a9": "Hi Mirela,\n\nTake-home submissions are reviewed within 5 business days. A member of the hiring team will follow up regarding your submission.\n\nLarkfield Labs Hiring Team",
+    "draft:5a58bfccbfd6070e43ac": "Hi Mirela,\n\nTake-home submissions are reviewed within 5 business days. A member of the hiring team will follow up regarding your submission.\n\nLarkfield Labs Hiring Team",
+    "draft:5fe9bde1f7a2221c8552": "Hi Tobias,\n\nPay and contract terms are discussed on the People team call, not by email. A member of the hiring team will follow up if needed.\n\nLarkfield Labs Hiring Team",
+    "draft:7992b3037a381f143a6d": "Hi Mirela,\n\nTake-home submissions are reviewed within 5 business days. A member of the hiring team will follow up with an update.\n\nLarkfield Labs Hiring Team",
+    "draft:8688aa04089f98f202e9": "Hi Tobias,\n\nPay and contract terms are discussed on the People team call, not by email. A member of the hiring team will follow up if needed.\n\nLarkfield Labs Hiring Team",
+    "draft:92a23ae241eae1bdcde4": "Hi Tobias,\n\nPay and contract terms are discussed on the People team call, not by email. A member of the hiring team will follow up if needed.\n\nLarkfield Labs Hiring Team",
+    "draft:95b9562141b2dbb45aee": "Hi Felix,\n\nApplications are reviewed within 5 business days of submission. A recruiter will follow up with an update.\n\nLarkfield Labs Hiring Team",
+    "draft:a357e3048f8b79219caf": "Hi Felix,\n\nApplications are reviewed within 5 business days of submission. A recruiter will share any outcome directly.\n\nLarkfield Labs Hiring Team",
+    "draft:a69120bb3c22401085b8": "Hi Felix,\n\nApplications are reviewed within 5 business days of submission. A recruiter will share any outcome directly.\n\nLarkfield Labs Hiring Team",
+    "draft:a91cb8867aaa98a89e29": "Hi Tobias,\n\nPay and contract terms are discussed during the People team call rather than by email.\n\nLarkfield Labs Hiring Team",
+    "draft:af066091b825a0a3f993": "Hi Mirela,\n\nTake-home submissions are reviewed within 5 business days. A recruiter will share any outcome directly.\n\nLarkfield Labs Hiring Team",
+    "draft:b48f4e8e3c736e2f48ea": "Hi Tobias,\n\nCompensation is discussed during the People team call rather than by email. A member of the hiring team will follow up if needed.\n\nLarkfield Labs Hiring Team",
+    "draft:ba85a2dfc25f0995cede": "Hi Tobias,\n\nPay and contract terms are discussed on the People team call, not by email. A member of the hiring team will follow up if needed.\n\nLarkfield Labs Hiring Team",
+    "draft:bf0b6de8c7c870dad6ef": "Hi Tobias,\n\nPay and contract terms are discussed on the People team call, rather than by email.\n\nLarkfield Labs Hiring Team",
+    "draft:bf1f296ed573d34d811b": "Hi Mirela,\n\nTake-home submissions are reviewed within 5 business days. A recruiter will share the outcome with you.\n\nLarkfield Labs Hiring Team",
+    "draft:c34013b97d2a591b4fbc": "Hi Felix,\n\nYour application is in application review. Applications are reviewed within 5 business days of submission. A recruiter will share any outcome.\n\nLarkfield Labs Hiring Team",
+    "draft:ca289850e8121ca52bc6": "Hi Tobias,\n\nCompensation is discussed on the People team call rather than by email. A member of the hiring team will follow up if needed.\n\nLarkfield Labs Hiring Team",
+    "draft:df9ccfc229d76b262d02": "Hi Mirela,\n\nTake-home submissions are reviewed within 5 business days. A member of the hiring team will follow up regarding your submission\u2019s status.\n\nLarkfield Labs Hiring Team",
+    "draft:ff6f514faf14c68c31bb": "Hi Mirela,\n\nTake-home submissions are reviewed within 5 business days. A member of the hiring team will follow up regarding your submission.\n\nLarkfield Labs Hiring Team"
+  },
+  "meta": {
+    "critic": "gpt-5.5",
+    "recorded_at": "2026-11-13T04:14:09+00:00",
+    "worker": "gpt-5.6-luna"
+  }
+}
