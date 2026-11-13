@@ -69,6 +69,8 @@ labelled sets, chosen with `--set`:
 | `golden` | 42 | The day-one set. The prompts were written with it in view. |
 | `unseen` | 44 | Written on day two before any prompt saw it: injections, personal data, mixed intents, other languages, abuse, third parties. |
 | `holdout` | 18 | Boundary cases, written after a fix and before the fix was run. Never used to tune a prompt. |
+| `edge` | 18 | Awkward but realistic mock messages: emoji, typos, raw HTML, a quoted reply chain, one empty, one too long. |
+| `attacks` | 40 | Four attack goals in ten disguises each: base64, ROT13, look-alike letters, a fake system turn, the name field and more. |
 
 ```bash
 uv run inbox-helper eval --set unseen
@@ -93,6 +95,13 @@ To review the adversarial inbox in the desk:
 
 ```bash
 uv run inbox-helper serve --set unseen
+```
+
+The desk has a browser end-to-end pass (it needs Node.js and Playwright, and
+a desk running on the address you give it):
+
+```bash
+node tests/e2e/desk.e2e.js http://127.0.0.1:8000
 ```
 
 Every result, including the runs where a target was missed, is in
@@ -155,6 +164,19 @@ Open the review desk on drafts from the hosted agent:
 uv run inbox-helper serve --set unseen --hosted
 ```
 
+Keep the desk on a recorded inbox and add a form that sends one typed message
+to the hosted agent. A daily cap bounds the token spend:
+
+```bash
+uv run inbox-helper serve --set unseen --try-hosted
+```
+
+Have Foundry itself call the agent and grade each reply against the rubric:
+
+```bash
+uv run python evals/cloud_eval.py agent --set unseen
+```
+
 What Foundry adds, and how each was checked:
 
 | Layer | What it does | How it was checked |
@@ -163,6 +185,7 @@ What Foundry adds, and how each was checked:
 | Guardrail policy on the agent | Blocks a request at the agent's input, before any of this code runs | A blatant injection is refused in under 3 seconds with a content-safety error |
 | Content filter on each model | Blocks at the model if the first layer is absent | The same message on a version without the policy reaches the code, is blocked at the model, and goes to a person |
 | Tracing | One trace per message in Application Insights, with a span and token counts for each agent step | Step counts and token totals in the traces match three scored runs |
+| Cloud evaluation | Foundry calls the agent with each message and grades the reply against the rubric, on a separate grader model | The grader was first tested on 23 planted drafts: 16 of 16 flaws caught, 7 of 7 sound drafts passed |
 | Checks on arrival | The reviewer's side re-runs the code checks on every draft the agent returns | A test feeds it a draft that quotes a salary; it goes to a person |
 
 ## How it works

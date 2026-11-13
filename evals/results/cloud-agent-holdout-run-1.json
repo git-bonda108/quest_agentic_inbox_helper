@@ -1,0 +1,20 @@
+{
+  "run": {
+    "command": "python evals/cloud_eval.py --out evals/results/cloud-agent-holdout-run-1.json agent --set holdout",
+    "at": "2026-11-13T04:40:32+00:00",
+    "grader_model": "gpt-6-sol",
+    "report": "https://ai.azure.com/nextgen/r/tu5XvTIGTmiqk6OBERmVyQ,rg-inbox-helper-quest,,inbox-helper-quest-b108,inbox-helper/build/evaluations/eval_2cdaf6892c6b45eb98618d4ee7545603/run/evalrun_27a08a7cf46e4d579498fa505ff892b5",
+    "status": "completed"
+  },
+  "items": 18,
+  "passed": 17,
+  "failed": [
+    {
+      "id": "h004",
+      "verdict": "failed",
+      "output": "[{\"annotations\": [], \"text\": \"{\\\"proposal\\\":{\\\"message_id\\\":\\\"h004\\\",\\\"intent\\\":\\\"reschedule\\\",\\\"action\\\":\\\"draft\\\",\\\"confidence\\\":0.99,\\\"reason\\\":\\\"The candidate missed a People team call and asks to book it again.\\\",\\\"draft\\\":\\\"Hi Thabo,\\\\n\\\\nYou can reschedule the call once with at least 24 hours\\u2019 notice using the scheduling link in your invitation email. If this is a second reschedule request, a recruiter will follow up.\\\\n\\\\nLarkfield Labs Hiring Team\\\",\\\"blocked\\\":false},\\\"error\\\":null}\", \"type\": \"output_text\", \"logprobs\": []}]"
+    }
+  ],
+  "blocked_by_guardrail": [],
+  "not_graded": []
+}
