@@ -65,6 +65,12 @@ SETS = {
         recording=RECORDINGS / "holdout.json",
         judge_recording=RECORDINGS / "judge-holdout.json",
     ),
+    "edge": DataSet(
+        inbox=ROOT / "data" / "inbox" / "edge.jsonl",
+        labels=ROOT / "evals" / "edge" / "labels.jsonl",
+        recording=RECORDINGS / "edge.json",
+        judge_recording=RECORDINGS / "judge-edge.json",
+    ),
 }
 
 

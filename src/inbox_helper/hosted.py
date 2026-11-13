@@ -20,6 +20,7 @@ from inbox_helper.pipeline import (
     admit,
     duplicate,
     hand_to_a_person,
+    set_aside_for_a_person,
 )
 from inbox_helper.service import Reply
 from inbox_helper.store import Store
@@ -89,6 +90,9 @@ class FoundryAgent:
 
 
 async def _one(store: Store, agent: Agent, message: Message) -> Outcome:
+    unreadable = set_aside_for_a_person(store, message)
+    if unreadable is not None:
+        return unreadable
     try:
         reply = await agent.propose(message)
     except InputBlockedError as blocked:

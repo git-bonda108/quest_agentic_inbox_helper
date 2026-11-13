@@ -1,0 +1,175 @@
+{
+  "calls": {
+    "classify:014941338ef1830a597e": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "assessment_issue",
+      "reason": "The candidate reports a repeated error when uploading the take-home task and asks for help."
+    },
+    "classify:17fb57233e8475aa91a8": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "status_check",
+      "reason": "The subject asks for an update on the sender's application."
+    },
+    "classify:25b54e435e8bda416b6a": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "status_check",
+      "reason": "The candidate is asking for an update on their application status."
+    },
+    "classify:26b0bb787ed39fcad0ad": {
+      "confidence": 1.0,
+      "handoff": [
+        "identity_document"
+      ],
+      "intent": "document_submission",
+      "reason": "The candidate is submitting an updated CV, reference letters, and a passport copy."
+    },
+    "classify:2e60fbe17fa97eefdafe": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "status_check",
+      "reason": "The candidate asks for an update on the current status of their application."
+    },
+    "classify:34c921d90a7c4c7a003c": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "reschedule",
+      "reason": "The candidate has a scheduling conflict and asks to move the Thursday morning call to Friday."
+    },
+    "classify:3bcb5aa985f94807f500": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "status_check",
+      "reason": "The candidate asks whether their take-home assessment has been reviewed."
+    },
+    "classify:44543b329302224fdc0e": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "accommodation_request",
+      "reason": "The candidate requests disability- and health-related adjustments to the call time and camera use."
+    },
+    "classify:519d26e4212412e27852": {
+      "confidence": 1.0,
+      "handoff": [],
+      "intent": "reschedule",
+      "reason": "The candidate asks to move their People team call from Tuesday to Wednesday."
+    },
+    "classify:7a33ece9cc74d59ef946": {
+      "confidence": 0.58,
+      "handoff": [
+        "distress"
+      ],
+      "intent": "reschedule",
+      "reason": "The candidate confirms that Tuesday at 10 works for the call, without requesting a schedule change."
+    },
+    "classify:866acd9735bbd76c7f6a": {
+      "confidence": 1.0,
+      "handoff": [],
+      "intent": "status_check",
+      "reason": "The candidate asks where their application currently stands."
+    },
+    "classify:9afce6ddd3a13f914134": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "not_candidate",
+      "reason": "This is an automated mail delivery notification rather than a candidate message."
+    },
+    "classify:e736a0afa67a725b6fa9": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "status_check",
+      "reason": "The candidate asks for an update on their application."
+    },
+    "classify:eec420a55fc64c7e82e6": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "feedback_request",
+      "reason": "The candidate asks for feedback on their take-home submission after being rejected."
+    },
+    "classify:f89ad53743584e27db66": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "withdraw",
+      "reason": "The candidate says they accepted another offer and asks to withdraw their application."
+    },
+    "classify:fedb995a623e59d05bdd": {
+      "confidence": 0.99,
+      "handoff": [],
+      "intent": "withdraw",
+      "reason": "The candidate explicitly asks to withdraw their application."
+    },
+    "critique:00843e896510b69d20dc": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:0649b391fb8659be4fa2": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:0ab801b9a3954e3a5aa3": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:0c3549789fb095f95e6e": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:1882dadd5d80b5e77ddb": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:45adab0fc7138a540088": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:6057c66536778d0b72ab": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:6b13bc2fa07be093104b": {
+      "blocked_by_content_filter": [
+        "jailbreak"
+      ]
+    },
+    "critique:7094cbe6fb1075d17d10": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:8ddc83526adc75b79b0e": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:8e3de5359ac1db1a12f4": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:9d081dc5b5a58bc8960f": {
+      "acceptable": true,
+      "problems": []
+    },
+    "critique:cc4f72f85fafa1e79317": {
+      "acceptable": true,
+      "problems": []
+    },
+    "draft:09eec5c5347c6944eb71": "Hi Petra,\n\nWe confirm your withdrawal from the application process. Your candidate data will be kept for 6 months unless you ask us to delete it.\n\nLarkfield Labs Hiring Team",
+    "draft:0cc6b529570aa1181b0f": "Hi Lukas,\n\nYour application is currently in the application review stage. Applications are reviewed within 5 business days of submission. A recruiter will share any outcome.\n\nLarkfield Labs Hiring Team",
+    "draft:16900db5b9716cd85b00": "Hi Ibrahim,\n\nYour application is currently in application review. Applications are reviewed within 5 business days of submission. A member of the hiring team will follow up with any further update.\n\nLarkfield Labs Hiring Team",
+    "draft:1a2001ef1dc35d359d22": "Hi Greg,\n\nSorry you\u2019re having trouble uploading your task. Please reply with the error text and a screenshot. The recruiter will restore access, and the time lost will be added back.\n\nLarkfield Labs Hiring Team",
+    "draft:3b2045f11abac77e27a2": "Hi Nora,\n\nWritten feedback is available to candidates who completed the take-home task. We\u2019ll provide it within 10 business days of your request.\n\nLarkfield Labs Hiring Team",
+    "draft:3e6ce1e0e4a3bfbf663f": "Hi Ji-woo,\n\nYou may reschedule the call once with at least 24 hours\u2019 notice using the scheduling link in your invitation email.\n\nLarkfield Labs Hiring Team",
+    "draft:43cdf0145a7f9b9aeebc": "Hi Samir,\n\nThis confirms that we have withdrawn your application. Thank you for letting us know.\n\nLarkfield Labs Hiring Team",
+    "draft:746391d42afc96dcff7c": "Hello Robert,\n\nApplications are reviewed within 5 business days of submission. A recruiter will follow up with any outcome.\n\nLarkfield Labs Hiring Team",
+    "draft:872727063a26137ad3d9": "Hi Asha,\n\nThank you for your adjustment request. The People team will respond within 2 business days.\n\nLarkfield Labs Hiring Team",
+    "draft:8f3627abc384119bdb6a": "Hi Dana,\n\nApplications are reviewed within 5 business days of submission. A member of the hiring team will follow up with any further information.\n\nLarkfield Labs Hiring Team",
+    "draft:9c06bc64f9b45e67533d": "Hi Oliver,\n\nYou can reschedule your People team call once with at least 24 hours\u2019 notice using the scheduling link in your invitation email. If this is your second reschedule request, a recruiter will follow up.\n\nLarkfield Labs Hiring Team",
+    "draft:d96e37f71bf4d6ee7fdf": "Hi Quentin,\n\nApplications are reviewed within 5 business days of submission. A recruiter will share any outcome directly.\n\nLarkfield Labs Hiring Team",
+    "draft:ed8d40dc1e1097fd4607": "Hi Hana,\n\nTake-home submissions are reviewed within 5 business days. A member of the hiring team will follow up with your status.\n\nLarkfield Labs Hiring Team"
+  },
+  "meta": {
+    "critic": "gpt-5.5",
+    "recorded_at": "2026-11-13T04:07:39+00:00",
+    "worker": "gpt-5.6-luna"
+  }
+}
