@@ -288,3 +288,42 @@ def test_a_refused_action_is_explained_on_a_page_not_in_raw_json() -> None:
     assert "already sent" in late.text
     assert 'href="/"' in late.text
     assert late.headers["content-security-policy"].startswith("default-src 'none'")
+
+
+# -- messages too long to handle automatically ---------------------------------------
+
+
+def test_a_message_at_the_length_limit_is_processed_and_one_over_goes_to_a_person() -> None:
+    from inbox_helper.pipeline import MAX_MESSAGE_CHARS
+
+    subject = "Hello"
+    at_limit = _message("m1", subject=subject, body="x" * (MAX_MESSAGE_CHARS - len(subject)))
+    over = _message("m2", subject=subject, body="x" * (MAX_MESSAGE_CHARS - len(subject) + 1))
+    store, _ = _process(ScriptedTeam(fail_on="m2"), at_limit, over)
+    assert store.draft("m1") is not None
+    triage = store.triage("m2")
+    assert triage is not None
+    assert triage.action is Action.ESCALATE
+    assert "too long" in triage.reason
+
+
+def test_the_hosted_client_applies_the_same_two_checks_before_calling_the_agent() -> None:
+    from inbox_helper.hosted import process_inbox_hosted
+    from inbox_helper.pipeline import MAX_MESSAGE_CHARS
+    from inbox_helper.service import Reply
+
+    class NeverCalled:
+        async def propose(self, _message: Message) -> Reply:
+            raise AssertionError("the agent must not be called for these messages")
+
+    store = Store(":memory:")
+    messages = [
+        _message("m1", subject="", body="  "),
+        _message("m2", body="x" * (MAX_MESSAGE_CHARS + 1)),
+    ]
+    outcomes = asyncio.run(process_inbox_hosted(store, NeverCalled(), messages))
+    assert [o.error for o in outcomes] == [None, None]
+    for message_id in ("m1", "m2"):
+        triage = store.triage(message_id)
+        assert triage is not None
+        assert triage.action is Action.ESCALATE

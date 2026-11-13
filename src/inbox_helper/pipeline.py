@@ -15,6 +15,8 @@ from inbox_helper.store import DuplicateMessageError, Store
 from inbox_helper.team import InputBlockedError, Team
 
 MAX_DRAFT_ATTEMPTS = 2
+# Subject plus body. Longer than any real candidate email; shorter than a prompt-stuffing attack.
+MAX_MESSAGE_CHARS = 12_000
 DEFAULT_CONCURRENCY = 4
 
 
@@ -49,19 +51,35 @@ def hand_to_a_person(
     return Outcome(message.id, intent, Action.ESCALATE, drafted=False, blocked=True)
 
 
-async def process_message(store: Store, team: Team, message: Message) -> Outcome:
+def set_aside_for_a_person(store: Store, message: Message) -> Outcome | None:
+    """Two cases no model should read: nothing to read, and too much to read safely."""
+    size = len(message.subject) + len(message.body)
     if not (message.subject + message.body).strip():
-        # Nothing to classify. A model asked to read nothing will still answer something.
-        store.save_triage(
-            Triage(
-                message_id=message.id,
-                intent=Intent.ESCALATE,
-                action=Action.ESCALATE,
-                confidence=1.0,
-                reason="The message is empty, so no model read it. A person should look at it.",
-            )
+        # A model asked to read nothing will still answer something.
+        reason = "The message is empty, so no model read it. A person should look at it."
+    elif size > MAX_MESSAGE_CHARS:
+        reason = (
+            f"The message is too long to handle automatically ({size} characters, "
+            f"limit {MAX_MESSAGE_CHARS}), so no model read it. A person should read it."
         )
-        return Outcome(message.id, Intent.ESCALATE, Action.ESCALATE, drafted=False)
+    else:
+        return None
+    store.save_triage(
+        Triage(
+            message_id=message.id,
+            intent=Intent.ESCALATE,
+            action=Action.ESCALATE,
+            confidence=1.0,
+            reason=reason,
+        )
+    )
+    return Outcome(message.id, Intent.ESCALATE, Action.ESCALATE, drafted=False)
+
+
+async def process_message(store: Store, team: Team, message: Message) -> Outcome:
+    unreadable = set_aside_for_a_person(store, message)
+    if unreadable is not None:
+        return unreadable
     try:
         classification = await team.classify(message)
     except InputBlockedError as blocked:
