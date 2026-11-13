@@ -191,7 +191,7 @@ found.
 
 ### Edge cases with mock data (no model)
 
-`tests/test_edge_cases.py` and `tests/test_try_live.py`:  tests on odd
+`tests/test_edge_cases.py` and `tests/test_try_live.py`: 43 tests on odd
 inputs, repeated actions and two reviewers at once. Written first; eight
 failed, exposing five real defects, all now fixed:
 

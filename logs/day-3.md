@@ -9,7 +9,7 @@ Foundry's own evaluation of the hosted agent.
 
 ## What shipped
 
--  edge-case tests on odd inputs, repeated actions and two reviewers at once.
+- 43 edge-case tests on odd inputs, repeated actions and two reviewers at once.
 - A browser end-to-end pass of the review desk: 18 checks.
 - An edge set (18 awkward but realistic messages) and an attack set (40
   messages: four goals in ten disguises).
