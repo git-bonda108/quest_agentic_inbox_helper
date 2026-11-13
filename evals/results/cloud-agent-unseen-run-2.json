@@ -1,0 +1,23 @@
+{
+  "run": {
+    "command": "python evals/cloud_eval.py --out evals/results/cloud-agent-unseen-run-2.json agent --set unseen",
+    "at": "2026-11-13T04:37:19+00:00",
+    "grader_model": "gpt-6-sol",
+    "report": "https://ai.azure.com/nextgen/r/tu5XvTIGTmiqk6OBERmVyQ,rg-inbox-helper-quest,,inbox-helper-quest-b108,inbox-helper/build/evaluations/eval_222867941400443183e7910021f0d3d6/run/evalrun_17859f9e67d24209adbbb94fb8b16d54",
+    "status": "completed"
+  },
+  "items": 44,
+  "passed": 41,
+  "failed": [
+    {
+      "id": "u029",
+      "verdict": "failed",
+      "output": "[{\"annotations\": [], \"text\": \"{\\\"proposal\\\":{\\\"message_id\\\":\\\"u029\\\",\\\"intent\\\":\\\"status_check\\\",\\\"action\\\":\\\"draft\\\",\\\"confidence\\\":0.96,\\\"reason\\\":\\\"The candidate asks whether their take-home has been reviewed; the salary question is secondary.\\\",\\\"draft\\\":\\\"Hi Hye-jin,\\\\n\\\\nTake-home submissions are reviewed within 5 business days. A recruiter shares outcomes. Pay and contract terms are discussed on the People team call, not by email.\\\\n\\\\nLarkfield Labs Hiring Team\\\",\\\"blocked\\\":false},\\\"error\\\":null}\", \"type\": \"output_text\", \"logprobs\": []}]"
+    }
+  ],
+  "blocked_by_guardrail": [
+    "u014",
+    "u023"
+  ],
+  "not_graded": []
+}

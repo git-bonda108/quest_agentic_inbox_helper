@@ -26,6 +26,8 @@ from typing import Any
 from azure.identity import DefaultAzureCredential, get_bearer_token_provider
 from openai import OpenAI
 
+from inbox_helper.pipeline import MAX_MESSAGE_CHARS
+
 ROOT = Path(__file__).resolve().parents[1]
 GRADER_MODEL = os.environ.get("INBOX_HELPER_GRADER_MODEL", "gpt-6-sol")
 AGENT_NAME = os.environ.get("INBOX_HELPER_AGENT_NAME", "inbox-helper")
@@ -65,6 +67,14 @@ def _schema(*fields: str) -> dict[str, Any]:
     return {"type": "object", "properties": properties, "required": list(fields)}
 
 
+def _text(output: Any) -> str:
+    """The text of the agent's reply, whichever shape the API returned it in."""
+    content = (output or [{}])[0].get("content") if isinstance(output, list) else output
+    if isinstance(content, list):
+        content = " ".join(str(part.get("text", "")) for part in content if isinstance(part, dict))
+    return str(content or "")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     modes = parser.add_subparsers(dest="mode", required=True)
@@ -102,10 +112,16 @@ def main() -> int:
         name = "planted drafts"
     else:
         inbox = "messages" if args.set == "golden" else args.set
-        items = [
-            {"item": {"id": json.loads(line)["id"], "query": line}}
-            for line in _lines(ROOT / "data" / "inbox" / f"{inbox}.jsonl")
-        ]
+        items = []
+        for line in _lines(ROOT / "data" / "inbox" / f"{inbox}.jsonl"):
+            message = json.loads(line)
+            size = len(message["subject"]) + len(message["body"])
+            if not (message["subject"] + message["body"]).strip() or size > MAX_MESSAGE_CHARS:
+                # Code hands these to a person before any model call, so there is no reply
+                # to grade. The evaluation service also rejects a run that contains them.
+                print(f"left out {message['id']}: empty or over the length limit")
+                continue
+            items.append({"item": {"id": message["id"], "query": line}})
         schema, grader = _schema("id", "query"), _grader("{{sample.output_text}}")
         user = {"type": "input_text", "text": "{{item.query}}"}
         source = {
@@ -138,16 +154,25 @@ def main() -> int:
         data = output.model_dump()
         result = (data.get("results") or [{}])[0]
         sample = data.get("sample") or {}
+        grading = result.get("sample") or {}
+        if "content_filter" in json.dumps(sample.get("error") or {}):
+            verdict = "blocked"  # the guardrail refused the message before the agent ran
+        elif grading.get("error") or result.get("passed") is None:
+            verdict = "not_graded"
+        else:
+            verdict = "passed" if result["passed"] else "failed"
         rows.append(
             {
                 "id": (data.get("datasource_item") or {}).get("id"),
-                "passed": result.get("passed"),
-                "error": (sample.get("error") or {}).get("message")
-                if sample.get("error")
-                else None,
+                "verdict": verdict,
+                "output": _text(sample.get("output")) if verdict == "failed" else None,
             }
         )
     rows.sort(key=lambda row: str(row["id"]))
+
+    def ids(verdict: str) -> list[Any]:
+        return [row["id"] for row in rows if row["verdict"] == verdict]
+
     summary: dict[str, Any] = {
         "run": {
             "command": "python evals/cloud_eval.py " + " ".join(sys.argv[1:]),
@@ -157,19 +182,21 @@ def main() -> int:
             "status": run.status,
         },
         "items": len(rows),
-        "passed": sum(row["passed"] is True for row in rows),
-        "failed": [row["id"] for row in rows if row["passed"] is False],
-        "errored": [row for row in rows if row["passed"] is None],
+        "passed": len(ids("passed")),
+        "failed": [row for row in rows if row["verdict"] == "failed"],
+        "blocked_by_guardrail": ids("blocked"),
+        "not_graded": ids("not_graded"),
     }
     if expected:
         planted = [row for row in rows if expected.get(str(row["id"])) is False]
         controls = [row for row in rows if expected.get(str(row["id"])) is True]
-        summary["planted_flaws_caught"] = (
-            f"{sum(r['passed'] is False for r in planted)}/{len(planted)}"
-        )
-        summary["planted_missed"] = [r["id"] for r in planted if r["passed"] is not False]
-        summary["controls_passed"] = f"{sum(r['passed'] is True for r in controls)}/{len(controls)}"
-        summary["controls_rejected"] = [r["id"] for r in controls if r["passed"] is not True]
+        caught = sum(row["verdict"] == "failed" for row in planted)
+        cleared = sum(row["verdict"] == "passed" for row in controls)
+        summary["planted_flaws_caught"] = f"{caught}/{len(planted)}"
+        summary["planted_missed"] = [r["id"] for r in planted if r["verdict"] != "failed"]
+        summary["controls_passed"] = f"{cleared}/{len(controls)}"
+        summary["controls_rejected"] = [r["id"] for r in controls if r["verdict"] != "passed"]
+        summary["failed"] = ids("failed")
     print(json.dumps({k: v for k, v in summary.items() if k != "run"}, indent=1)[:1500])
     if args.out:
         args.out.write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
