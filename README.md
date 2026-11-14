@@ -114,8 +114,9 @@ Every result, including the runs where a target was missed, is in
 The agents run on Microsoft Foundry and sign in with your Azure identity. There
 are no API keys.
 
-1. Create a Foundry project with three model deployments: a worker, a critic,
-   and a judge from a different vendor.
+1. Create a Foundry project with a worker model and a critic model. The
+   evaluation commands also use a judge from a different vendor and a grader
+   for Foundry's cloud evaluation.
 2. Give your identity the **Foundry User** role on the Foundry resource.
 3. Sign in with `az login`.
 4. Copy `.env.example` to `.env`, fill it in, and export the variables.

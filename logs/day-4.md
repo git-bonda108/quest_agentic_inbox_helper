@@ -26,12 +26,20 @@ model was called and no result changed.
   so the page uses the tool's own nine layers.
 - **No public link.** It needs my approval for a hosting cost and I have not
   given it. The tool still runs from the README with no account.
+- **A stocktake found the logs were not keeping a promise in `intent.md`**:
+  three build numbers a day, one of them model cost. They are in every log
+  now, with the cost Azure actually billed. A new test also ties every number
+  on the results page to the file it came from.
 - **Four decisions from day two are still open**, and the directive's rule 3
   wording with them.
 
-## The build itself
+## Build numbers
 
-Times I had to act: 0. Model usage: none today.
+| Times I stepped in | Model cost for the day | First prompt to a working version |
+|---|---|---|
+| 0 | None expected; no model was called | Not applicable: consolidation only |
+
+Four days in, Azure has billed ₹716.91 in total for the quest.
 
 ## Left for me
 

@@ -59,10 +59,14 @@ drafts, and a critic that has never rejected anything is unproven.
   gave me an address that only works on the machine running the tool. The
   README now starts from an empty terminal on my own computer.
 
-## The build itself
+## Build numbers
 
-First tool call 06:58, first scored live run 07:42, working desk 07:45. Times I
-had to act for the build to move: 4.
+| Times I stepped in | Model cost for the day | First prompt to a working version |
+|---|---|---|
+| 4 | ₹26.53 | 47 minutes (06:58 to 07:45) |
+
+Cost is what Azure billed for the day. Almost all of it was the one 42-message
+run, so roughly ₹0.60 a message.
 
 ---
 
@@ -124,11 +128,15 @@ set stopped being unseen once its misses changed a prompt.
 - **Every message was starting its own sandbox.** Reusing one session cut the
   median time per message from 15.5 s to 6.1 s.
 
-## The build itself
+## Build numbers
 
-Times I had to act: 1 (asking for the early start). Model usage: 1,227 metered
-calls, 1,157,448 tokens in and 120,320 out in the first session; about 2,045 in
-and 165 out per message through the hosted agent.
+| Times I stepped in | Model cost for the day | First prompt to a working version |
+|---|---|---|
+| 1 (asking for the early start) | ₹409.75 | 11 minutes to the first scored run; 13 minutes to the first reply from the hosted agent |
+
+Cost is what Azure billed for the day: ₹389.81 for models and ₹19.93 for the
+hosted agent. Tokens, from Azure's own meters: 1,536,919 in and 126,204 out on
+the two OpenAI models, plus the judge.
 
 ---
 
@@ -186,10 +194,16 @@ Foundry's own evaluation of the hosted agent.
 - **One edge message meant to sit under the length limit was over it.** Caught
   from the generator's own printout before any run.
 
-## The build itself
+## Build numbers
 
-Times I had to act: 0. Model usage is in each result file and in Application
-Insights; not totalled today. One more model deployment, for the cloud grader.
+| Times I stepped in | Model cost for the day | First prompt to a working version |
+|---|---|---|
+| 0 | ₹280.63 | 4 minutes to the first failing edge tests fixed; 57 minutes to the last result |
+
+Cost is what Azure had billed for the day when I checked on 14 November, and
+can still rise: ₹201.39 for models and ₹79.24 for the hosted agent. Tokens:
+987,040 in and 82,890 out across three models, one of them the new cloud
+grader.
 
 ## Waiting on me
 
@@ -228,12 +242,20 @@ model was called and no result changed.
   so the page uses the tool's own nine layers.
 - **No public link.** It needs my approval for a hosting cost and I have not
   given it. The tool still runs from the README with no account.
+- **A stocktake found the logs were not keeping a promise in `intent.md`**:
+  three build numbers a day, one of them model cost. They are in every log
+  now, with the cost Azure actually billed. A new test also ties every number
+  on the results page to the file it came from.
 - **Four decisions from day two are still open**, and the directive's rule 3
   wording with them.
 
-## The build itself
+## Build numbers
 
-Times I had to act: 0. Model usage: none today.
+| Times I stepped in | Model cost for the day | First prompt to a working version |
+|---|---|---|
+| 0 | None expected; no model was called | Not applicable: consolidation only |
+
+Four days in, Azure has billed ₹716.91 in total for the quest.
 
 ## Left for me
 

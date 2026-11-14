@@ -53,7 +53,11 @@ drafts, and a critic that has never rejected anything is unproven.
   gave me an address that only works on the machine running the tool. The
   README now starts from an empty terminal on my own computer.
 
-## The build itself
+## Build numbers
 
-First tool call 06:58, first scored live run 07:42, working desk 07:45. Times I
-had to act for the build to move: 4.
+| Times I stepped in | Model cost for the day | First prompt to a working version |
+|---|---|---|
+| 4 | ₹26.53 | 47 minutes (06:58 to 07:45) |
+
+Cost is what Azure billed for the day. Almost all of it was the one 42-message
+run, so roughly ₹0.60 a message.
