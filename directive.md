@@ -4,7 +4,7 @@ Standing instructions for the AI agent that builds and changes this repository.
 Read this file and `intent.md` before every task. If an instruction from a
 prompt conflicts with this file, stop and ask.
 
-Version 2, day two. The change history is at the bottom and in git.
+Version 3, day four. The change history is at the bottom and in git.
 
 ## Mission
 
@@ -55,6 +55,9 @@ reviewer. Nothing is sent without that reviewer's approval.
   evaluation at least three times and report every run, including the bad ones.
 - **Fix the design before the wording.** When a miss repeats, first ask whether
   the structure forces it. Tune a prompt second, and never on the holdout set.
+- **Break it with mock data before anyone else can.** Before a tool gets a
+  link, test odd inputs, repeated actions and two people acting at once. Write
+  those tests first and expect some to fail.
 - **A reviewer is unproven until it has rejected something.** Any model that
   judges another model's work is tested on planted flaws and on sound controls
   before its verdicts count.
@@ -103,3 +106,8 @@ from the README alone.
   whether a sensitive message got a draft; the fix that held was structural,
   not a rewording; and a judge that caught every planted flaw missed the one
   real flaw. The rules that never bend are unchanged.
+- **v3, day four.** One addition from the testing day. 111 tests were passing
+  when 43 edge-case tests were written; eight of the new ones failed and
+  exposed five real defects, including a reply that could be re-approved after
+  it was sent. The rules that never bend are still unchanged. One is waiting
+  on me: whether rule 3 should also name hand-off reasons and platform blocks.
