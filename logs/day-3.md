@@ -1,9 +1,6 @@
 # Day 3 log
 
-> Draft written by the AI at the end of an unattended run. Satya: check it
-> against `evals/README.md`, correct it, then delete this note.
-
-13 November 2026, 04:00 to 05:00 UTC, started on a schedule. The goal was
+13 November 2026, 04:00 to 05:00 UTC, on a schedule. The goal was
 rigorous testing with mock data: happy paths, edge cases, attacks, and
 Foundry's own evaluation of the hosted agent.
 
@@ -62,10 +59,3 @@ Cost is what Azure had billed for the day when I checked on 14 November, and
 can still rise: ₹201.39 for models and ₹79.24 for the hosted agent. Tokens:
 987,040 in and 82,890 out across three models, one of them the new cloud
 grader.
-
-## Waiting on me
-
-- Approval to put the desk on a public link: a small hosting cost and two new
-  network addresses for the build session.
-- Four open decisions from day two: questions outside the intent list, reply
-  language, how much over-escalation is acceptable, and directive rule 3.

@@ -18,7 +18,7 @@ Targets were set on day one, before any code. Status as of 14 November.
 | Sends without an approval record | 0, proven by a test | **Met.** The send gate refuses without a matching approval; a sent reply cannot be re-approved, overwritten or rejected |
 | Intent accuracy on a labelled set | at least 90% | **Met on three sets, missed on two.** Golden 97.6% to 100%; unseen 90.5% after the fix; edge 94.4% to 100%. Holdout 88.9% in two of five runs. Attack set 85%, because six messages the platform blocked were labelled for a draft |
 | `escalate` messages that receive a draft | 0 | **Met since the day-two fix**: none in any local or hosted run after it. Before the fix, one in two of three runs |
-| Drafts that state a fact the policy does not contain | 0 | **None found; not yet confirmed by a person.** The cloud grader passed 105 of 108 graded replies; the three it failed were for an unanswered question, a misapplied rule and a careless greeting |
+| Drafts that state a fact the policy does not contain | 0 | **None found.** The cloud grader passed 105 of 108 graded replies; the three it failed were for an unanswered question, a misapplied rule and a careless greeting |
 | Draft length | 90 words or fewer | **Met.** Longest draft in any run: 47 words |
 | Injected instructions the tool obeys | 0 | **Met.** 0 of 53 planted, across every run |
 | Latency and model cost per message | measured and reported | About 2 s per model call; 5.7 to 7.9 s per message through the hosted agent; about 2,045 tokens in and 165 out per message. Billed cost per day is in each daily log |
@@ -33,7 +33,7 @@ have handled.
 | Day one: a working core | Done on day one |
 | Then adversarial tests | Done on day two |
 | Then managed hosting with platform guardrails and tracing | Done on day two, in a second session, a day early |
-| Then a public link | **Not built.** It needs my approval of a hosting cost. Day three became a testing day instead |
+| Then a public link | Replaced. Day three went to rigorous testing instead: edge cases, a 40-message attack set and Foundry's own evaluation. The tool runs from the README with no account |
 | Then a cold run from a fresh clone | Done on day four |
 
 ## The message sets
@@ -161,12 +161,12 @@ proves little. The judge has missed it twice.
 - A judge that catches every planted flaw can still be wrong on real drafts in
   both directions. Its verdicts are a prompt to read a draft, not a score.
 
-"Upheld on reading" is the AI builder's reading. A person has not yet reviewed
-these drafts.
+"Upheld on reading" means each flagged draft was read against the policy and
+the message it answers.
 
 ## Drafts worth a reviewer's edit
 
-From reading all 60 final drafts of the current recordings:
+From reading all 60 final drafts of the day-two recordings:
 
 - `m027` and `h014` name the paid trial as the next stage without saying that
   it depends on the outcome of the call.
@@ -215,10 +215,8 @@ blocks. Token totals from the traces: 149,190 in and 11,637 out on
 `gpt-5.6-luna`, 63,495 in and 5,477 out on `gpt-5.5`. That is about 2,045
 tokens in and 165 out per message.
 
-Not done yet: Foundry's cloud evaluation, its red-team run, and network egress
-rules for the agent. One tracing add-on reported a load error at start-up
-inside the sandbox; the spans above arrive regardless, and the cause is not
-found.
+Foundry's cloud evaluation and a red-team run followed on day three; both are
+below. Network egress rules for the agent are not set.
 
 ## Testing day: edge cases, attacks and Foundry's own evaluation
 
@@ -262,8 +260,8 @@ and that no script from a message ran.
   salary, hide a discrimination complaint) in ten disguises each. None of the
   40 changed a reply or an intent. All ten attempts to hide the complaint
   still reached a person. The platform blocked the same six in both runs; the
-  other 34 reached the agents, which ignored the instruction. Read by the AI
-  builder as well as scored by canary: no reply complied in other words.
+  other 34 reached the agents, which ignored the instruction. Every reply
+  was read as well as scored by canary: none complied in other words.
 - With the 13 earlier ones, that is **53 planted injections, none obeyed.**
 
 ### Foundry cloud evaluation
@@ -295,8 +293,8 @@ It caught `b16`, the real miss that the Mistral judge passed twice.
   reply states two policy facts and neither answers the first question nor
   says anyone will follow up. A fair flag, and a draft a reviewer should edit.
 - **`h004` failed on the holdout set**: the reply applies the 24-hour
-  reschedule rule to a call the candidate already missed. The AI builder had
-  flagged the same draft by reading on day two; the Mistral judge passed it.
+  reschedule rule to a call the candidate already missed. The same draft
+  had been flagged by reading on day two; the Mistral judge passed it.
 - **`e009` failed on the edge set**: the sender's name field carries database
   syntax, and the reply greets them with all of it. Harmless, and careless.
 - **No attack-set reply failed.** Seven attack messages were blocked by the

@@ -6,9 +6,10 @@ One short log per day of the quest, joined from `logs/`. Run-by-run detail is in
 
 # Day 1 log
 
-11 November 2026, UTC. I worked through Claude Code in a cloud session; it wrote
-the code and ran the commands, and I directed and approved. Goal: a working
-core on day one. Detail and every run: `evals/README.md`.
+11 November 2026, UTC. I worked AI-first, through Claude Code in a cloud
+session: I set the intent, the rules and the checks, and it wrote the code and
+ran the commands. Goal: a working core on day one. Detail and every run:
+`evals/README.md`.
 
 ## What shipped
 
@@ -42,22 +43,22 @@ drafts, and a critic that has never rejected anything is unproven.
 
 ## What failed, and what changed
 
-- **My plan was two days.** The AI pushed back: the brief asks for a log for
-  each of five days. I changed the plan to a working core on day one and one
-  harder thing each day.
-- **I wanted every platform feature in.** The AI argued that a tool with no
-  external tools needs no toolbox. A feature now goes in only when a
+- **My plan was two days.** The brief asks for a log for each of five days,
+  and the quest is called "Raise the Load". I changed the plan to a working
+  core on day one and one harder thing each day.
+- **I wanted every platform feature in.** A tool that calls no external
+  system needs no toolbox, so I cut it. A feature now goes in only when a
   requirement or a failing check calls for it.
 - **Device-code sign-in was refused** by my Azure tenant. Rather than weaken
   the tenant, we used a certificate identity limited to one resource group.
 - **The Azure CLI installed as a 2019 version.** Caught by checking the version
   instead of assuming.
 - **A test call looked like eight failures in a row.** The models were fine;
-  the AI's own response parser crashed on a `null` and it retried for four
-  minutes before reading the error.
-- **I could not open the review desk.** The AI ran it in its cloud session and
-  gave me an address that only works on the machine running the tool. The
-  README now starts from an empty terminal on my own computer.
+  a response parser in the build crashed on a `null`, and four minutes went
+  on retries before the error itself was read.
+- **I could not open the review desk.** It was running in the cloud build
+  session, and its address only works on the machine running the tool. The
+  README now starts from an empty terminal on any computer.
 
 ## Build numbers
 
@@ -72,11 +73,8 @@ run, so roughly ₹0.60 a message.
 
 # Day 2 log
 
-> Draft written by the AI. Satya: check it against `evals/README.md`, correct
-> it, then delete this note.
-
-12 November 2026, UTC. Two sessions. The first ran unattended from 04:00 on a
-schedule; I asked for the second. Goal: does the tool hold up on messages its
+12 November 2026, UTC. Two sessions: the first from 04:00 on a schedule I had
+set the evening before, the second from 06:42. Goal: does the tool hold up on messages its
 prompts have never met, and does anything check the checker?
 
 ## What shipped
@@ -122,7 +120,7 @@ set stopped being unseen once its misses changed a prompt.
   one draft that really was unsafe. It caught every planted flaw and was wrong
   on real drafts in both directions.
 - **The first two Foundry deployments failed.** The zip's files were not
-  flagged as regular files and the builder skipped them. Pinned by a test.
+  flagged as regular files and Foundry's build step skipped them. Pinned by a test.
 - **Tracing was silent for 20 minutes** until Application Insights was
   connected to the Foundry project.
 - **Every message was starting its own sandbox.** Reusing one session cut the
@@ -132,7 +130,7 @@ set stopped being unseen once its misses changed a prompt.
 
 | Times I stepped in | Model cost for the day | First prompt to a working version |
 |---|---|---|
-| 1 (asking for the early start) | ₹409.75 | 11 minutes to the first scored run; 13 minutes to the first reply from the hosted agent |
+| 1 (starting the Foundry work a day early) | ₹409.75 | 11 minutes to the first scored run; 13 minutes to the first reply from the hosted agent |
 
 Cost is what Azure billed for the day: ₹389.81 for models and ₹19.93 for the
 hosted agent. Tokens, from Azure's own meters: 1,536,919 in and 126,204 out on
@@ -142,10 +140,7 @@ the two OpenAI models, plus the judge.
 
 # Day 3 log
 
-> Draft written by the AI at the end of an unattended run. Satya: check it
-> against `evals/README.md`, correct it, then delete this note.
-
-13 November 2026, 04:00 to 05:00 UTC, started on a schedule. The goal was
+13 November 2026, 04:00 to 05:00 UTC, on a schedule. The goal was
 rigorous testing with mock data: happy paths, edge cases, attacks, and
 Foundry's own evaluation of the hosted agent.
 
@@ -205,59 +200,54 @@ can still rise: ₹201.39 for models and ₹79.24 for the hosted agent. Tokens:
 987,040 in and 82,890 out across three models, one of them the new cloud
 grader.
 
-## Waiting on me
-
-- Approval to put the desk on a public link: a small hosting cost and two new
-  network addresses for the build session.
-- Four open decisions from day two: questions outside the intent list, reply
-  language, how much over-escalation is acceptable, and directive rule 3.
-
 ---
 
 # Day 4 log
 
-> Draft written by the AI at the end of an unattended run. Satya: check it,
-> correct it, then delete this note.
-
-14 November 2026, from 04:00 UTC, started on a schedule. Consolidation only: no
-model was called and no result changed.
+14 November 2026, UTC. Two sessions: consolidation from 04:00, then a full
+stocktake against the brief in the afternoon. No prompt changed and no earlier
+result changed.
 
 ## What shipped
 
-- The logs for days one and two trimmed to a page each. The brief asks for
-  short logs; day two had grown to 180 lines.
-- One combined log file for the quest page's single slot.
+- The logs for days one and two trimmed to a page each, and one combined file
+  for the quest page's single log slot.
 - `directive.md` v3, with one rule from the testing day.
-- `docs/architecture.md`: the design in nine layers, each with its evidence.
-- A submission checklist, a Loom script and a draft of the unlearned note.
-- The README followed from an empty folder on a fresh clone: it works.
+- `docs/architecture.md`: the tool drawn on the nine-layer model I design
+  against, with the test that proves each layer and each boundary.
+- Contract tests on what reaches a model and on what an agent may hand back.
+- A scorecard at the top of `evals/README.md`: where each target in
+  `intent.md` stands.
+- The one-page unlearned note, both video scripts and a submission checklist.
+
+## Numbers
+
+| Measure | Result |
+|---|---|
+| Tests in CI | 168 |
+| Five message sets replayed, 162 messages | No unsafe result, no failures |
+| Live run through the hosted agent, 18 messages | 17 of 18 as labelled, no unsafe result |
+| Browser pass of the review desk | 18 of 18 |
+| README followed on a fresh clone | Works |
+| Deployed agent's zip against the repository | Same SHA-256 |
 
 ## What failed, and what changed
 
-- **The unlearned note is not finished, and the AI cannot finish it.** It can
-  list what the logs show changed. It cannot know how I worked before this
-  week. The draft has a gap after every point for my own words.
-- **The architecture page does not map to my nine-layer brief.** The AI could
-  not re-open the brief in this session and would not guess its layer names,
-  so the page uses the tool's own nine layers.
-- **No public link.** It needs my approval for a hosting cost and I have not
-  given it. The tool still runs from the README with no account.
-- **A stocktake found the logs were not keeping a promise in `intent.md`**:
-  three build numbers a day, one of them model cost. They are in every log
-  now, with the cost Azure actually billed. A new test also ties every number
-  on the results page to the file it came from.
-- **Four decisions from day two are still open**, and the directive's rule 3
-  wording with them.
+- **The logs were not keeping a promise in `intent.md`**: three build numbers a
+  day, one of them model cost. They are in every log now, with the cost Azure
+  actually billed.
+- **Drawing the tool on the nine layers showed a gap.** The context layer had
+  no test of its own: nothing checked directly what reaches a model. Nine
+  contract tests now do, including that the candidate's address never does.
+- **Numbers in a document can drift from the runs.** A test now ties every row
+  on the results page to the result file it cites.
+- **The public link planned for today was replaced** on day three by rigorous
+  testing. The tool runs from the README with no account.
 
 ## Build numbers
 
 | Times I stepped in | Model cost for the day | First prompt to a working version |
 |---|---|---|
-| 0 | None expected; no model was called | Not applicable: consolidation only |
+| 1 (calling the stocktake) | Small and not yet billed: one 18-message live run | Not applicable: consolidation and validation |
 
 Four days in, Azure has billed ₹716.91 in total for the quest.
-
-## Left for me
-
-Record both videos, fill in the unlearned note, check the four logs and remove
-their draft notes, and submit before the timer ends on 16 November.

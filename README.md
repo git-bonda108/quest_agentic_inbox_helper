@@ -6,8 +6,8 @@ until that person approves the exact text.
 
 Built in five days for a hiring quest, working AI-first. Start with
 [`intent.md`](intent.md) (what and why) and [`directive.md`](directive.md)
-(the rules the AI builder works under). The daily logs are in [`logs/`](logs/).
-The whole design on one page, with the evidence for each layer, is in
+(the standing rules the build agent works under). The daily logs are in [`logs/`](logs/).
+The design on nine layers, with the test that proves each one, is in
 [`docs/architecture.md`](docs/architecture.md).
 
 ![The review desk: a candidate message on the left, the drafted reply on the right](docs/images/review-desk.png)
@@ -231,5 +231,5 @@ messages ─► classifier ─► routing (code) ─┬─► drafter ─► che
 | `data/recordings/` | Recorded model outputs for offline replay; `history/` holds earlier runs |
 | `evals/` | Labels kept apart from the inputs, planted drafts, the rubric, and every result |
 | `logs/` | One log per day: numbers, failures, changes of plan |
-| `docs/` | The architecture on one page |
-| `submission/` | The quest's submission checklist, the combined log and the Loom script |
+| `docs/` | The architecture on nine layers, with the test for each |
+| `submission/` | The combined log, the note on what I unlearned, the Loom script and the submission checklist |

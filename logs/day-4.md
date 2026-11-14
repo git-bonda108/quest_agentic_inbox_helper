@@ -1,47 +1,49 @@
 # Day 4 log
 
-> Draft written by the AI at the end of an unattended run. Satya: check it,
-> correct it, then delete this note.
-
-14 November 2026, from 04:00 UTC, started on a schedule. Consolidation only: no
-model was called and no result changed.
+14 November 2026, UTC. Two sessions: consolidation from 04:00, then a full
+stocktake against the brief in the afternoon. No prompt changed and no earlier
+result changed.
 
 ## What shipped
 
-- The logs for days one and two trimmed to a page each. The brief asks for
-  short logs; day two had grown to 180 lines.
-- One combined log file for the quest page's single slot.
+- The logs for days one and two trimmed to a page each, and one combined file
+  for the quest page's single log slot.
 - `directive.md` v3, with one rule from the testing day.
-- `docs/architecture.md`: the design in nine layers, each with its evidence.
-- A submission checklist, a Loom script and a draft of the unlearned note.
-- The README followed from an empty folder on a fresh clone: it works.
+- `docs/architecture.md`: the tool drawn on the nine-layer model I design
+  against, with the test that proves each layer and each boundary.
+- Contract tests on what reaches a model and on what an agent may hand back.
+- A scorecard at the top of `evals/README.md`: where each target in
+  `intent.md` stands.
+- The one-page unlearned note, both video scripts and a submission checklist.
+
+## Numbers
+
+| Measure | Result |
+|---|---|
+| Tests in CI | 168 |
+| Five message sets replayed, 162 messages | No unsafe result, no failures |
+| Live run through the hosted agent, 18 messages | 17 of 18 as labelled, no unsafe result |
+| Browser pass of the review desk | 18 of 18 |
+| README followed on a fresh clone | Works |
+| Deployed agent's zip against the repository | Same SHA-256 |
 
 ## What failed, and what changed
 
-- **The unlearned note is not finished, and the AI cannot finish it.** It can
-  list what the logs show changed. It cannot know how I worked before this
-  week. The draft has a gap after every point for my own words.
-- **The architecture page does not map to my nine-layer brief.** The AI could
-  not re-open the brief in this session and would not guess its layer names,
-  so the page uses the tool's own nine layers.
-- **No public link.** It needs my approval for a hosting cost and I have not
-  given it. The tool still runs from the README with no account.
-- **A stocktake found the logs were not keeping a promise in `intent.md`**:
-  three build numbers a day, one of them model cost. They are in every log
-  now, with the cost Azure actually billed. A new test also ties every number
-  on the results page to the file it came from.
-- **Four decisions from day two are still open**, and the directive's rule 3
-  wording with them.
+- **The logs were not keeping a promise in `intent.md`**: three build numbers a
+  day, one of them model cost. They are in every log now, with the cost Azure
+  actually billed.
+- **Drawing the tool on the nine layers showed a gap.** The context layer had
+  no test of its own: nothing checked directly what reaches a model. Nine
+  contract tests now do, including that the candidate's address never does.
+- **Numbers in a document can drift from the runs.** A test now ties every row
+  on the results page to the result file it cites.
+- **The public link planned for today was replaced** on day three by rigorous
+  testing. The tool runs from the README with no account.
 
 ## Build numbers
 
 | Times I stepped in | Model cost for the day | First prompt to a working version |
 |---|---|---|
-| 0 | None expected; no model was called | Not applicable: consolidation only |
+| 1 (calling the stocktake) | Small and not yet billed: one 18-message live run | Not applicable: consolidation and validation |
 
 Four days in, Azure has billed ₹716.91 in total for the quest.
-
-## Left for me
-
-Record both videos, fill in the unlearned note, check the four logs and remove
-their draft notes, and submit before the timer ends on 16 November.

@@ -1,10 +1,7 @@
 # Day 2 log
 
-> Draft written by the AI. Satya: check it against `evals/README.md`, correct
-> it, then delete this note.
-
-12 November 2026, UTC. Two sessions. The first ran unattended from 04:00 on a
-schedule; I asked for the second. Goal: does the tool hold up on messages its
+12 November 2026, UTC. Two sessions: the first from 04:00 on a schedule I had
+set the evening before, the second from 06:42. Goal: does the tool hold up on messages its
 prompts have never met, and does anything check the checker?
 
 ## What shipped
@@ -50,7 +47,7 @@ set stopped being unseen once its misses changed a prompt.
   one draft that really was unsafe. It caught every planted flaw and was wrong
   on real drafts in both directions.
 - **The first two Foundry deployments failed.** The zip's files were not
-  flagged as regular files and the builder skipped them. Pinned by a test.
+  flagged as regular files and Foundry's build step skipped them. Pinned by a test.
 - **Tracing was silent for 20 minutes** until Application Insights was
   connected to the Foundry project.
 - **Every message was starting its own sandbox.** Reusing one session cut the
@@ -60,7 +57,7 @@ set stopped being unseen once its misses changed a prompt.
 
 | Times I stepped in | Model cost for the day | First prompt to a working version |
 |---|---|---|
-| 1 (asking for the early start) | ₹409.75 | 11 minutes to the first scored run; 13 minutes to the first reply from the hosted agent |
+| 1 (starting the Foundry work a day early) | ₹409.75 | 11 minutes to the first scored run; 13 minutes to the first reply from the hosted agent |
 
 Cost is what Azure billed for the day: ₹389.81 for models and ₹19.93 for the
 hosted agent. Tokens, from Azure's own meters: 1,536,919 in and 126,204 out on

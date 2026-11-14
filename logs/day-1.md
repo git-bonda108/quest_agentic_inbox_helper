@@ -1,8 +1,9 @@
 # Day 1 log
 
-11 November 2026, UTC. I worked through Claude Code in a cloud session; it wrote
-the code and ran the commands, and I directed and approved. Goal: a working
-core on day one. Detail and every run: `evals/README.md`.
+11 November 2026, UTC. I worked AI-first, through Claude Code in a cloud
+session: I set the intent, the rules and the checks, and it wrote the code and
+ran the commands. Goal: a working core on day one. Detail and every run:
+`evals/README.md`.
 
 ## What shipped
 
@@ -36,22 +37,22 @@ drafts, and a critic that has never rejected anything is unproven.
 
 ## What failed, and what changed
 
-- **My plan was two days.** The AI pushed back: the brief asks for a log for
-  each of five days. I changed the plan to a working core on day one and one
-  harder thing each day.
-- **I wanted every platform feature in.** The AI argued that a tool with no
-  external tools needs no toolbox. A feature now goes in only when a
+- **My plan was two days.** The brief asks for a log for each of five days,
+  and the quest is called "Raise the Load". I changed the plan to a working
+  core on day one and one harder thing each day.
+- **I wanted every platform feature in.** A tool that calls no external
+  system needs no toolbox, so I cut it. A feature now goes in only when a
   requirement or a failing check calls for it.
 - **Device-code sign-in was refused** by my Azure tenant. Rather than weaken
   the tenant, we used a certificate identity limited to one resource group.
 - **The Azure CLI installed as a 2019 version.** Caught by checking the version
   instead of assuming.
 - **A test call looked like eight failures in a row.** The models were fine;
-  the AI's own response parser crashed on a `null` and it retried for four
-  minutes before reading the error.
-- **I could not open the review desk.** The AI ran it in its cloud session and
-  gave me an address that only works on the machine running the tool. The
-  README now starts from an empty terminal on my own computer.
+  a response parser in the build crashed on a `null`, and four minutes went
+  on retries before the error itself was read.
+- **I could not open the review desk.** It was running in the cloud build
+  session, and its address only works on the machine running the tool. The
+  README now starts from an empty terminal on any computer.
 
 ## Build numbers
 

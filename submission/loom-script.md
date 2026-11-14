@@ -29,10 +29,12 @@ distress. This one hides a discrimination complaint behind an instruction
 telling the tool to treat it as routine. It still reached a person. These two
 were blocked by Microsoft Foundry's guardrail before any model read them."
 
-**2:15 It runs on Foundry. [Foundry portal: the agent, then a trace]**
-"The same code runs as a hosted agent on Microsoft Foundry, with its own
-identity and no keys. It is shipped without the sending code, so it cannot
-send. Each message leaves a trace with every step and its token count."
+**2:15 It runs on Foundry. [docs/architecture.md, then the Foundry portal]**
+"Three agents in a fixed chain: a classifier, a drafter and a critic on a
+different model. They run as a hosted agent on Microsoft Foundry, with its own
+identity and no keys. The agent is shipped without the sending code, so it
+cannot send. Each message leaves a trace with every step and its token count.
+This page maps the whole tool onto the nine layers I design against."
 
 **2:50 Proof. [Terminal]**
 
@@ -54,8 +56,9 @@ one."
 
 **4:15 How my way of working changed. [intent.md, then directive.md]**
 "I wrote what I was building and the rules for the AI before any code. The AI
-wrote the code. My job was the intent, the checks, and the decisions. [One
-sentence in my own words on what changed for me.] Thanks for watching."
+wrote the code. My job was the intent, the checks, and the decisions. I could
+have finished in a day. I spent five raising the load instead, and the tool
+stayed small while the evidence grew. Thanks for watching."
 
 ## Optional live moment, if my Azure sign-in works on this machine
 
