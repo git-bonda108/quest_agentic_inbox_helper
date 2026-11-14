@@ -5,8 +5,36 @@ names its result file in `evals/results/`. Each result file names the command
 that produced it. Runs marked "replay" in a result file were scored offline
 from a recording in `data/recordings/`.
 
-All messages are synthetic. All runs used `gpt-5.6-luna` (classifier, drafter),
-`gpt-5.5` (critic) and `Mistral-Large-3` (judge) on Microsoft Foundry.
+All messages are synthetic. All runs used `gpt-5.6-luna` (classifier, drafter)
+and `gpt-5.5` (critic) on Microsoft Foundry. The reviewers of the reviewers are
+`Mistral-Large-3` (judge) and `gpt-6-sol` (cloud grader).
+
+## Where the targets in `intent.md` stand
+
+Targets were set on day one, before any code. Status as of 14 November.
+
+| Measure | Target | Where it stands |
+|---|---|---|
+| Sends without an approval record | 0, proven by a test | **Met.** The send gate refuses without a matching approval; a sent reply cannot be re-approved, overwritten or rejected |
+| Intent accuracy on a labelled set | at least 90% | **Met on three sets, missed on two.** Golden 97.6% to 100%; unseen 90.5% after the fix; edge 94.4% to 100%. Holdout 88.9% in two of five runs. Attack set 85%, because six messages the platform blocked were labelled for a draft |
+| `escalate` messages that receive a draft | 0 | **Met since the day-two fix**: none in any local or hosted run after it. Before the fix, one in two of three runs |
+| Drafts that state a fact the policy does not contain | 0 | **None found; not yet confirmed by a person.** The cloud grader passed 105 of 108 graded replies; the three it failed were for an unanswered question, a misapplied rule and a careless greeting |
+| Draft length | 90 words or fewer | **Met.** Longest draft in any run: 47 words |
+| Injected instructions the tool obeys | 0 | **Met.** 0 of 53 planted, across every run |
+| Latency and model cost per message | measured and reported | About 2 s per model call; 5.7 to 7.9 s per message through the hosted agent; about 2,045 tokens in and 165 out per message. Billed cost per day is in each daily log |
+
+Every miss is in the safe direction: a person got a message the tool could
+have handled.
+
+## The plan in `intent.md`, and what happened
+
+| Planned | What happened |
+|---|---|
+| Day one: a working core | Done on day one |
+| Then adversarial tests | Done on day two |
+| Then managed hosting with platform guardrails and tracing | Done on day two, in a second session, a day early |
+| Then a public link | **Not built.** It needs my approval of a hosting cost. Day three became a testing day instead |
+| Then a cold run from a fresh clone | Done on day four |
 
 ## The message sets
 
@@ -15,6 +43,8 @@ All messages are synthetic. All runs used `gpt-5.6-luna` (classifier, drafter),
 | `golden` | 42 | Day one, alongside the prompts | Development set |
 | `unseen` | 44 | Day two, committed before any model saw it | Unseen for runs 1 to 4. A development set from run 5, because its misses changed a prompt |
 | `holdout` | 18 | Day two, after the fix was coded and before it was run | Never used to tune a prompt |
+| `edge` | 18 | Day three, before any run | Awkward but realistic mock messages. Never used to tune a prompt |
+| `attacks` | 40 | Day three, before any run | Four attack goals in ten disguises. Never used to tune a prompt |
 
 Labels live apart from the inputs, in `evals/<set>/labels.jsonl`, so a label
 cannot leak into a prompt. A label can carry a second fair intent (`also_ok`),
@@ -162,9 +192,12 @@ endpoint. Result files start with `hosted-`.
 | `hosted-unseen-run-3` | unseen | 38/42 | 39/44 | 0 | 0 | median 6.8 s |
 | `hosted-holdout-run-1` | holdout | 17/18 | 17/18 | 0 | 0 | median 5.7 s |
 | `hosted-golden-run-1` | golden | 41/42 | 42/42 | 0 | 0 | median 7.7 s |
+| `hosted-edge-run-1` | edge | 17/18 | 17/18 | 0 | 0 | median 7.7 s |
+| `hosted-attacks-run-1` | attacks | 34/40 | 34/40 | 0 | 0 | median 7.9 s |
+| `hosted-holdout-run-2` | holdout, re-checked on day four | 17/18 | 17/18 | 0 | 0 | median 2.8 s (sandbox already warm) |
 
-Runs 1 and 2 were on earlier versions of the same agent; the last three are on
-version 6. "Time per message" is the whole round trip seen by the caller:
+Unseen runs 1 and 2 were on earlier versions of the same agent, the next
+three on version 6, and the edge, attack and day-four runs on version 7. "Time per message" is the whole round trip seen by the caller:
 platform, up to three model calls, and the reply.
 
 **Guardrail, proven with a blocked prompt.** With the guardrail policy

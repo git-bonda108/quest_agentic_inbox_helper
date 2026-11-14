@@ -52,10 +52,16 @@ Foundry's own evaluation of the hosted agent.
 - **One edge message meant to sit under the length limit was over it.** Caught
   from the generator's own printout before any run.
 
-## The build itself
+## Build numbers
 
-Times I had to act: 0. Model usage is in each result file and in Application
-Insights; not totalled today. One more model deployment, for the cloud grader.
+| Times I stepped in | Model cost for the day | First prompt to a working version |
+|---|---|---|
+| 0 | ₹280.63 | 4 minutes to the first failing edge tests fixed; 57 minutes to the last result |
+
+Cost is what Azure had billed for the day when I checked on 14 November, and
+can still rise: ₹201.39 for models and ₹79.24 for the hosted agent. Tokens:
+987,040 in and 82,890 out across three models, one of them the new cloud
+grader.
 
 ## Waiting on me
 

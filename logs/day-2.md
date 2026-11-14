@@ -56,8 +56,12 @@ set stopped being unseen once its misses changed a prompt.
 - **Every message was starting its own sandbox.** Reusing one session cut the
   median time per message from 15.5 s to 6.1 s.
 
-## The build itself
+## Build numbers
 
-Times I had to act: 1 (asking for the early start). Model usage: 1,227 metered
-calls, 1,157,448 tokens in and 120,320 out in the first session; about 2,045 in
-and 165 out per message through the hosted agent.
+| Times I stepped in | Model cost for the day | First prompt to a working version |
+|---|---|---|
+| 1 (asking for the early start) | ₹409.75 | 11 minutes to the first scored run; 13 minutes to the first reply from the hosted agent |
+
+Cost is what Azure billed for the day: ₹389.81 for models and ₹19.93 for the
+hosted agent. Tokens, from Azure's own meters: 1,536,919 in and 126,204 out on
+the two OpenAI models, plus the judge.

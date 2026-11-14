@@ -19,7 +19,7 @@ candidate message ─► guardrail policy ─► hosted agent on Foundry ─► 
 | 6 | Guardrails | Foundry's policy blocks at the agent's input; each model's filter blocks behind it; a blocked message goes to a person | `hosting/deploy.py`, `hosted.py` | 53 planted injections, none obeyed; a control version without the policy shows both layers |
 | 7 | Hosting and identity | A hosted agent with its own identity and no keys, shipped without the sending code | `hosting/`, `service.py` | Deployed zip's SHA-256 matches the repository; a test checks nothing shipped can send |
 | 8 | Observability | One trace per message with a span and token counts per agent step; an audit trail of every decision | Application Insights, `store.py` | Step counts and token totals in traces match three scored runs exactly |
-| 9 | Evaluation | Labelled sets, planted flaws for every reviewer, an independent judge, Foundry cloud evaluation, replay gates in CI | `evals/`, `tests/` | 156 tests; cloud run of 118 messages: 105 passed, 3 need an edit, 10 blocked |
+| 9 | Evaluation | Labelled sets, planted flaws for every reviewer, an independent judge, Foundry cloud evaluation, replay gates in CI | `evals/`, `tests/` | 159 tests; cloud run of 118 messages: 105 passed, 3 need an edit, 10 blocked |
 
 ## What this design refuses to do
 
