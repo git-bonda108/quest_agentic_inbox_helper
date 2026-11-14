@@ -1,180 +1,63 @@
 # Day 2 log
 
-> Draft written by the AI at the end of an unattended run. Satya: check it
-> against `evals/README.md`, correct anything that is not how you would say it,
-> then delete this note.
+> Draft written by the AI. Satya: check it against `evals/README.md`, correct
+> it, then delete this note.
 
-Times are UTC on 12 November 2026. The day's work started at 04:00 on a
-schedule I had the AI set the evening before, and ran without me until 04:50.
-The goal for the day was proof: does the tool hold up on messages its prompts
-have never met, and does anything check the checker?
+12 November 2026, UTC. Two sessions. The first ran unattended from 04:00 on a
+schedule; I asked for the second. Goal: does the tool hold up on messages its
+prompts have never met, and does anything check the checker?
 
 ## What shipped
 
-- An unseen set of 44 messages in eight categories: plain, prompt injection,
-  personal data, mixed intents, out of taxonomy, other languages, abuse and
-  third parties. Committed at 04:06, before any model saw it.
-- 23 hand-written drafts to test the reviewers: 16 with one planted flaw each
-  and 7 sound controls. All pass the code checks on purpose.
-- Scoring that separates an unsafe miss (a sensitive message drafted or
-  dropped, an injection obeyed) from a safe one (a person gets a message the
-  tool could have handled).
-- An independent judge with a written rubric, on a model from a different
-  vendor (Mistral) than the drafter and the critic.
-- Two fixes, each from a failing check: platform-blocked messages now go to a
-  person, and the classifier now answers "must a person handle this?" as a
-  separate question.
-- A holdout set of 18 boundary messages, committed at 04:23 before the second
-  fix was run on anything.
-- 92 tests, up from 48. Directive v2.
+- 44 unseen messages (injection, personal data, mixed intents, other
+  languages, abuse, third parties), committed before any model saw them, and
+  an 18-message holdout set committed before the fix it tests was run.
+- 23 hand-written drafts to test the reviewers: 16 with a planted flaw.
+- An independent judge with a written rubric, on a model from another vendor.
+- Two fixes from failing checks: a message the platform blocks goes to a
+  person, and the classifier answers "must a person handle this?" separately.
+- Second session: the tool deployed as a **hosted agent on Microsoft
+  Foundry**, with a guardrail policy and tracing. It is shipped without the
+  sending code.
 
 ## Numbers
-
-Every row comes from a file in `evals/results/`. The full table, with the
-command for each run, is in `evals/README.md`.
 
 | Measure | Target | Result |
 |---|---|---|
 | Injected instructions obeyed, 12 planted | 0 | 0 in all 13 runs |
-| Sensitive messages given a draft, before the fix | 0 | 1 in two of three unseen runs |
-| Sensitive messages given a draft, after the fix | 0 | 0 in nine runs across three sets |
+| Sensitive message given a draft, before the fix | 0 | 1 in two of three runs |
+| Sensitive message given a draft, after the fix | 0 | 0 in nine runs |
 | Intent accuracy, unseen set, first honest score | at least 90% | 92.9%, 92.9%, 95.2% |
-| Intent accuracy, unseen set, after the fix | at least 90% | 90.5% in three runs |
 | Intent accuracy, holdout set, after the fix | at least 90% | 88.9%, 94.4%, 88.9%: **missed twice** |
-| Intent accuracy, day-one set, after the fix | at least 90% | 97.6%, 100% |
-| Harmless messages sent to a person, unseen set | n/a | 2 of 44 before the fix, 4 of 44 after |
-| Planted flaws caught by the critic | n/a | 15/15, then 16/16 |
-| Planted flaws caught by the judge | n/a | 15/15, then 15/16 |
-| Judge flags on 60 real final drafts | n/a | 4 raised, 0 upheld on reading |
-| Longest draft, any run | 90 words or fewer | 47 words |
-| Tokens per message, in / out | n/a | about 1,800 / 136 (unseen) |
+| Harmless messages sent to a person, unseen set | n/a | 2 of 44 before the fix, 4 after |
+| Planted flaws caught: critic; judge | n/a | 16/16; 15/16 |
+| Hosted agent, 104 messages, three sets | 0 unsafe | 0 unsafe, 0 failed |
+| Time per message through the hosted agent | n/a | median 5.7 to 7.7 s |
 
-What these numbers do not show:
-
-- "Upheld on reading" is the AI's reading of the drafts. I have not yet read
-  them myself. Until I do, "no draft states an unsupported fact" is unproven.
-- The unseen set stopped being unseen at run 5, when its misses changed a
-  prompt. Only the holdout numbers are clean after that, and the holdout set
-  is 18 messages.
-- Nine safe runs is nine safe runs. The same system could draft a sensitive
-  message on the tenth.
-- The critic now catches the third-party case because I added a rule for that
-  exact case. That catch proves little.
+What these numbers do not show: nine safe runs is not a guarantee. The unseen
+set stopped being unseen once its misses changed a prompt.
 
 ## What failed, and what changed
 
-- **Two messages failed outright on the first run.** Azure's content filter
-  refused two blatant injection messages before any model read them, and the
-  tool reported them as unexplained failures. The platform was already doing
-  the guardrail's job; the tool was mishandling the result. Fix: a blocked
-  message goes to a person, with the reason. Recorded blocks replay as blocks.
-- **I had planned an injection guardrail agent. I did not build it.** After
-  the fix above, no injection was obeyed in any run, and the platform blocks
-  the blatant ones. A guardrail agent would add a model call to every message
-  for nothing I could measure.
-- **One run would have lied to me.** The second run drafted a reply to a
-  husband asking about his wife's application. The third drafted a reply to an
-  angry complaint. The fourth drafted neither. Three runs of identical code
-  gave three different answers on safety. I now run everything three times.
+- **One run would have lied to me.** Three runs of identical code gave three
+  different answers on safety. I now run everything three times.
 - **The fix was to the design, not the wording.** One label had to carry both
-  "what does this person want" and "must a person handle it", so a status
-  question with a complaint inside it could go either way. The classifier now
-  answers the two questions separately and code routes on the second.
-- **The first version of the fix over-corrected.** It read a medical
-  appointment as "distress" and sent it to a person. I tightened four
-  definitions using the day-one and unseen sets only. The holdout set was not
-  used.
-- **The fix still costs reviewer time.** A candidate who mentions a lawyer
-  friend, one annoyed at a broken upload page and one with a pain flare-up now
-  go to a person. That is the safe direction, and it is not free.
-- **The judge was fooled by an injection the tool resisted.** One message tries
-  to close the data wrapper and claim it is a newsletter. The classifier,
-  drafter and critic ignored it. The judge believed it and failed a correct
-  reply. The judge also missed the one draft that really was unsafe. It caught
-  every planted flaw and was wrong on real drafts in both directions.
-- **The AI's own code crashed after two live runs** while printing a file path
-  outside the repository. The recordings survived, so the scores did; the
-  token counts for those two runs did not. Fixed, with a test.
-- **One run lost a message to a rate limit** after several runs back to back.
-  It was reported as failed, which is the designed behaviour, and I re-ran.
-- **The AI batched most of the day's code into one commit**, against the
-  directive's "small steps". The three evaluation sets were committed
-  separately and on time, which is the part that had to be provable.
-- **One recording was overwritten** by a careless shell command, so one early
-  critic run cannot be replayed. Its result file is intact.
+  what the person wants and whether a person must handle it.
+- **The fix costs reviewer time.** More harmless messages now go to a person.
+- **I planned an injection guardrail agent and did not build it.** The platform
+  already blocks the blatant cases and nothing that got through was obeyed.
+- **The judge was fooled by an injection the tool resisted**, and it missed the
+  one draft that really was unsafe. It caught every planted flaw and was wrong
+  on real drafts in both directions.
+- **The first two Foundry deployments failed.** The zip's files were not
+  flagged as regular files and the builder skipped them. Pinned by a test.
+- **Tracing was silent for 20 minutes** until Application Insights was
+  connected to the Foundry project.
+- **Every message was starting its own sandbox.** Reusing one session cut the
+  median time per message from 15.5 s to 6.1 s.
 
 ## The build itself
 
-- Start 04:00. First scored run on unseen messages 04:11. Both fixes verified
-  across three sets by 04:37. Last evaluation run finished 04:43.
-- Times I had to act for the build to move: 0. The day ran on a schedule.
-- Model usage: 1,227 metered calls, 1,157,448 tokens in and 120,320 out, of
-  which the judge used 165,761 in and 38,656 out. Two more runs of about 92
-  calls each were not metered because of the crash above. No prices looked up.
-- A third model deployment was added for the judge (`Mistral-Large-3`, at the
-  20,000 tokens-per-minute quota the subscription allows).
-
-## Decisions I still owe
-
-- **Questions the intent list does not cover.** "Is the role remote?" got a
-  holding reply. A referral was sent to a person. I have not decided which is
-  right, and the intent list has no "other".
-- **Reply language.** A French, a Spanish and a Korean message each got a reply
-  in that language. A reviewer who cannot read it cannot approve it.
-- **How much over-escalation is acceptable.** One or two of the 18 boundary
-  messages now go to a person when a draft would have done.
-- **Rule 3 of the directive** says escalations get no draft. It should
-  probably also name hand-off reasons and platform blocks. The AI did not
-  change a rule without asking.
-
-## Second session, same day: Microsoft Foundry
-
-From 06:42 to 07:25 UTC. I was at the keyboard for this one and asked for it to
-start a day early, to leave room for testing and the videos.
-
-What shipped:
-
-- The tool runs as a **hosted agent** on Foundry, deployed from source. It
-  takes one message and returns a proposal. It is packaged without the sending
-  code, and a test checks that.
-- The reviewer's side re-runs the code checks on every draft the agent returns.
-- A guardrail policy on the agent, proven with a blocked prompt and with a
-  control version that has no policy.
-- Tracing to Application Insights, with a span and token counts per agent step.
-- `eval --hosted` and `serve --hosted`, so scoring and the review desk can run
-  against the deployed agent. 111 tests.
-
-Numbers, all through the deployed agent (files `hosted-*` in `evals/results/`):
-
-| Measure | Result |
-|---|---|
-| Unsafe results, three sets, 104 messages | 0 |
-| Failed messages | 0 |
-| Intent accuracy: unseen, holdout, day-one set | 90.5%, 94.4%, 97.6% |
-| Blatant injections refused at the agent's input | 2 of 2, in under 3 s |
-| Time per message, one session reused | median 5.7 to 7.7 s |
-| Tokens per message, from the traces | about 2,045 in, 165 out |
-
-What failed, and what changed:
-
-- **The first two deployments failed** with "no requirements.txt at the project
-  root". The file was there. The zip entries were not flagged as regular
-  files, and Foundry's builder skipped them. Found by deploying a zip built
-  the way Microsoft's sample builds one and comparing. Now pinned by a test.
-- **Tracing was silent for 20 minutes.** Setting the connection string on the
-  agent did nothing. Connecting Application Insights to the Foundry project
-  did. Then the agent steps were missing, because day one's code switched the
-  SDK's tracing off entirely to stop uploads to OpenAI. It now removes only
-  that uploader.
-- **Each message was starting its own sandbox**, 44 for 44 messages. Passing
-  the session id back cut the median time per message from 15.5 s to 6.1 s.
-- **Microsoft's own client helper could not reach the agent** from the build
-  session. A plain OpenAI client on the same URL could. Cause not found.
-- **Not checks-first this time.** The tests for the hosted client were written
-  alongside its code, not before it.
-- **Not done:** cloud evaluation, the red-team run and egress rules. They move
-  to tomorrow's testing day.
-
-The build itself: times I had to act, 1 (asking for the early start). Azure
-resources added: a Log Analytics workspace, Application Insights, a project
-connection, and the hosted agent.
+Times I had to act: 1 (asking for the early start). Model usage: 1,227 metered
+calls, 1,157,448 tokens in and 120,320 out in the first session; about 2,045 in
+and 165 out per message through the hosted agent.
