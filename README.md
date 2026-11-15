@@ -5,7 +5,7 @@ drafts a short reply for each. A human reviews every draft. Nothing is sent
 until that person approves the exact text.
 
 Built in five days for a hiring quest, working AI-first: I wrote the intent,
-the rules and the checks, and Claude Code wrote the code against them. Start
+the rules and the checks, and a coding agent wrote the code against them. Start
 with [`intent.md`](intent.md) (what and why) and [`directive.md`](directive.md)
 (the standing rules the build works under). Then the daily logs in
 [`logs/`](logs/), the note on what I unlearned in

@@ -54,7 +54,7 @@ on this page, including the ones where I missed a target."
 
 **4:00 How I worked. [`intent.md`, then `directive.md`, then one daily log]**
 "I worked AI-first. Before any code I wrote what I was building and the rules
-the build works under. Claude Code wrote the code against them; the intent,
+the build works under. A coding agent wrote the code against them; the intent,
 the checks and every decision were mine. The tool also runs as a hosted agent
 on Microsoft Foundry, with a guardrail and tracing. I could have finished in a
 day. I spent five raising the load instead, and the tool stayed small while

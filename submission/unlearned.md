@@ -7,7 +7,7 @@ an inbox helper. It was about whether I would build it differently. Six things
 changed.
 
 **1. Speed is not the load.**
-Working AI-first with Claude Code, I had a working inbox helper 47 minutes
+Working AI-first with a coding agent, I had a working inbox helper 47 minutes
 after I shared the brief on day one. My plan was to finish that day and record on
 day two. I dropped the plan. When code is this cheap, the scarce work is the
 intent, the checks and the evidence. So I raised the load each day: unseen and

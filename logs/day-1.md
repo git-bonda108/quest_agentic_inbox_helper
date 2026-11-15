@@ -1,6 +1,6 @@
 # Day 1 log
 
-11 November 2026, UTC. I worked AI-first, through Claude Code in a cloud
+11 November 2026, UTC. I worked AI-first, with a coding agent in a cloud
 session: I set the intent, the rules and the checks, and it wrote the code and
 ran the commands. Goal: a working core on day one. Detail and every run:
 `evals/README.md`.

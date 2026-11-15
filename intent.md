@@ -1,8 +1,7 @@
 # Intent
 
 Written on day one, before any code. This file says what I am building and how I
-will know it works. `directive.md` holds the standing rules for Claude Code, the coding agent I build
-it with.
+will know it works. `directive.md` holds the standing rules for the coding agent I build it with.
 
 ## The problem
 

@@ -1,7 +1,7 @@
 # Directive
 
-Standing instructions for Claude Code, the coding agent I build and change this
-repository with.
+Standing instructions for the coding agent I build and change this repository
+with.
 Read this file and `intent.md` before every task. If an instruction from a
 prompt conflicts with this file, stop and ask.
 
