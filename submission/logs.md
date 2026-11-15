@@ -287,7 +287,7 @@ and no earlier result changed today.
 | Fresh clone: review desk | Started and answered on the first try |
 | Five message sets replayed, 162 messages | No unsafe result, no failures |
 | Lint, format and type checks | Clean |
-| Browser pass on the live site | 18 of 18 |
+| Browser pass on the live site | 18 of 18; 21 of 21 once the explainer's three checks were added |
 | A typed message on the live site | Classified live by the hosted agent; the complaint inside it went to a person |
 
 ## Five days, in one table
@@ -298,7 +298,7 @@ and no earlier result changed today.
 | 2 | Messages the prompts had never met, then hosting on Foundry | A safety gap found over three runs and closed; 104 messages through the hosted agent, none unsafe |
 | 3 | Edge cases, attacks and Foundry's own grader | 5 defects fixed; 0 of 40 attacks obeyed; 105 of 108 graded replies passed |
 | 4 | Drawing the tool on nine layers | One untested layer found and covered |
-| 5 | A cold run, then a public link | Works from the README alone; the live site passes the same 18 browser checks |
+| 5 | A cold run, then a public link | Works from the README alone; the live site passes all 21 browser checks |
 
 ## What failed, and what changed
 
@@ -311,6 +311,10 @@ and no earlier result changed today.
 - **The first live message was lost** in the seconds while App Service
   swapped in the new container; the desk keeps its state in memory. I
   restarted the app so reviewers start from a clean desk.
+- **The explainer's video would not play when opened on its own.** The app
+  sends a security policy that allows no media, and it went out with the MP4
+  too, so a browser showed an empty player. The browser check caught it on the
+  live site; the video now gets a policy that allows only itself.
 - **One target from day one was missed**, and it stays on the results page:
   intent accuracy of at least 90%. It fell to 88.9% on the holdout set in two
   of six runs, and to 85% on the attack set, where six messages the platform

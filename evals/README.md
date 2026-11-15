@@ -241,9 +241,11 @@ and an explained error page in place of raw JSON.
 ### Browser end-to-end pass
 
 `node tests/e2e/desk.e2e.js <address>` on the unseen inbox: **18 of 18 checks
-pass.** They cover sign-in, an edit followed by approval, a second reviewer on
-a stale page (refused), a rejection, the audit trail, phone width, sign-out,
-and that no script from a message ran.
+passed** on day three. They cover sign-in, an edit followed by approval, a
+second reviewer on a stale page (refused), a rejection, the audit trail, phone
+width, sign-out, and that no script from a message ran. Day five added three
+for the explainer (it plays without sign-in, shows the recorded critic note,
+and serves its MP4 as video), so the suite is now 21 checks.
 
 ### Edge set and attack set, against live models
 
@@ -327,7 +329,7 @@ final deployment:
 
 | Check | Result |
 |---|---|
-| Browser pass, `node tests/e2e/desk.e2e.js https://inbox-helper-quest-b108.azurewebsites.net` | 18 of 18 |
+| Browser pass, `node tests/e2e/desk.e2e.js https://inbox-helper-quest-b108.azurewebsites.net` | 21 of 21, after the explainer went live |
 | A typed message through "Try a message" | Classified live by the hosted agent, under the app's own identity with the single role Foundry Agent Consumer: a complaint inside a status question went to a person |
 
 The first deployment had a passcode. I removed it: the data is synthetic,
