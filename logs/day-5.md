@@ -32,7 +32,7 @@ or result changed today.
 ## What failed, and what changed
 
 - **Azure's cost service refused my query today** with "too many requests",
-  three times over five minutes. The last figure it gave me, on 14 November,
+  four times over ten minutes. The last figure it gave me, on 14 November,
   stands: ₹716.91 billed for the quest.
 - **Three targets from day one were not fully met**, and they stay on the
   results page as misses: intent accuracy on the holdout set dipped to 88.9%
@@ -43,4 +43,4 @@ or result changed today.
 
 | Times I stepped in | Model cost for the day | First prompt to a working version |
 |---|---|---|
-| 0 | None: no model was called | 3 minutes from clone to a running desk |
+| 0 | None: no model was called | Clone to a running desk in one pass; I did not time it |
