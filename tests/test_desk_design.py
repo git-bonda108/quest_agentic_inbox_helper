@@ -53,6 +53,7 @@ def test_fonts_are_served_from_the_app_itself(font: str) -> None:
     response = _client().get(f"/static/fonts/{font}")
     assert response.status_code == 200
     assert response.content[:4] == b"wOF2"
+    assert response.headers["content-type"] == "font/woff2"
 
 
 def test_the_content_policy_allows_only_local_fonts() -> None:
