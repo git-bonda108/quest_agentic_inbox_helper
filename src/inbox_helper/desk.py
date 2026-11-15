@@ -7,7 +7,6 @@ Message text is hostile input: templates escape it and pages allow no scripts.
 from __future__ import annotations
 
 import hmac
-import mimetypes
 import secrets
 import time
 from collections.abc import Awaitable, Callable
@@ -27,8 +26,6 @@ from inbox_helper.models import Action, Intent, Message, Stage
 from inbox_helper.store import DraftNotAllowedError, Store, UnknownMessageError
 
 WEB = Path(__file__).parent / "web"
-# Some hosts' MIME tables lack WOFF2; register it so fonts are served as fonts.
-mimetypes.add_type("font/woff2", ".woff2")
 MAX_NAME = 40
 SECURITY_HEADERS = {
     "Content-Security-Policy": (
@@ -121,6 +118,9 @@ def create_app(
     ) -> Response:
         response = await call_next(request)
         response.headers.update(SECURITY_HEADERS)
+        if request.url.path.endswith(".woff2"):
+            # Set here, not via mimetypes: some hosts reset the MIME table at start-up.
+            response.headers["content-type"] = "font/woff2"
         return response
 
     def csrf_token(request: Request) -> str:
