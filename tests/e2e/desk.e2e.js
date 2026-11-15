@@ -1,4 +1,5 @@
 // End-to-end pass of the review desk in a real browser, on the unseen (adversarial) inbox.
+// Usage: node tests/e2e/desk.e2e.js <address> [screenshot.png]; set DESK_PASSCODE if the desk has one.
 const { chromium } = require('playwright');
 const base = process.argv[2];
 const shot = process.argv[3];
@@ -20,6 +21,9 @@ const check = (name, ok, detail = '') => { results.push({ name, ok: !!ok, detail
   const signIn = async (page, name) => {
     await page.goto(base + '/');
     await page.fill('input[name="name"]', name);
+    if (process.env.DESK_PASSCODE && await page.locator('input[name="passcode"]').count()) {
+      await page.fill('input[name="passcode"]', process.env.DESK_PASSCODE);
+    }
     await page.click('button.primary');
     await page.waitForSelector('p.summary');
   };

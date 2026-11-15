@@ -58,7 +58,8 @@ the build works under. Claude Code wrote the code against them; the intent,
 the checks and every decision were mine. The tool also runs as a hosted agent
 on Microsoft Foundry, with a guardrail and tracing. I could have finished in a
 day. I spent five raising the load instead, and the tool stayed small while
-the evidence grew. Thanks for watching."
+the evidence grew. There is a live link in the README if you want to try it
+yourself. Thanks for watching."
 
 ## If the Azure sign-in works on this Mac, show it live
 

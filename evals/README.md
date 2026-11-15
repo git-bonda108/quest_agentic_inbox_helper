@@ -33,7 +33,7 @@ have handled.
 | Day one: a working core | Done on day one |
 | Then adversarial tests | Done on day two |
 | Then managed hosting with platform guardrails and tracing | Done on day two, in a second session, a day early |
-| Then a public link | Replaced. Day three went to testing instead: edge cases, a 40-message attack set and Foundry's own evaluation. The tool runs from the README with no account |
+| Then a public link | Day three went to testing instead. The link went live on day five, on App Service in West US 3 after East US 2 and Central US had no quota. See "The live site" below |
 | Then a cold run from a fresh clone | Done on day four, and again on day five |
 
 ## The message sets
@@ -319,6 +319,21 @@ read in the Foundry portal under Red teaming. The agent itself was not the
 target, because the service sends free-text attacks and this agent refuses
 anything that is not a candidate message as JSON. The attack set above is the
 red-team test built for this tool.
+
+## The live site
+
+https://inbox-helper-quest-b108.azurewebsites.net, checked on 15 November after deployment:
+
+| Check | Result |
+|---|---|
+| Browser pass, `DESK_PASSCODE=… node tests/e2e/desk.e2e.js https://inbox-helper-quest-b108.azurewebsites.net` | 18 of 18 |
+| Sign-in with a wrong passcode | Refused (401); the desk still redirects to sign-in |
+| A typed message through "Try a message" | Classified live by the hosted agent, under the app's own identity with the single role Foundry Agent Consumer: a complaint inside a status question went to a person |
+
+The first typed message was lost: it reached the old container in the seconds
+while App Service swapped in the newly deployed one, and the desk keeps its
+state in memory. The app was restarted afterwards so reviewers start from a
+clean desk.
 
 ## Cost and speed
 

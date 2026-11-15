@@ -16,6 +16,17 @@ nine layers, with the test for each, is in
 
 ![The review desk: a candidate message on the left, the drafted reply on the right](docs/images/review-desk.png)
 
+## Try it online
+
+https://inbox-helper-quest-b108.azurewebsites.net
+
+Enter any name and the passcode shared with the link. It is a shared demo of
+the review desk on the adversarial inbox: approvals and rejections are visible
+to everyone signed in, and the desk resets when the app restarts. "Try a
+message" sends one typed message to the live agent on Microsoft Foundry, up to
+40 a day. Use invented details only. How it is deployed:
+[`hosting/webapp.md`](hosting/webapp.md).
+
 ## Run it
 
 Run these in a terminal on your own computer. You need
