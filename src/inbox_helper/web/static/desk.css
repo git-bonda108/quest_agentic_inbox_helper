@@ -167,3 +167,90 @@ tbody tr:nth-child(even) { background: var(--surface-2); }
   .stat { padding: 8px 12px; }
   .stat b { font-size: 19px; }
 }
+
+/* How it works: the end-to-end flow above the desk */
+.flow { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow);
+  margin: 20px 0 8px; }
+.flow > summary { list-style: none; cursor: pointer; display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px;
+  padding: 16px 20px; }
+.flow > summary::-webkit-details-marker { display: none; }
+.flow > summary::before { content: "▸"; color: var(--muted); transition: transform .15s; display: inline-block; }
+.flow[open] > summary::before { transform: rotate(90deg); }
+.flow-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--accent); }
+.flow-title { font-family: var(--display); font-weight: 700; font-size: 17px; }
+.flow-watch { margin-left: auto; font-size: 14px; font-weight: 600; text-decoration: none; padding: 5px 12px;
+  border: 1px solid var(--accent); border-radius: 999px; }
+.flow-watch:hover { background: var(--accent); color: var(--on-accent); }
+.flow-body { padding: 4px 20px 18px; }
+.flow-body ol, .flow-body ul { list-style: none; margin: 0; padding: 0; }
+.flow-row { display: grid; grid-template-columns: 128px 1fr; gap: 18px; align-items: stretch; }
+.review-row { grid-template-columns: repeat(4, 1fr); margin-top: 6px; }
+.flow-chain { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+.node { --t: var(--muted); position: relative; display: flex; flex-direction: column; gap: 3px; background: var(--surface);
+  border: 1px solid var(--line); border-top: 3px solid var(--t); border-radius: 12px; padding: 12px 11px 11px; min-width: 0; }
+.node b { font-family: var(--display); font-size: 14px; font-weight: 700; line-height: 1.25; }
+.node em { font-style: normal; font-size: 12px; font-weight: 600; color: var(--t); }
+.node small { font-size: 12.5px; line-height: 1.4; color: var(--muted); }
+.node .hands { margin-top: auto; padding-top: 6px; font-size: 11.5px; font-weight: 600; color: var(--t); }
+.node .hands.back::before { content: "↺ "; }
+.node .icon { display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 9px; margin-bottom: 4px;
+  background: var(--t); color: #fff; font: 800 12px/1 var(--sans); }
+.node .icon svg { width: 17px; height: 17px; fill: #fff; }
+.node .step { position: absolute; top: 9px; right: 9px; min-width: 20px; height: 20px; border-radius: 999px; padding: 0 5px;
+  display: grid; place-items: center; font-size: 11px; font-weight: 800; color: var(--t); border: 1px solid var(--line);
+  background: var(--surface-2); }
+.flow-row > .node:not(:last-child)::after, .flow-chain > .node:not(:last-child)::after {
+  content: "→"; position: absolute; right: -15px; top: 42%; font-size: 15px; font-weight: 700; color: var(--muted); }
+.node.agent { --t: #4f46e5; }
+.node.agent .icon { background: linear-gradient(135deg, #6366f1, #14b8a6); }
+.node.code { --t: #475467; }
+.node.code .icon { background: #334155; }
+.node.platform { --t: #2563eb; }
+.node.platform .icon { background: linear-gradient(135deg, #2563eb, #0ea5e9); }
+.node.human { --t: #c2410c; }
+.node.human .icon { background: linear-gradient(135deg, #f59e0b, #ea580c); }
+.n-inbox { --t: #0b1f4b; }
+.n-inbox .icon { background: #0b1f4b; }
+.n-outbox { --t: var(--ok); }
+.n-outbox .icon { background: var(--ok); }
+.foundry { position: relative; border: 2px dashed #6b8fd6; border-radius: 16px; padding: 26px 14px 14px;
+  background: color-mix(in srgb, #2563eb 4%, var(--surface)); }
+.foundry-label { position: absolute; top: -13px; left: 16px; margin: 0; padding: 2px 12px; border-radius: 999px;
+  border: 2px solid #6b8fd6; background: var(--surface); font-size: 12.5px; font-weight: 700; color: #2d4fa3; }
+.foundry-label code { font-size: 12px; }
+.platform-strip { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px !important; }
+.platform-strip li { font-size: 12.5px; color: var(--muted); background: var(--surface); border: 1px solid var(--line);
+  border-radius: 999px; padding: 4px 11px; }
+.platform-strip b { color: #2d4fa3; margin-right: 4px; }
+.flow-link { margin: 12px 0 10px; font-size: 13.5px; color: var(--muted); text-align: center; }
+.flow-link span { font-weight: 800; color: var(--accent); margin-right: 4px; }
+.flow-legend { display: flex; flex-wrap: wrap; gap: 14px; margin: 14px 0 0; font-size: 12.5px; color: var(--muted); }
+.flow-legend .k::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px;
+  vertical-align: -1px; background: var(--muted); }
+.flow-legend .agent::before { background: linear-gradient(135deg, #6366f1, #14b8a6); }
+.flow-legend .code::before { background: #334155; }
+.flow-legend .platform::before { background: #2563eb; }
+.flow-legend .human::before { background: #ea580c; }
+@media (prefers-color-scheme: dark) {
+  .node.agent { --t: #a5b4fc; } .node.code { --t: #94a3b8; } .node.platform { --t: #7cb3ff; }
+  .node.human { --t: #fdba74; } .n-inbox { --t: #9fb4e8; } .n-inbox .icon { background: #2a3f78; }
+  .foundry { border-color: #3d5a9e; } .foundry-label { border-color: #3d5a9e; color: #a9c1ff; }
+  .platform-strip b { color: #a9c1ff; }
+}
+@media (max-width: 1060px) {
+  .flow-row { grid-template-columns: 1fr; }
+  .flow-chain { grid-template-columns: repeat(3, 1fr); }
+  .flow-row > .node:not(:last-child)::after, .flow-chain > .node:not(:last-child)::after { content: none; }
+  .review-row { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .flow-chain, .review-row { grid-template-columns: 1fr; }
+  .flow-watch { margin-left: 0; }
+  .foundry { padding-top: 12px; }
+  .foundry-label { position: static; display: inline-block; margin-bottom: 12px; }
+}
+
+/* Sign-in: the link to the explainer */
+.login .watch { margin: -6px 0 18px; }
+.login .watch a { font-weight: 700; color: var(--accent, #0f766e); text-decoration: none; border-bottom: 2px solid currentColor; }
+.login .watch a:hover { opacity: .85; }

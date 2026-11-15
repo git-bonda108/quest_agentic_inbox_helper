@@ -92,6 +92,18 @@ const check = (name, ok, detail = '') => { results.push({ name, ok: !!ok, detail
   if (await out.count()) { await out.first().click(); await rita.waitForLoadState(); await rita.goto(base + '/'); }
   check('after sign-out the desk asks for sign-in again', /login/.test(rita.url()));
 
+  // The explainer: public, plays, shows the recorded story, and offers the MP4.
+  const viewer = await open({ width: 1440, height: 900 }, 1);
+  await viewer.goto(base + '/explainer');
+  const t0 = await viewer.locator('#time').innerText();
+  await viewer.waitForTimeout(2500);
+  const t1 = await viewer.locator('#time').innerText();
+  check('explainer plays without signing in', /explainer/.test(viewer.url()) && t0 !== t1, t0 + ' -> ' + t1);
+  const story = await viewer.locator('#stage').innerText();
+  check('explainer shows the recorded critic note', story.includes('Remove the sentence saying a member of the hiring team will follow up'));
+  const mp4 = await viewer.request.get(base + '/static/explainer.mp4');
+  check('explainer MP4 is served as video', mp4.status() === 200 && /video\/mp4/.test(mp4.headers()['content-type'] || ''), String(mp4.status()) + ' ' + mp4.headers()['content-type']);
+
   check('no script from a message ran', dialogs === 0, String(dialogs));
   const unexpected = errors.filter(e => !/409/.test(e));
   check('no console errors', unexpected.length === 0, unexpected.join(' | ').slice(0, 300));

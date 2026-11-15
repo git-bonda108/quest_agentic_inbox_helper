@@ -11,6 +11,8 @@
   {% endif %}
 </div>
 
+{% include "_flow.html" %}
+
 {% for label, key, rows in groups %}
 <section id="group-{{ key }}" class="group g-{{ key }}">
   <h2><span class="dot" aria-hidden="true"></span>{{ label }} <span class="count">{{ rows|length }}</span></h2>

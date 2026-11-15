@@ -7,6 +7,7 @@ Message text is hostile input: templates escape it and pages allow no scripts.
 from __future__ import annotations
 
 import hmac
+import json
 import secrets
 import time
 from collections.abc import Awaitable, Callable
@@ -27,11 +28,15 @@ from inbox_helper.store import DraftNotAllowedError, Store, UnknownMessageError
 
 WEB = Path(__file__).parent / "web"
 MAX_NAME = 40
+_POLICY = (
+    "default-src 'none'; style-src 'self'; font-src 'self'; form-action 'self'; "
+    "base-uri 'none'; frame-ancestors 'none'"
+)
+# The explainer is the one page that runs a script: its own file, nothing inline.
+# It has no forms and reads nothing from the store.
+EXPLAINER_POLICY = _POLICY + "; script-src 'self'"
 SECURITY_HEADERS = {
-    "Content-Security-Policy": (
-        "default-src 'none'; style-src 'self'; font-src 'self'; form-action 'self'; "
-        "base-uri 'none'; frame-ancestors 'none'"
-    ),
+    "Content-Security-Policy": _POLICY,
     "X-Frame-Options": "DENY",
     "X-Content-Type-Options": "nosniff",
     "Referrer-Policy": "no-referrer",
@@ -118,6 +123,8 @@ def create_app(
     ) -> Response:
         response = await call_next(request)
         response.headers.update(SECURITY_HEADERS)
+        if request.url.path == "/explainer":
+            response.headers["Content-Security-Policy"] = EXPLAINER_POLICY
         if request.url.path.endswith(".woff2"):
             # Set here, not via mimetypes: some hosts reset the MIME table at start-up.
             response.headers["content-type"] = "font/woff2"
@@ -159,6 +166,17 @@ def create_app(
     @app.get("/healthz")
     async def healthz() -> dict[str, str]:
         return {"status": "ok"}
+
+    @app.get("/explainer")
+    async def explainer(request: Request) -> Response:
+        """An animated walk-through of recorded runs. Public: it shows synthetic data only."""
+        story = json.loads((WEB / "explainer.json").read_text("utf-8"))
+        rows = story["rows"]
+        return templates.TemplateResponse(
+            request,
+            "explainer.html",
+            story | {"messages": rows, "script_data": story},
+        )
 
     @app.get("/login")
     async def login_form(request: Request) -> Response:

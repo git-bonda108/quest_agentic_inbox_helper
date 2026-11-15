@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inbox helper · How it works</title>
+<link rel="preload" href="/static/fonts/dm-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/static/fonts/montserrat-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/static/explainer.css">
+</head>
+<body>
+<div class="page">
+  <header class="xh">
+    <h1>Inbox helper <span>· how it works</span></h1>
+    <p>Nine candidate messages, from the inbox to a reply a person approved.</p>
+  </header>
+
+  <div class="viewport" id="viewport">
+  <div class="stage" id="stage" aria-label="Animated walk-through of the inbox helper">
+    <ol class="steps" id="steps">
+      <li data-step="1"><span>1</span>Arrive</li>
+      <li data-step="2"><span>2</span>Guard</li>
+      <li data-step="3"><span>3</span>Classify</li>
+      <li data-step="4"><span>4</span>Route</li>
+      <li data-step="5"><span>5</span>Draft</li>
+      <li data-step="6"><span>6</span>Critique</li>
+      <li data-step="7"><span>7</span>Review</li>
+    </ol>
+    <p class="brandline">INBOX HELPER · <b>LARKFIELD LABS</b><i>a fictional company · synthetic data</i></p>
+
+    <!-- 1. The hiring inbox -->
+    <section class="panel inbox" id="inbox">
+      <header>
+        <span class="ph-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h15A1.5 1.5 0 0 1 21 6.5v11a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5v-11Zm2 .9V17h14V7.4l-7 4.9-7-4.9ZM6.4 7l5.6 3.9L17.6 7H6.4Z"/></svg></span>
+        <b>Hiring inbox</b><span class="pill" id="inboxCount">0 new</span>
+      </header>
+      <ul class="rows">
+        {% for m in messages %}
+        <li class="row" id="row-{{ m.key }}">
+          <span class="av h{{ loop.index0 }}">{{ m.initials }}</span>
+          <span class="who"><b>{{ m.name }}</b><small>{{ m.subject }}</small></span>
+          <span class="tag {% if m.lane == 'person' %}t-person{% elif m.lane == 'aside' %}t-aside{% else %}t-draft{% endif %}" id="tag-{{ m.key }}">{% if m.lane == 'person' %}A person{% elif m.lane == 'aside' %}Set aside{% else %}Drafter{% endif %}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <!-- 2. Microsoft Foundry -->
+    <section class="foundry" id="foundry">
+      <p class="flabel"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 19a5 5 0 0 1-.6-10A6.5 6.5 0 0 1 19 9.5a4.8 4.8 0 0 1-.9 9.5H7Z"/></svg>MICROSOFT FOUNDRY · hosted agent <code>inbox-helper</code></p>
+
+      <div class="guard" id="guard">
+        <span class="gicon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.4 9.7 8 11 4.6-1.3 8-6 8-11V5l-8-3Zm-1 14-4-4 1.4-1.4 2.6 2.6 5.6-5.6L18 9l-7 7Z"/></svg></span>
+        <span class="gtext"><b>Guardrail policy</b><small>content safety at the agent's input, before any model reads a word</small></span>
+        <span class="gstate" id="guardState">watching</span>
+        <span class="gzone" id="guardZone" aria-hidden="true"></span>
+      </div>
+
+      <div class="chain">
+        <div class="agent a-classifier" id="ag-classifier">
+          <span class="aicon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 5h18v2H3V5Zm3 6h12v2H6v-2Zm3 6h6v2H9v-2Z"/></svg></span>
+          <span class="aname"><b>Classifier</b><em>agent · {{ worker_model }}</em></span>
+          <small>What does the person want? Must a person handle it?</small>
+          <span class="status" id="st-classifier">idle</span>
+          <span class="badge" id="q-classifier"></span>
+        </div>
+        <div class="link" id="link-1"><span class="wire"></span><span class="code" id="code-routing"><i>{ }</i><b>Routing</b><small>code</small></span></div>
+        <div class="agent a-drafter" id="ag-drafter">
+          <span class="aicon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m14.1 4.6 5.3 5.3L9.3 20H4v-5.3L14.1 4.6Zm1.4-1.4 1.8-1.8a1 1 0 0 1 1.4 0l3.9 3.9a1 1 0 0 1 0 1.4l-1.8 1.8-5.3-5.3Z"/></svg></span>
+          <span class="aname"><b>Drafter</b><em>agent · {{ worker_model }}</em></span>
+          <small>Writes each reply from the hiring policy only.</small>
+          <span class="status" id="st-drafter">idle</span>
+          <span class="badge" id="q-drafter"></span>
+        </div>
+        <div class="link" id="link-2"><span class="wire"></span><span class="code" id="code-checks"><i>{ }</i><b>Checks</b><small>code</small></span></div>
+        <div class="agent a-critic" id="ag-critic">
+          <span class="aicon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 3a7 7 0 0 1 5.6 11.2l5.1 5.1-1.4 1.4-5.1-5.1A7 7 0 1 1 10 3Zm0 2a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm-.8 7.4L6.9 10.1l1.2-1.2 1.1 1.1 2.7-2.7 1.2 1.2-3.9 3.9Z"/></svg></span>
+          <span class="aname"><b>Critic</b><em>agent · {{ critic_model }}</em></span>
+          <small>A different model checks each draft against the policy.</small>
+          <span class="status" id="st-critic">idle</span>
+          <span class="badge" id="q-critic"></span>
+        </div>
+      </div>
+
+      <div class="work" id="work">
+        <div class="scene sc-idle" id="sc-idle"><p>Every message enters through the guardrail.</p></div>
+
+        <div class="scene sc-blocked" id="sc-blocked">
+          <p class="kicker">Blocked at the agent's input</p>
+          <div class="mail">
+            <p class="mhead"><b>{{ blocked.name }}</b> · {{ blocked.subject }}</p>
+            <p class="mbody">{{ blocked.ask }}</p>
+            <p class="mbody hidden-ask"><span class="flag">Hidden instruction</span>{{ blocked.hidden }}</p>
+          </div>
+          <p class="verdict v-bad">No model read it. It goes to a person, with the reason.</p>
+        </div>
+
+        <div class="scene sc-readout" id="sc-readout">
+          <table class="readout">
+            <thead><tr><th>Message</th><th>Intent</th><th>A person?</th><th>Sure</th><th class="rc">Route <small>code</small></th></tr></thead>
+            <tbody>
+              {% for m in messages if not m.blocked %}
+              <tr id="ro-{{ m.key }}">
+                <td><b>{{ m.first }}</b></td>
+                <td><span class="gt g-{{ m.group }}">{{ m.wants }}</span></td>
+                <td class="{% if m.person != 'no' %}yes{% endif %}">{{ m.person }}</td>
+                <td class="num">{{ m.confidence }}</td>
+                <td class="rc"><span class="route r-{% if m.lane == 'person' %}person{% elif m.lane == 'aside' %}aside{% else %}draft{% endif %}" id="rt-{{ m.key }}">{% if m.lane == 'person' %}to a person{% elif m.lane == 'aside' %}set aside{% else %}to the Drafter{% endif %}</span></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <p class="note" id="noteInjected"><b>{{ injected.first }}'s message hides:</b> “{{ injected.hidden }}” <span>The Classifier reads it as text: a compensation question. Nothing obeys it.</span></p>
+        </div>
+
+        <div class="scene sc-focus" id="sc-focus">
+          <div class="fleft">
+            <div class="mail small">
+              <p class="mhead"><b>{{ focus.name }}</b> · {{ focus.subject }}</p>
+              <p class="mbody">{{ focus.body }}</p>
+            </div>
+            <ol class="thread">
+              <li class="bubble b-critic" id="bub-critic"><span class="who">Critic → Drafter · problems</span>{{ focus.attempts[0].critique.problems | join(" ") }}</li>
+              <li class="bubble b-drafter" id="bub-drafter"><span class="who">Drafter → Critic</span>Attempt 2 of {{ max_attempts }}, rewritten with that note.</li>
+            </ol>
+          </div>
+          <div class="fright">
+            <div class="draft" id="draftCard">
+              <p class="dhead"><b>Draft</b><span id="attempt">attempt 1 of {{ max_attempts }}</span><span class="verdict-pill" id="critVerdict"></span></p>
+              <pre class="dtext" id="draftText"></pre>
+              <ul class="checks" id="checks">
+                <li id="ck-0">≤ {{ max_words }} words</li><li id="ck-1">no amounts</li><li id="ck-2">no “!”</li><li id="ck-3">sign-off</li>
+              </ul>
+            </div>
+            <p class="bubble b-accept" id="bub-accept"><span class="who">Critic → code</span>Acceptable. No problems.</p>
+          </div>
+        </div>
+      </div>
+
+      <ul class="platform">
+        <li><b>Models</b>{{ worker_model }} · {{ critic_model }}</li>
+        <li><b>Guardrails</b>agent and every model</li>
+        <li><b>Identity</b>managed, no keys</li>
+        <li><b>Tracing</b>every agent step</li>
+        <li><b>Tools</b>none: text only</li>
+      </ul>
+    </section>
+
+    <!-- 3. The review desk -->
+    <section class="panel desk" id="desk">
+      <header>
+        <span class="ph-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 4h16v12H4V4Zm2 2v8h12V6H6Zm-3 12h18v2H3v-2Z"/></svg></span>
+        <b>Review desk</b><span class="pill soft">a person decides</span>
+      </header>
+      <ul class="lanes">
+        {% for lane in lanes %}
+        <li class="lane l-{{ lane.key }}" id="lane-{{ lane.key }}"><span class="dot"></span><span class="ln">{{ lane.label }}</span><b id="n-{{ lane.key }}">0</b></li>
+        {% endfor %}
+      </ul>
+      <div class="review" id="review">
+        <div class="reviewer" id="reviewer">
+          <span class="human" aria-hidden="true">
+            <svg viewBox="0 0 80 80">
+              <defs>
+                <clipPath id="hclip"><circle cx="40" cy="40" r="40"/></clipPath>
+                <linearGradient id="hbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e4ecff"/><stop offset="1" stop-color="#c7d6f7"/></linearGradient>
+                <radialGradient id="hskin" cx=".45" cy=".4" r=".7"><stop offset="0" stop-color="#f0c3a3"/><stop offset=".7" stop-color="#d99d7a"/><stop offset="1" stop-color="#c48663"/></radialGradient>
+                <linearGradient id="hhair" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5a3624"/><stop offset=".55" stop-color="#3b2216"/><stop offset="1" stop-color="#26150d"/></linearGradient>
+                <linearGradient id="hcoat" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#27448f"/><stop offset="1" stop-color="#16295e"/></linearGradient>
+              </defs>
+              <circle cx="40" cy="40" r="40" fill="url(#hbg)"/>
+              <g clip-path="url(#hclip)">
+                <path d="M21 36c-4 14-2 26 5 33l10-5c-5-9-6-19-5-28z" fill="url(#hhair)"/>
+                <path d="M59 36c4 14 2 26-5 33l-10-5c5-9 6-19 5-28z" fill="url(#hhair)"/>
+                <path d="M8 86c2-15 14-24 32-24s30 9 32 24z" fill="url(#hcoat)"/>
+                <path d="M31 61l9 11 9-11-9 4z" fill="#f4f7fb"/>
+                <path d="M40 65l-2.2 2.6L40 80l2.2-12.4z" fill="#b8c7e6" opacity=".6"/>
+                <path d="M34 47h12v11c0 3-2.7 5-6 5s-6-2-6-5z" fill="#c98f6d"/>
+                <path d="M34 54c3.5 2 8.5 2 12 0v2c-3.5 2-8.5 2-12 0z" fill="#b57b5a" opacity=".55"/>
+                <ellipse cx="40" cy="35" rx="13.2" ry="15.6" fill="url(#hskin)"/>
+                <ellipse cx="26.8" cy="37" rx="2.2" ry="3.4" fill="#d39572"/>
+                <ellipse cx="53.2" cy="37" rx="2.2" ry="3.4" fill="#d39572"/>
+                <path d="M26 34c-1.5-13 5.5-21 14.5-21C50 13 56 21 54 34c-1.6-6.4-6-10.8-12-11.6-4.6 3.8-10.6 5.6-16 5.8z" fill="url(#hhair)"/>
+                <path d="M41.5 15.5c5 .6 9.6 3.8 11.2 9.4-2.6-3.4-6.4-5.6-10.4-6.4z" fill="#7a4a31" opacity=".55"/>
+                <path d="M31.6 31.6q2.8-1.6 5.6-.2M42.8 31.4q2.8-1.4 5.6.2" stroke="#3b2216" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+                <ellipse cx="34.4" cy="35.6" rx="1.9" ry="1.5" fill="#fff"/><ellipse cx="45.6" cy="35.6" rx="1.9" ry="1.5" fill="#fff"/>
+                <circle cx="34.6" cy="35.7" r="1.15" fill="#2b1a10"/><circle cx="45.8" cy="35.7" r="1.15" fill="#2b1a10"/>
+                <circle cx="35" cy="35.3" r=".35" fill="#fff"/><circle cx="46.2" cy="35.3" r=".35" fill="#fff"/>
+                <path d="M40 37.5c-.6 2.4-1.4 4-1.6 4.6.8.5 2.4.5 3.2 0" stroke="#b57756" stroke-width=".9" fill="none" stroke-linecap="round"/>
+                <path d="M35.6 44.4q4.4 3 8.8 0" stroke="#a24f45" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+                <path d="M36.6 44.9q3.4 1.4 6.8 0" stroke="#fff" stroke-width=".7" fill="none" stroke-linecap="round" opacity=".8"/>
+                <ellipse cx="31.2" cy="40.6" rx="2.8" ry="1.7" fill="#ee8c8c" opacity=".22"/><ellipse cx="48.8" cy="40.6" rx="2.8" ry="1.7" fill="#ee8c8c" opacity=".22"/>
+              </g>
+            </svg>
+          </span>
+          <span class="rname"><b>{{ reviewer }}</b><small>reviewer · signed in by name</small></span>
+          <span class="reading" id="reading">waiting</span>
+        </div>
+        <div class="rcard" id="rcard">
+          <p class="rmeta"><span class="dot"></span><b>{{ focus.group }}</b> · {{ focus.name }}</p>
+          <pre class="rtext">{{ focus.final }}</pre>
+          <div class="rbtns"><span class="btn approve" id="btnApprove">Approve and send</span><span class="btn reject" id="btnReject">Reject</span></div>
+          <p class="tip" id="tipReject">Reject: nothing is sent, and the draft stays on record.</p>
+          <p class="stamp" id="stamp">Approved by {{ reviewer }} · this exact text · {{ focus.digest }}</p>
+        </div>
+      </div>
+      <div class="gate">
+        <p class="g-row" id="gateRow"><i>{ }</i><b>Send gate</b><small id="gateText">code · only the exact text a person approved</small></p>
+        <p class="g-row" id="outRow"><i class="o">➤</i><b>Outbox</b><small id="outText">simulated · nothing sent yet</small></p>
+      </div>
+      <ol class="audit" id="audit">
+        {% for actor, event, detail in focus.audit %}
+        <li id="au-{{ loop.index0 }}"><b>{{ actor }}</b><span>{{ event }}</span><small>{{ detail }}</small></li>
+        {% endfor %}
+      </ol>
+    </section>
+
+    <div class="caption" id="caption"><span class="num" id="capNum">1</span><p id="capText"></p></div>
+    <div class="tokens" id="tokens" aria-hidden="true"></div>
+    <div class="cursor" id="cursor" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 3l14 8-6 1.5 3.5 6.5-2.5 1.3-3.5-6.6L6 18z" fill="#101828" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg></div>
+    <div class="endcard" id="endcard">
+      <p class="e1">The model drafts. <span>A person decides.</span></p>
+      <p class="e2">Nothing goes out until they do.</p>
+      <ul>
+        <li>Three agents on Microsoft Foundry</li>
+        <li>Code decides every route</li>
+        <li>53 hidden instructions, 0 obeyed</li>
+        <li>No send without a person's approval</li>
+      </ul>
+    </div>
+  </div>
+  </div>
+
+  <div class="controls" id="controls">
+    <button id="play" type="button">Pause</button>
+    <button id="restart" type="button">Restart</button>
+    <div class="bar" id="bar"><span id="progress"></span></div>
+    <span class="time" id="time">0:00</span>
+    <a class="btn-link" href="/static/explainer.mp4" download="inbox-helper-explainer.mp4">Download MP4</a>
+    <a class="btn-link primary" href="/">Open the review desk</a>
+  </div>
+  <p class="foot">Synthetic data only. Every classification, draft and Critic note is verbatim from recorded live runs on {{ recorded | join(", ") }}; Marcus's exchange is from the 42-message set, the other eight messages from the 44-message set. The Classifier and Drafter run on {{ worker_model }}, the Critic on {{ critic_model }}. The reviewer, {{ reviewer }}, shows how a person uses the desk.</p>
+</div>
+<script id="data" type="application/json">{{ script_data | tojson }}</script>
+<script src="/static/explainer.js"></script>
+</body>
+</html>

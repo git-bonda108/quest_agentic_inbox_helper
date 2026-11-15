@@ -1,0 +1,105 @@
+<details class="flow" open>
+  <summary>
+    <span class="flow-eyebrow">How it works</span>
+    <span class="flow-title">From a pile of messages to a reply a person approved</span>
+    <a class="flow-watch" href="/explainer">Watch the explainer</a>
+  </summary>
+  <div class="flow-body">
+    <ol class="flow-row">
+      <li class="node n-inbox">
+        <span class="step">1</span>
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h15A1.5 1.5 0 0 1 21 6.5v11a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 17.5v-11Zm2 .9V17h14V7.4l-7 4.9-7-4.9ZM6.4 7l5.6 3.9L17.6 7H6.4Z"/></svg></span>
+        <b>Hiring inbox</b>
+        <small>Candidate messages arrive. All synthetic.</small>
+      </li>
+      <li class="foundry">
+        <p class="foundry-label">Microsoft Foundry · hosted agent <code>inbox-helper</code></p>
+        <ol class="flow-chain">
+          <li class="node platform n-guard">
+            <span class="step">2</span>
+            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.4 9.7 8 11 4.6-1.3 8-6 8-11V5l-8-3Zm-1 14-4-4 1.4-1.4 2.6 2.6 5.6-5.6L18 9l-7 7Z"/></svg></span>
+            <b>Guardrail policy</b>
+            <small>Blocks prompt injection before any model reads it. Blocked: to a person.</small>
+          </li>
+          <li class="node agent n-classifier">
+            <span class="step">3</span>
+            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 5h18v2H3V5Zm3 6h12v2H6v-2Zm3 6h6v2H9v-2Z"/></svg></span>
+            <b>Classifier agent</b>
+            <em>gpt-5.6-luna</em>
+            <small>What does the person want? Must a person handle it?</small>
+            <span class="hands">hands over: intent, confidence, reasons</span>
+          </li>
+          <li class="node code n-routing">
+            <span class="step">4</span>
+            <span class="icon" aria-hidden="true">{ }</span>
+            <b>Routing</b>
+            <em>code</em>
+            <small>A reason for a person, or under 0.70 confident: to a person. Not a candidate: set aside.</small>
+          </li>
+          <li class="node agent n-drafter">
+            <span class="step">5</span>
+            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m14.1 4.6 5.3 5.3L9.3 20H4v-5.3L14.1 4.6Zm1.4-1.4 1.8-1.8a1 1 0 0 1 1.4 0l3.9 3.9a1 1 0 0 1 0 1.4l-1.8 1.8-5.3-5.3Z"/></svg></span>
+            <b>Drafter agent</b>
+            <em>gpt-5.6-luna</em>
+            <small>Writes a reply from the hiring policy only.</small>
+            <span class="hands">hands over: the draft</span>
+          </li>
+          <li class="node code n-checks">
+            <span class="step">6</span>
+            <span class="icon" aria-hidden="true">{ }</span>
+            <b>Draft checks</b>
+            <em>code</em>
+            <small>90 words or fewer, no amounts, no “!”, the right sign-off.</small>
+          </li>
+          <li class="node agent n-critic">
+            <span class="step">7</span>
+            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 3a7 7 0 0 1 5.6 11.2l5.1 5.1-1.4 1.4-5.1-5.1A7 7 0 1 1 10 3Zm0 2a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm-.8 7.4L6.9 10.1l1.2-1.2 1.1 1.1 2.7-2.7 1.2 1.2-3.9 3.9Z"/></svg></span>
+            <b>Critic agent</b>
+            <em>gpt-5.5</em>
+            <small>A different model checks the draft against the policy and the message.</small>
+            <span class="hands back">hands back: problems, up to 2 attempts, then a person</span>
+          </li>
+        </ol>
+        <ul class="platform-strip">
+          <li><b>Models</b> gpt-5.6-luna, gpt-5.5</li>
+          <li><b>Guardrails</b> content safety on the agent and on each model</li>
+          <li><b>Identity</b> managed identity, no keys</li>
+          <li><b>Tracing</b> a span and token count per agent step</li>
+          <li><b>Tools</b> none granted: the agents can only return text</li>
+        </ul>
+      </li>
+    </ol>
+    <p class="flow-link"><span aria-hidden="true">↓</span> The agent returns a proposal: the group, the reason, and a draft or none. Nothing it returns can send.</p>
+    <ol class="flow-row review-row">
+      <li class="node code n-arrival">
+        <span class="step">8</span>
+        <span class="icon" aria-hidden="true">{ }</span>
+        <b>Checks again</b>
+        <em>code</em>
+        <small>Every draft is re-checked when it arrives here.</small>
+      </li>
+      <li class="node human n-desk">
+        <span class="step">9</span>
+        <span class="icon avatar" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7H4Z"/></svg></span>
+        <b>Review desk</b>
+        <em>a person</em>
+        <small>Approves, edits or rejects every draft. Messages for a person get no draft.</small>
+      </li>
+      <li class="node code n-gate">
+        <span class="step">10</span>
+        <span class="icon" aria-hidden="true">{ }</span>
+        <b>Send gate</b>
+        <em>code</em>
+        <small>Sends only the exact text the person approved, once.</small>
+      </li>
+      <li class="node n-outbox">
+        <span class="step">11</span>
+        <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2 21 23 12 2 3v7l15 2-15 2v7Z"/></svg></span>
+        <b>Outbox</b>
+        <em>simulated</em>
+        <small>Every step is written to the audit trail.</small>
+      </li>
+    </ol>
+    <p class="flow-legend"><span class="k agent">Agent (model)</span><span class="k code">Code decides</span><span class="k platform">Foundry platform</span><span class="k human">A person</span></p>
+  </div>
+</details>
