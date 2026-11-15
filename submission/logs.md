@@ -271,6 +271,13 @@ and no earlier result changed today.
 - A bolder, clearer desk: a colour for each group, counts at the top, DM Sans
   and Montserrat served by the app itself. No password: the data is
   synthetic, so the desk asks only for the reviewer's name.
+- How it works, on the live site: a diagram above the groups showing the
+  agents, their models, the code that decides, what Foundry provides and where
+  the person sits; and an 86-second animated explainer at `/explainer`, with an
+  MP4. Nothing in it is typed by hand. Nine messages are replayed from the
+  recorded runs, and a test rebuilds the explainer from the recordings, then
+  approves and sends the featured reply through the real send gate and checks
+  the audit lines on screen against the ones the store writes.
 
 ## Numbers
 
@@ -316,4 +323,4 @@ and no earlier result changed today.
 
 | Times I stepped in | Model cost for the day | First prompt to a working version |
 |---|---|---|
-| 3 (approving the public link and its network access, then asking for a bolder design without a password) | Two live messages, plus the App Service plan, billed by the hour until I delete it after the review | Clone to a running desk in one pass; deploy to a working live site in about 15 minutes |
+| 4 (approving the public link and its network access, asking for a bolder design without a password, then asking for the diagram and the explainer) | Two live messages, plus the App Service plan, billed by the hour until I delete it after the review | Clone to a running desk in one pass; deploy to a working live site in about 15 minutes |

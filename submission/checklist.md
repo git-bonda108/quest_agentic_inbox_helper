@@ -17,6 +17,7 @@ image, document or zip, up to 25 MB). Ready-to-upload files are in
 Extras, once all seven are attached:
 
 - The live review desk: https://inbox-helper-quest-b108.azurewebsites.net (any name, no password)
+- How it works, in 86 seconds: https://inbox-helper-quest-b108.azurewebsites.net/explainer (MP4 on the page)
 - Every result, including the misses: https://github.com/git-bonda108/quest_agentic_inbox_helper/blob/main/evals/README.md
 - The tool on nine layers: https://github.com/git-bonda108/quest_agentic_inbox_helper/blob/main/docs/architecture.md
 - Portfolio: https://git-bonda108.github.io

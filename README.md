@@ -27,6 +27,11 @@ message" sends one typed message to the live agent on Microsoft Foundry, up to
 40 a day. Use invented details only. How it is deployed:
 [`hosting/webapp.md`](hosting/webapp.md).
 
+To see the whole flow first, open the explainer:
+https://inbox-helper-quest-b108.azurewebsites.net/explainer. It plays nine
+messages from the recorded runs through the guardrail, the three agents, the
+routing code and the review desk in 86 seconds, and has an MP4 to download.
+
 ## Run it
 
 Run these in a terminal on your own computer. You need
@@ -233,6 +238,17 @@ messages ─► classifier ─► routing (code) ─┬─► drafter ─► che
   [`data/policy/hiring_policy.md`](data/policy/hiring_policy.md). If the policy
   does not cover it, the reply says a person will follow up.
 - **Every step is in an audit trail**, shown in the desk.
+
+The desk draws this flow above the groups, and
+[`/explainer`](https://inbox-helper-quest-b108.azurewebsites.net/explainer)
+animates it. The explainer shows no scripted model output: every message,
+classification, draft and critic note on it is replayed from the recorded runs
+by [`src/inbox_helper/explainer.py`](src/inbox_helper/explainer.py), and a test
+rebuilds it from the recordings and fails if the two differ. The same test
+approves and sends the featured reply through the real store and send gate,
+and checks that the audit lines on screen are the ones the store writes.
+
+![The explainer at the critique step: the Critic sends a draft back with its reason, and the Drafter rewrites it](docs/images/explainer.png)
 
 ## Layout
 
