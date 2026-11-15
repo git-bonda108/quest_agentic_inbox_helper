@@ -291,6 +291,10 @@ or result changed today.
 - **Azure's cost service refused my query today** with "too many requests",
   four times over ten minutes. The last figure it gave me, on 14 November,
   stands: ₹716.91 billed for the quest.
+- **The public link is still not live.** I tried to put the review desk on
+  Azure App Service for reviewers to click. The subscription has no App
+  Service quota in the two regions I tried, and it already holds the maximum
+  of five Container Apps environments. A quota request is the way through.
 - **One target from day one was missed**, and it stays on the results page:
   intent accuracy of at least 90%. It fell to 88.9% on the holdout set in two
   of six runs, and to 85% on the attack set, where six messages the platform

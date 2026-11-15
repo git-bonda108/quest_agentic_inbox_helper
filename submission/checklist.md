@@ -1,25 +1,23 @@
 # Submission checklist
 
-The quest page has seven required slots. Each takes a link or a file.
+The quest page has seven required slots. Each takes a link or a file (PDF,
+image, document or zip, up to 25 MB). Ready-to-upload files are in
+`submission/upload/`.
 
-| # | Deliverable | What to attach | State |
+| # | Slot on the quest page | Upload this file | Or paste this link |
 |---|---|---|---|
-| 1 | Loom video, 5 minutes at most, the tool working | Loom link | To record, from `submission/loom-script.md` |
-| 2 | `intent.md` | https://github.com/git-bonda108/quest_agentic_inbox_helper/blob/main/intent.md | Ready |
-| 3 | Final `directive.md` | https://github.com/git-bonda108/quest_agentic_inbox_helper/blob/main/directive.md | Ready, v3 |
-| 4 | Working code, with a README that says how to run it | https://github.com/git-bonda108/quest_agentic_inbox_helper | Ready; README checked on a fresh clone |
-| 5 | A short log for each of the 5 days | https://github.com/git-bonda108/quest_agentic_inbox_helper/blob/main/submission/logs.md | Ready: all five days |
-| 6 | One-page note on what I unlearned | https://github.com/git-bonda108/quest_agentic_inbox_helper/blob/main/submission/unlearned.md | Ready |
-| 7 | Career path and leverage video, 5 minutes at most | Loom or Drive link | To record |
+| 1 | Loom video | (your recording) | Loom link |
+| 2 | intent.md | `submission/upload/1-intent.pdf` | https://github.com/git-bonda108/quest_agentic_inbox_helper/blob/main/intent.md |
+| 3 | Final directive.md | `submission/upload/2-directive.pdf` | https://github.com/git-bonda108/quest_agentic_inbox_helper/blob/main/directive.md |
+| 4 | Working code, with a README | (link is best) | https://github.com/git-bonda108/quest_agentic_inbox_helper |
+| 5 | A short log for each of the 5 days | `submission/upload/5-daily-logs.pdf` | https://github.com/git-bonda108/quest_agentic_inbox_helper/blob/main/submission/logs.md |
+| 6 | One-page note on what I unlearned | `submission/upload/6-what-i-unlearned.pdf` | https://github.com/git-bonda108/quest_agentic_inbox_helper/blob/main/submission/unlearned.md |
+| 7 | Career path and leverage video | (your recording) | Loom or Drive link |
 
 Extras, once all seven are attached:
 
-- The architecture on nine layers: https://github.com/git-bonda108/quest_agentic_inbox_helper/blob/main/docs/architecture.md
-- Every result: https://github.com/git-bonda108/quest_agentic_inbox_helper/blob/main/evals/README.md
+- Every result, including the misses: https://github.com/git-bonda108/quest_agentic_inbox_helper/blob/main/evals/README.md
+- The tool on nine layers: https://github.com/git-bonda108/quest_agentic_inbox_helper/blob/main/docs/architecture.md
+- Portfolio: https://git-bonda108.github.io
 
-Before submitting:
-
-- Paste the repository description into the About box on GitHub.
-- After any edit to a daily log, rebuild the combined file:
-  `python3 submission/build_logs.py`
-- The timer ends at about 06:50 UTC on 16 November.
+The timer ends at about 06:59 UTC on 16 November.
