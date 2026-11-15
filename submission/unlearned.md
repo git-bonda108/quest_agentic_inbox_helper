@@ -1,46 +1,54 @@
 # What I unlearned
 
-**Speed is not the load.**
-With Claude Code I could have finished an inbox helper in a day, and that was
-my plan: build on day one, record on day two. The quest is called "Raise the
-Load". So I spread the work: a working core on day one, then one harder thing
-each day, each proven with a number. Unseen and adversarial messages. Managed
-hosting with a guardrail and tracing. Edge cases and forty attacks. The tool on
-day four is the same small tool as on day one. What grew is the evidence.
+I have built agentic systems in public since February 2025, and in August 2025
+I built an email agent with the same rule this quest asks for: nothing is sent
+until a person approves it. So this week was never about whether I could build
+an inbox helper. It was about whether I would build it differently. Six things
+changed.
 
-**Starting from the architecture.**
-I think in nine layers, and my habit is to fill every one. I asked for a
-toolbox, guardrails and every platform layer before a single check had failed.
-Then I cut what had no reason to be there. A toolbox, because the tool calls
-no external system. Memory, because each message stands on its own. A separate
-guardrail agent, because the platform already blocked the blatant attacks and
-nothing that got through was obeyed. A layer now has to be asked for by a requirement or a failing check.
-The nine layers are still on the page; several are thin on purpose.
+**1. Speed is not the load.**
+Working AI-first with Claude Code, I had a working inbox helper 47 minutes
+after the first prompt on day one. My plan was to finish that day and record on
+day two. I dropped the plan. When code is this cheap, the scarce work is the
+intent, the checks and the evidence. So I raised the load each day: unseen and
+adversarial messages, managed hosting with a guardrail and tracing, edge cases
+and forty attacks. The tool stayed small. What grew is the proof.
 
-**One green run means it works.**
+**2. I write the contract, not the code.**
+Before any code I wrote `intent.md`, what success means in numbers, and
+`directive.md`, the rules the build works under. Every later change traces back
+to one of them. The directive is on version 3, and each new version was forced
+by a failure, not by a new idea.
+
+**3. Every layer has to be earned.**
+I think in nine layers, and my reflex is to fill all of them. On day one I
+wanted every platform feature in, before a single check had failed. What I left
+out: a toolbox, because the tool calls no external system; memory, because each
+message stands alone; a separate guardrail agent, because the platform already
+blocked the blatant attacks and nothing that got through was obeyed. A layer now
+goes in when a requirement or a failing check asks for it.
+
+**4. One green run is an anecdote.**
 On day two, three runs of identical code disagreed about whether a sensitive
-message got a draft. It was a different message each time. One run would have
-told me the tool was safe. I now run everything three times and report every
-run, including the ones that miss a target.
+message got a draft, and it was a different message each time. One run would
+have told me the tool was safe. I now run every evaluation three times and
+publish every run, including the misses.
 
-**A checker is a check.**
-My critic approved every draft on day one, which proved nothing. I wrote bad
-drafts by hand and planted them. The critic caught all sixteen. An independent
-judge also caught every planted flaw, then missed the one real one, and was
-fooled by an injection the tool itself resisted. I trust a reviewer only after
-it has rejected something it should.
+**5. Fix the structure, not the wording.**
+The quick fix was to reword the prompt. The cause was structural: one label had
+to carry both what the person wants and whether a person must handle it. I split
+it into two questions and let code route on the second. No sensitive message has
+been drafted in any run since.
 
-**Passing tests mean a tested tool.**
-With 111 tests green, I wrote 43 edge-case tests. Eight failed and exposed
-five real defects, including a reply that could be approved again after it was
-sent.
-
-**Fixing the wording.**
-When a sensitive message slipped through, the easy fix was to reword the
-prompt. The real cause was structural: one label had to carry both what the person
-wants and whether a person must handle it. Splitting the question fixed it.
+**6. A checker is not a check until it has caught something.**
+My critic approved every draft on day one, which proved nothing. I planted
+flawed drafts and it caught every one. An independent judge also caught all
+fifteen planted flaws, then passed the one real failure and was fooled by an
+injection my own agents had ignored. The same goes for tests: with 111 passing,
+43 new edge-case tests found five real defects. I now trust a check only after
+it has failed something it should.
 
 **What I kept.**
-The AI drafts, a person signs off, and nothing goes out until they do. That
-rule was in my August 2025 email agent and it is the one thing I did not have
-to unlearn.
+The model drafts, a person signs off, and nothing goes out until they do. That
+rule was in my August 2025 email agent. This week it was enforced in code,
+tested, and never broken.
