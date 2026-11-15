@@ -35,6 +35,8 @@ _POLICY = (
 # The explainer is the one page that runs a script: its own file, nothing inline.
 # It has no forms and reads nothing from the store.
 EXPLAINER_POLICY = _POLICY + "; script-src 'self'"
+# Opened on its own, the MP4 is shown in the browser's player, which must load it.
+VIDEO_POLICY = _POLICY + "; media-src 'self'"
 SECURITY_HEADERS = {
     "Content-Security-Policy": _POLICY,
     "X-Frame-Options": "DENY",
@@ -125,6 +127,8 @@ def create_app(
         response.headers.update(SECURITY_HEADERS)
         if request.url.path == "/explainer":
             response.headers["Content-Security-Policy"] = EXPLAINER_POLICY
+        elif request.url.path.endswith(".mp4"):
+            response.headers["Content-Security-Policy"] = VIDEO_POLICY
         if request.url.path.endswith(".woff2"):
             # Set here, not via mimetypes: some hosts reset the MIME table at start-up.
             response.headers["content-type"] = "font/woff2"

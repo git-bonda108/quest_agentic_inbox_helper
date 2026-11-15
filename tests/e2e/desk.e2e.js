@@ -101,8 +101,11 @@ const check = (name, ok, detail = '') => { results.push({ name, ok: !!ok, detail
   check('explainer plays without signing in', /explainer/.test(viewer.url()) && t0 !== t1, t0 + ' -> ' + t1);
   const story = await viewer.locator('#stage').innerText();
   check('explainer shows the recorded critic note', story.includes('Remove the sentence saying a member of the hiring team will follow up'));
-  const mp4 = await viewer.request.get(base + '/static/explainer.mp4');
-  check('explainer MP4 is served as video', mp4.status() === 200 && /video\/mp4/.test(mp4.headers()['content-type'] || ''), String(mp4.status()) + ' ' + mp4.headers()['content-type']);
+  // Opened in a browser tab, the way a visitor's download link goes. (The page itself may not fetch.)
+  const video = await open({ width: 800, height: 600 }, 1);
+  const mp4 = await video.goto(base + '/static/explainer.mp4');
+  const mp4Type = (mp4 && mp4.headers()['content-type']) || '';
+  check('explainer MP4 is served as video', mp4 && mp4.status() === 200 && /video\/mp4/.test(mp4Type), (mp4 ? mp4.status() : 'none') + ' ' + mp4Type);
 
   check('no script from a message ran', dialogs === 0, String(dialogs));
   const unexpected = errors.filter(e => !/409/.test(e));

@@ -144,6 +144,15 @@ def test_the_explainer_is_public_and_only_it_may_run_a_script(client: TestClient
     assert "script-src" not in desk.headers["content-security-policy"]
 
 
+def test_the_video_plays_when_opened_on_its_own(client: TestClient) -> None:
+    response = client.get("/static/explainer.mp4")
+    assert response.status_code == 200
+    assert response.headers["content-type"] == "video/mp4"
+    assert response.content[4:8] == b"ftyp"
+    assert "media-src 'self'" in response.headers["content-security-policy"]
+    assert "script-src" not in response.headers["content-security-policy"]
+
+
 def test_the_explainer_assets_are_served(client: TestClient) -> None:
     for path, kind in (
         ("/static/explainer.js", "javascript"),
