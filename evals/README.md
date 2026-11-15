@@ -322,18 +322,23 @@ red-team test built for this tool.
 
 ## The live site
 
-https://inbox-helper-quest-b108.azurewebsites.net, checked on 15 November after deployment:
+https://inbox-helper-quest-b108.azurewebsites.net, checked on 15 November after the
+final deployment:
 
 | Check | Result |
 |---|---|
-| Browser pass, `DESK_PASSCODE=… node tests/e2e/desk.e2e.js https://inbox-helper-quest-b108.azurewebsites.net` | 18 of 18 |
-| Sign-in with a wrong passcode | Refused (401); the desk still redirects to sign-in |
+| Browser pass, `node tests/e2e/desk.e2e.js https://inbox-helper-quest-b108.azurewebsites.net` | 18 of 18 |
 | A typed message through "Try a message" | Classified live by the hosted agent, under the app's own identity with the single role Foundry Agent Consumer: a complaint inside a status question went to a person |
 
-The first typed message was lost: it reached the old container in the seconds
-while App Service swapped in the newly deployed one, and the desk keeps its
-state in memory. The app was restarted afterwards so reviewers start from a
-clean desk.
+The first deployment had a passcode. I removed it: the data is synthetic,
+nothing leaves the app, and the brief asks for a human review step, not access
+control. The desk still asks for a name, because each decision is recorded
+against it, and a daily cap of 40 live messages bounds the cost.
+
+On the first deployment, one typed message was lost: it reached the old
+container in the seconds while App Service swapped in the new one, and the
+desk keeps its state in memory. The app is restarted after each deployment so
+reviewers start from a clean desk.
 
 ## Cost and speed
 

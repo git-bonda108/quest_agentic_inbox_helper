@@ -29,7 +29,7 @@ WEB = Path(__file__).parent / "web"
 MAX_NAME = 40
 SECURITY_HEADERS = {
     "Content-Security-Policy": (
-        "default-src 'none'; style-src 'self'; form-action 'self'; "
+        "default-src 'none'; style-src 'self'; font-src 'self'; form-action 'self'; "
         "base-uri 'none'; frame-ancestors 'none'"
     ),
     "X-Frame-Options": "DENY",
@@ -71,10 +71,12 @@ def _desk_view(store: Store) -> dict[str, Any]:
                 rejected.append(row)
             else:
                 groups.setdefault(triage.intent, []).append(row)
-    ordered = [(_label(intent), groups[intent]) for intent in Intent if intent in groups]
+    ordered = [
+        (_label(intent), intent.value, groups[intent]) for intent in Intent if intent in groups
+    ]
     return {
         "groups": ordered,
-        "waiting": sum(len(rows) for _, rows in ordered),
+        "waiting": sum(len(rows) for _, _, rows in ordered),
         "escalated": escalated,
         "ignored": ignored,
         "rejected": rejected,

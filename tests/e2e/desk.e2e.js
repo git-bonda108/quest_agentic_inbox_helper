@@ -27,7 +27,7 @@ const check = (name, ok, detail = '') => { results.push({ name, ok: !!ok, detail
     await page.click('button.primary');
     await page.waitForSelector('p.summary');
   };
-  const counts = async page => (await page.locator('p.summary').innerText());
+  const counts = async page => (await page.locator('p.summary').innerText()).replace(/\s+/g, ' ');
 
   const rita = await open({ width: 1280, height: 900 }, 2);
   await rita.goto(base + '/');

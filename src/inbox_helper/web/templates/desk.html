@@ -1,61 +1,69 @@
 {% extends "base.html" %}
 {% block main %}
-<h1>Review desk</h1>
-<p class="summary">{{ waiting }} to review · {{ escalated|length }} need a person · {{ sent|length }} sent · {{ rejected|length }} rejected · {{ ignored|length }} set aside{% if failed %} · {{ failed|length }} failed{% endif %}</p>
+<div class="hero">
+  <h1>Review desk</h1>
+  <p class="summary"><span class="stat s-review"><b>{{ waiting }}</b> to review</span> <span class="stat s-person"><b>{{ escalated|length }}</b> need a person</span> <span class="stat s-sent"><b>{{ sent|length }}</b> sent</span> <span class="stat s-rejected"><b>{{ rejected|length }}</b> rejected</span> <span class="stat s-aside"><b>{{ ignored|length }}</b> set aside</span>{% if failed %} <span class="stat s-failed"><b>{{ failed|length }}</b> failed</span>{% endif %}</p>
+  {% if groups or escalated %}
+  <nav class="jump" aria-label="Groups">
+    {% for label, key, rows in groups %}<a class="pill g-{{ key }}" href="#group-{{ key }}">{{ label }} <span>{{ rows|length }}</span></a>{% endfor %}
+    {% if escalated %}<a class="pill g-person" href="#group-needs-a-person">Needs a person <span>{{ escalated|length }}</span></a>{% endif %}
+  </nav>
+  {% endif %}
+</div>
 
-{% for label, rows in groups %}
-<section>
-  <h2>{{ label }} <span class="count">{{ rows|length }}</span></h2>
+{% for label, key, rows in groups %}
+<section id="group-{{ key }}" class="group g-{{ key }}">
+  <h2><span class="dot" aria-hidden="true"></span>{{ label }} <span class="count">{{ rows|length }}</span></h2>
   {% for row in rows %}
   <article class="card">
     <div class="msg">
       <h3>{{ row.message.subject }}</h3>
-      <p class="meta">{{ row.message.from_name }} · {{ row.message.from_email }}{% if row.message.stage %} · {{ row.message.stage.value.replace("_", " ") }}{% endif %}</p>
+      <p class="meta">{{ row.message.from_name }} · {{ row.message.from_email }}{% if row.message.stage %} · <span class="stage">{{ row.message.stage.value.replace("_", " ") }}</span>{% endif %}</p>
       <p class="body">{{ row.message.body }}</p>
-      <p class="meta">Why this group: {{ row.triage.reason }} ({{ "%.0f"|format(row.triage.confidence * 100) }}% confident)</p>
+      <p class="why"><span class="tag">Why this group</span> {{ row.triage.reason }} <span class="conf">{{ "%.0f"|format(row.triage.confidence * 100) }}% confident</span></p>
     </div>
     <form method="post" action="/messages/{{ row.message.id }}/approve" class="reply">
       <input type="hidden" name="csrf" value="{{ csrf }}">
-      <label>Reply to {{ row.message.from_name }}{% if row.draft and row.draft.origin == "reviewer" %} (edited by a reviewer){% endif %}
+      <label>Reply to {{ row.message.from_name }}{% if row.draft and row.draft.origin == "reviewer" %} <span class="edited">edited by a reviewer</span>{% endif %}
         <textarea name="text" rows="8" required>{{ row.draft.text if row.draft else "" }}</textarea>
       </label>
       <div class="actions">
         <button class="primary">Approve and send</button>
         <button class="danger" formaction="/messages/{{ row.message.id }}/reject" formnovalidate>Reject</button>
       </div>
-      <p class="meta">Approving sends exactly the text in the box. Edit it first if it needs changing.</p>
+      <p class="hint">Approving sends exactly the text in the box. Edit it first if it needs changing.</p>
     </form>
   </article>
   {% endfor %}
 </section>
 {% endfor %}
-{% if not groups %}<p class="card">Nothing is waiting for review.</p>{% endif %}
+{% if not groups %}<p class="card empty">Nothing is waiting for review.</p>{% endif %}
 
 {% if escalated %}
-<section>
-  <h2>Needs a person <span class="count">{{ escalated|length }}</span></h2>
+<section id="group-needs-a-person" class="group g-person">
+  <h2><span class="dot" aria-hidden="true"></span>Needs a person <span class="count">{{ escalated|length }}</span></h2>
   <p class="meta">No draft was written for these. Reply to them yourself.</p>
   {% for row in escalated %}
   <article class="card flag">
     <h3>{{ row.message.subject }}</h3>
     <p class="meta">{{ row.message.from_name }} · {{ row.message.from_email }}</p>
     <p class="body">{{ row.message.body }}</p>
-    <p class="meta">Why: {{ row.triage.reason }}</p>
+    <p class="why"><span class="tag">Why</span> {{ row.triage.reason }}</p>
   </article>
   {% endfor %}
 </section>
 {% endif %}
 
 {% if failed %}
-<section>
-  <h2>Failed to process <span class="count">{{ failed|length }}</span></h2>
+<section class="group g-failed">
+  <h2><span class="dot" aria-hidden="true"></span>Failed to process <span class="count">{{ failed|length }}</span></h2>
   {% for row in failed %}<article class="card flag"><h3>{{ row.message.subject }}</h3><p class="body">{{ row.message.body }}</p></article>{% endfor %}
 </section>
 {% endif %}
 
 {% if sent %}
-<section>
-  <h2>Sent <span class="count">{{ sent|length }}</span></h2>
+<section class="group g-sent">
+  <h2><span class="dot" aria-hidden="true"></span>Sent <span class="count">{{ sent|length }}</span></h2>
   {% for row in sent %}
   <article class="card done">
     <p class="meta">To {{ row.entry.to_email }} · re: {{ row.message.subject }}</p>
@@ -66,16 +74,16 @@
 {% endif %}
 
 {% if rejected %}
-<section>
-  <h2>Rejected <span class="count">{{ rejected|length }}</span></h2>
-  {% for row in rejected %}<article class="card"><p class="meta">{{ row.message.from_name }} · {{ row.message.subject }} · rejected by {{ row.decision.reviewer }}</p></article>{% endfor %}
+<section class="group g-rejected">
+  <h2><span class="dot" aria-hidden="true"></span>Rejected <span class="count">{{ rejected|length }}</span></h2>
+  {% for row in rejected %}<article class="card slim"><p class="meta">{{ row.message.from_name }} · {{ row.message.subject }} · rejected by {{ row.decision.reviewer }}</p></article>{% endfor %}
 </section>
 {% endif %}
 
 {% if ignored %}
-<section>
-  <h2>Set aside <span class="count">{{ ignored|length }}</span></h2>
-  {% for row in ignored %}<article class="card"><p class="meta">{{ row.message.from_name }} · {{ row.message.subject }} · {{ row.triage.reason }}</p></article>{% endfor %}
+<section class="group g-aside">
+  <h2><span class="dot" aria-hidden="true"></span>Set aside <span class="count">{{ ignored|length }}</span></h2>
+  {% for row in ignored %}<article class="card slim"><p class="meta">{{ row.message.from_name }} · {{ row.message.subject }} · {{ row.triage.reason }}</p></article>{% endfor %}
 </section>
 {% endif %}
 {% endblock %}

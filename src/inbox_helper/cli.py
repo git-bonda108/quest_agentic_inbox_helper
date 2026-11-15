@@ -86,6 +86,14 @@ def shown(path: Path) -> str:
     return str(path.relative_to(ROOT)) if path.is_relative_to(ROOT) else str(path)
 
 
+def require_passcode_or_public(*, local: bool, passcode: str | None, public: bool) -> None:
+    """A desk on a public address needs a passcode, or an explicit choice to go without one."""
+    if passcode is None and not local and not public:
+        raise SystemExit(
+            "Set INBOX_HELPER_PASSCODE, or pass --public to serve this synthetic demo without one."
+        )
+
+
 def _endpoint() -> str:
     endpoint = os.environ.get("FOUNDRY_PROJECT_ENDPOINT")
     if not endpoint:
@@ -379,8 +387,7 @@ def _serve(args: argparse.Namespace) -> int:
     source = asyncio.run(_load_demo(args, store))
     local = args.host in {"127.0.0.1", "localhost"}
     passcode = os.environ.get("INBOX_HELPER_PASSCODE") or None
-    if passcode is None and not local:
-        raise SystemExit("Set INBOX_HELPER_PASSCODE before serving on a public address.")
+    require_passcode_or_public(local=local, passcode=passcode, public=args.public)
     live = None
     if args.try_hosted:
         from inbox_helper.hosted import FoundryAgent, process_inbox_hosted
@@ -430,6 +437,11 @@ def main(argv: list[str] | None = None) -> int:
         "--try-hosted",
         action="store_true",
         help="add a form that sends one typed message to the hosted agent",
+    )
+    sv.add_argument(
+        "--public",
+        action="store_true",
+        help="serve on a public address without a passcode (synthetic data only)",
     )
 
     for sub in (ev, jd, sv):

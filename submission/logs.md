@@ -268,6 +268,9 @@ and no earlier result changed today.
 - This log, and the combined log file with all five days.
 - The public link: the review desk on Azure App Service, with the "Try a
   message" form wired to the agent on Foundry. Steps in `hosting/webapp.md`.
+- A bolder, clearer desk: a colour for each group, counts at the top, DM Sans
+  and Montserrat served by the app itself. No password: the data is
+  synthetic, so the desk asks only for the reviewer's name.
 
 ## Numbers
 
@@ -313,4 +316,4 @@ and no earlier result changed today.
 
 | Times I stepped in | Model cost for the day | First prompt to a working version |
 |---|---|---|
-| 2 (approving the public link and its network access) | Two live messages, plus the App Service plan, billed by the hour until I delete it after the review | Clone to a running desk in one pass; deploy to a working live site in about 15 minutes |
+| 3 (approving the public link and its network access, then asking for a bolder design without a password) | Two live messages, plus the App Service plan, billed by the hour until I delete it after the review | Clone to a running desk in one pass; deploy to a working live site in about 15 minutes |

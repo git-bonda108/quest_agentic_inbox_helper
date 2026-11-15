@@ -3,12 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
 <title>{% block title %}Review desk{% endblock %} · Inbox helper</title>
+<link rel="preload" href="/static/fonts/dm-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/static/desk.css">
 </head>
 <body>
 <header class="bar">
-  <a class="brand" href="/">Inbox helper</a>
+  <a class="brand" href="/"><span class="mark" aria-hidden="true">IH</span><span>Inbox helper</span></a>
   {% if reviewer %}
   <nav>
     <a href="/">Desk</a>
@@ -21,7 +23,7 @@
   </nav>
   {% endif %}
 </header>
-<p class="notice">Synthetic data. “Send” writes to a simulated outbox; no email leaves this app. Drafts come from: {{ source }}.</p>
+<p class="notice"><strong>Synthetic data.</strong> “Send” writes to a simulated outbox; no email leaves this app. Drafts come from: {{ source }}.</p>
 <main>{% block main %}{% endblock %}</main>
 </body>
 </html>

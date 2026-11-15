@@ -1,17 +1,18 @@
 {% extends "base.html" %}
 {% block title %}Sign in{% endblock %}
 {% block main %}
-<section class="card narrow">
-  <h1>Sign in to review</h1>
-  <p>Your name is recorded against every decision you make.</p>
+<section class="card narrow login">
+  <p class="eyebrow">Hiring inbox · human in the loop</p>
+  <h1>Review desk</h1>
+  <p>Candidate messages arrive grouped by what each person wants, each with a short draft reply. You approve, edit or reject every draft. Nothing is sent until you approve the exact text.</p>
   {% if error %}<p class="error" role="alert">{{ error }}</p>{% endif %}
   <form method="post" action="/login">
     <input type="hidden" name="csrf" value="{{ csrf }}">
-    <label>Your name <input name="name" maxlength="40" required autocomplete="name"></label>
+    <label>Your name <input name="name" maxlength="40" required autocomplete="name" placeholder="Recorded against each decision"></label>
     {% if passcode_required %}
     <label>Passcode <input name="passcode" type="password" required autocomplete="off"></label>
     {% endif %}
-    <button class="primary">Sign in</button>
+    <button class="primary">Start reviewing</button>
   </form>
 </section>
 {% endblock %}

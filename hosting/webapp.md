@@ -10,7 +10,10 @@ it was deployed with, on 15 November 2026.
   **Foundry Agent Consumer**, on the Foundry resource. It can invoke the agent
   and nothing else. There are no keys.
 - **State.** In memory, one process, one instance. A restart resets the desk.
-- **Limits.** A passcode on sign-in, and at most 40 live messages a day.
+- **Access.** No password. The data is synthetic and nothing leaves the app, so
+  the desk asks only for a name, which is recorded against each decision. The
+  app is started with `--public` to make that an explicit choice.
+- **Limits.** At most 40 live messages a day, one every few seconds.
 
 ```bash
 az appservice plan create -g rg-inbox-helper-quest -n plan-inbox-helper --location westus3 --is-linux --sku B1
@@ -25,11 +28,11 @@ az role assignment create --assignee-object-id <app principal id> --assignee-pri
 ```
 
 ```bash
-az webapp config appsettings set -g rg-inbox-helper-quest -n inbox-helper-quest-b108 --settings FOUNDRY_PROJECT_ENDPOINT=<project endpoint> INBOX_HELPER_AGENT_NAME=inbox-helper INBOX_HELPER_LIVE_CAP=40 INBOX_HELPER_PASSCODE=<passcode> INBOX_HELPER_SESSION_SECRET=<random> SCM_DO_BUILD_DURING_DEPLOYMENT=true PYTHONPATH=src WEBSITES_PORT=8000
+az webapp config appsettings set -g rg-inbox-helper-quest -n inbox-helper-quest-b108 --settings FOUNDRY_PROJECT_ENDPOINT=<project endpoint> INBOX_HELPER_AGENT_NAME=inbox-helper INBOX_HELPER_LIVE_CAP=40 INBOX_HELPER_SESSION_SECRET=<random> SCM_DO_BUILD_DURING_DEPLOYMENT=true PYTHONPATH=src WEBSITES_PORT=8000
 ```
 
 ```bash
-az webapp config set -g rg-inbox-helper-quest -n inbox-helper-quest-b108 --always-on true --startup-file "python -m inbox_helper.cli serve --host 0.0.0.0 --port 8000 --set unseen --try-hosted"
+az webapp config set -g rg-inbox-helper-quest -n inbox-helper-quest-b108 --always-on true --startup-file "python -m inbox_helper.cli serve --host 0.0.0.0 --port 8000 --set unseen --try-hosted --public"
 ```
 
 The package is `src/`, `data/inbox/`, `data/policy/`, `data/recordings/*.json`,
