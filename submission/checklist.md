@@ -8,7 +8,7 @@ The quest page has seven required slots. Each takes a link or a file.
 | 2 | `intent.md` | https://github.com/git-bonda108/quest_agentic_inbox_helper/blob/main/intent.md | Ready |
 | 3 | Final `directive.md` | https://github.com/git-bonda108/quest_agentic_inbox_helper/blob/main/directive.md | Ready, v3 |
 | 4 | Working code, with a README that says how to run it | https://github.com/git-bonda108/quest_agentic_inbox_helper | Ready; README checked on a fresh clone |
-| 5 | A short log for each of the 5 days | https://github.com/git-bonda108/quest_agentic_inbox_helper/blob/main/submission/logs.md | Days 1 to 4 in; day 5 added on 15 November |
+| 5 | A short log for each of the 5 days | https://github.com/git-bonda108/quest_agentic_inbox_helper/blob/main/submission/logs.md | Ready: all five days |
 | 6 | One-page note on what I unlearned | https://github.com/git-bonda108/quest_agentic_inbox_helper/blob/main/submission/unlearned.md | Ready |
 | 7 | Career path and leverage video, 5 minutes at most | Loom or Drive link | To record |
 
