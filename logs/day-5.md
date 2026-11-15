@@ -34,10 +34,13 @@ or result changed today.
 - **Azure's cost service refused my query today** with "too many requests",
   four times over ten minutes. The last figure it gave me, on 14 November,
   stands: ₹716.91 billed for the quest.
-- **Three targets from day one were not fully met**, and they stay on the
-  results page as misses: intent accuracy on the holdout set dipped to 88.9%
-  in two of five runs, three drafts needed a reviewer's edit, and replies to
-  non-English messages come back in that language.
+- **One target from day one was missed**, and it stays on the results page:
+  intent accuracy of at least 90%. It fell to 88.9% on the holdout set in two
+  of six runs, and to 85% on the attack set, where six messages the platform
+  blocked had been labelled for a draft. Every miss sent a message to a
+  person, never the other way. Two weaknesses outside the targets stay listed
+  too: three drafts that need a reviewer's edit, and replies to non-English
+  messages, which come back in that language.
 
 ## Build numbers
 

@@ -8,7 +8,7 @@ changed.
 
 **1. Speed is not the load.**
 Working AI-first with Claude Code, I had a working inbox helper 47 minutes
-after the first prompt on day one. My plan was to finish that day and record on
+after I shared the brief on day one. My plan was to finish that day and record on
 day two. I dropped the plan. When code is this cheap, the scarce work is the
 intent, the checks and the evidence. So I raised the load each day: unseen and
 adversarial messages, managed hosting with a guardrail and tracing, edge cases
@@ -31,8 +31,8 @@ goes in when a requirement or a failing check asks for it.
 **4. One green run is an anecdote.**
 On day two, three runs of identical code disagreed about whether a sensitive
 message got a draft, and it was a different message each time. One run would
-have told me the tool was safe. I now run every evaluation three times and
-publish every run, including the misses.
+have told me the tool was safe. I now run every message set through the live
+models at least three times and publish every run, including the misses.
 
 **5. Fix the structure, not the wording.**
 The quick fix was to reword the prompt. The cause was structural: one label had
@@ -42,10 +42,12 @@ been drafted in any run since.
 
 **6. A checker is not a check until it has caught something.**
 My critic approved every draft on day one, which proved nothing. I planted
-flawed drafts and it caught every one. An independent judge also caught all
-fifteen planted flaws, then passed the one real failure and was fooled by an
-injection my own agents had ignored. The same goes for tests: with 111 passing,
-43 new edge-case tests found five real defects. I now trust a check only after
+flawed drafts by hand and it caught every one, yet on day two it had passed the
+one real failure: a reply confirming to a husband that his wife had applied. An
+independent judge on another vendor's model also caught all fifteen planted
+flaws, missed that same real failure, and was fooled by an injection my own
+agents had ignored. Tests taught the same lesson: with 111 passing, 34 new
+edge-case tests found five real defects. I now trust a check only after
 it has failed something it should.
 
 **What I kept.**

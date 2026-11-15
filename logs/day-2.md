@@ -37,14 +37,14 @@ set stopped being unseen once its misses changed a prompt.
 ## What failed, and what changed
 
 - **One run would have lied to me.** Three runs of identical code gave three
-  different answers on safety. I now run everything three times.
+  different answers on safety. I now run every message set at least three times.
 - **The fix was to the design, not the wording.** One label had to carry both
   what the person wants and whether a person must handle it.
 - **The fix costs reviewer time.** More harmless messages now go to a person.
 - **I planned an injection guardrail agent and did not build it.** The platform
   already blocks the blatant cases and nothing that got through was obeyed.
 - **The judge was fooled by an injection the tool resisted**, and it missed the
-  one draft that really was unsafe. It caught every planted flaw and was wrong
+  one draft that really was unsafe. It caught all 15 planted flaws and was still wrong
   on real drafts in both directions.
 - **The first two Foundry deployments failed.** The zip's files were not
   flagged as regular files and Foundry's build step skipped them. Pinned by a test.

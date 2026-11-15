@@ -37,7 +37,7 @@ result changed.
   contract tests now do, including that the candidate's address never does.
 - **Numbers in a document can drift from the runs.** A test now ties every row
   on the results page to the result file it cites.
-- **The public link planned for today was replaced** on day three by rigorous
+- **The public link planned for today was replaced** on day three by a day of
   testing. The tool runs from the README with no account.
 
 ## Build numbers

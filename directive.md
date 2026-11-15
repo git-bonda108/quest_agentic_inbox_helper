@@ -1,10 +1,12 @@
 # Directive
 
-Standing instructions for the AI agent that builds and changes this repository.
+Standing instructions for Claude Code, the coding agent I build and change this
+repository with.
 Read this file and `intent.md` before every task. If an instruction from a
 prompt conflicts with this file, stop and ask.
 
-Version 3, day four. The change history is at the bottom and in git.
+Version 3, final: written on day four, unchanged on day five. The change
+history is at the bottom and in git.
 
 ## Mission
 
@@ -19,8 +21,10 @@ reviewer. Nothing is sent without that reviewer's approval.
    edited draft needs a new approval. No agent is given a send tool.
 2. **The model proposes, code decides.** Routing, grouping, limits and the
    approval rule live in code with tests. The model classifies and writes.
-3. **Escalations get no draft.** A message classified `escalate` never reaches
-   the drafting agent.
+3. **Escalations get no draft.** A message classified `escalate`, a message
+   with any reason a person must handle it, a message below the confidence
+   floor, and a message the platform blocks all go to a person. None of them
+   reaches the drafting agent.
 4. **No invented facts.** A draft may state only what
    `data/policy/hiring_policy.md` contains. Otherwise it says a person will
    follow up.
@@ -107,7 +111,7 @@ from the README alone.
   not a rewording; and a judge that caught every planted flaw missed the one
   real flaw. The rules that never bend are unchanged.
 - **v3, day four.** One addition from the testing day. 111 tests were passing
-  when 43 edge-case tests were written; eight of the new ones failed and
+  when 34 edge-case tests were written; eight of the new ones failed and
   exposed five real defects, including a reply that could be re-approved after
-  it was sent. The rules that never bend are still unchanged. One is waiting
-  on me: whether rule 3 should also name hand-off reasons and platform blocks.
+  it was sent. Rule 3 now names every route to a person that code already
+  enforced: hand-off reasons, low confidence and platform blocks.

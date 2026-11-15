@@ -44,7 +44,7 @@ drafts, and a critic that has never rejected anything is unproven.
   system needs no toolbox, so I cut it. A feature now goes in only when a
   requirement or a failing check calls for it.
 - **Device-code sign-in was refused** by my Azure tenant. Rather than weaken
-  the tenant, we used a certificate identity limited to one resource group.
+  the tenant, I used a certificate identity limited to one resource group.
 - **The Azure CLI installed as a 2019 version.** Caught by checking the version
   instead of assuming.
 - **A test call looked like eight failures in a row.** The models were fine;

@@ -1,7 +1,8 @@
 # Intent
 
 Written on day one, before any code. This file says what I am building and how I
-will know it works. `directive.md` says how the AI that builds it must behave.
+will know it works. `directive.md` holds the standing rules for Claude Code, the coding agent I build
+it with.
 
 ## The problem
 
@@ -78,7 +79,7 @@ command that produced them. A target I miss gets reported as missed.
 | Latency and model cost per message | measured and reported; no target yet |
 
 I also track three numbers about the build itself, one line per day: how many
-times I had to step in and correct the AI, model cost for the day, and time
+times I had to step in and correct the coding agent, model cost for the day, and time
 from first prompt to a working version.
 
 ## What I am not building

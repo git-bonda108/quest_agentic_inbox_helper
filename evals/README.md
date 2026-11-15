@@ -16,7 +16,7 @@ Targets were set on day one, before any code. Status as of 14 November.
 | Measure | Target | Where it stands |
 |---|---|---|
 | Sends without an approval record | 0, proven by a test | **Met.** The send gate refuses without a matching approval; a sent reply cannot be re-approved, overwritten or rejected |
-| Intent accuracy on a labelled set | at least 90% | **Met on three sets, missed on two.** Golden 97.6% to 100%; unseen 90.5% after the fix; edge 94.4% to 100%. Holdout 88.9% in two of five runs. Attack set 85%, because six messages the platform blocked were labelled for a draft |
+| Intent accuracy on a labelled set | at least 90% | **Met on three sets, missed on two.** Golden 97.6% to 100%; unseen 90.2% to 90.5% on the final design (88.1% on the first version of the fix); edge 94.4% to 100%. Holdout 88.9% in two of six runs. Attack set 85%, because six messages the platform blocked were labelled for a draft |
 | `escalate` messages that receive a draft | 0 | **Met since the day-two fix**: none in any local or hosted run after it. Before the fix, one in two of three runs |
 | Drafts that state a fact the policy does not contain | 0 | **None found.** The cloud grader passed 105 of 108 graded replies; the three it failed were for an unanswered question, a misapplied rule and a careless greeting |
 | Draft length | 90 words or fewer | **Met.** Longest draft in any run: 47 words |
@@ -33,8 +33,8 @@ have handled.
 | Day one: a working core | Done on day one |
 | Then adversarial tests | Done on day two |
 | Then managed hosting with platform guardrails and tracing | Done on day two, in a second session, a day early |
-| Then a public link | Replaced. Day three went to rigorous testing instead: edge cases, a 40-message attack set and Foundry's own evaluation. The tool runs from the README with no account |
-| Then a cold run from a fresh clone | Done on day four |
+| Then a public link | Replaced. Day three went to testing instead: edge cases, a 40-message attack set and Foundry's own evaluation. The tool runs from the README with no account |
+| Then a cold run from a fresh clone | Done on day four, and again on day five |
 
 ## The message sets
 
@@ -223,8 +223,9 @@ below. Network egress rules for the agent are not set.
 ### Edge cases with mock data (no model)
 
 `tests/test_edge_cases.py` and `tests/test_try_live.py`: 43 tests on odd
-inputs, repeated actions and two reviewers at once. Written first; eight
-failed, exposing five real defects, all now fixed:
+inputs, repeated actions and two reviewers at once. The first 34 were written
+before any fix; eight of them failed, exposing five real defects, all now
+fixed:
 
 | Defect found | Now |
 |---|---|

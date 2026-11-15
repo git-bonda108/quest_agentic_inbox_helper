@@ -1,12 +1,13 @@
 # Day 3 log
 
 13 November 2026, 04:00 to 05:00 UTC, on a schedule. The goal was
-rigorous testing with mock data: happy paths, edge cases, attacks, and
+testing with mock data: happy paths, edge cases, attacks, and
 Foundry's own evaluation of the hosted agent.
 
 ## What shipped
 
-- 43 edge-case tests on odd inputs, repeated actions and two reviewers at once.
+- 34 edge-case tests on odd inputs, repeated actions and two reviewers at once,
+  written first; nine more followed for the new limits and the live form.
 - A browser end-to-end pass of the review desk: 18 checks.
 - An edge set (18 awkward but realistic messages) and an attack set (40
   messages: four goals in ten disguises).

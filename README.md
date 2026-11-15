@@ -4,10 +4,14 @@ Takes a pile of candidate messages, groups them by what the person wants, and
 drafts a short reply for each. A human reviews every draft. Nothing is sent
 until that person approves the exact text.
 
-Built in five days for a hiring quest, working AI-first. Start with
-[`intent.md`](intent.md) (what and why) and [`directive.md`](directive.md)
-(the standing rules the build agent works under). The daily logs are in [`logs/`](logs/).
-The design on nine layers, with the test that proves each one, is in
+Built in five days for a hiring quest, working AI-first: I wrote the intent,
+the rules and the checks, and Claude Code wrote the code against them. Start
+with [`intent.md`](intent.md) (what and why) and [`directive.md`](directive.md)
+(the standing rules the build works under). Then the daily logs in
+[`logs/`](logs/), the note on what I unlearned in
+[`submission/unlearned.md`](submission/unlearned.md), and every result,
+including the misses, in [`evals/README.md`](evals/README.md). The design on
+nine layers, with the test for each, is in
 [`docs/architecture.md`](docs/architecture.md).
 
 ![The review desk: a candidate message on the left, the drafted reply on the right](docs/images/review-desk.png)
@@ -63,7 +67,7 @@ uv run pytest
 uv run inbox-helper eval
 ```
 
-`eval` processes a labelled inbox and prints the scores. There are three
+`eval` processes a labelled inbox and prints the scores. There are five
 labelled sets, chosen with `--set`:
 
 | Set | Messages | What it is for |
@@ -226,7 +230,7 @@ messages ─► classifier ─► routing (code) ─┬─► drafter ─► che
 | `src/inbox_helper/` | The tool |
 | `hosting/` | The hosted agent's entry point, its packaging and the deploy script |
 | `tests/` | Tests, including the evaluation gate on the recorded runs |
-| `data/inbox/` | Three sets of synthetic candidate messages |
+| `data/inbox/` | Five sets of synthetic candidate messages |
 | `data/policy/` | The fictional hiring policy that replies must come from |
 | `data/recordings/` | Recorded model outputs for offline replay; `history/` holds earlier runs |
 | `evals/` | Labels kept apart from the inputs, planted drafts, the rubric, and every result |

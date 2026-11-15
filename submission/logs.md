@@ -50,7 +50,7 @@ drafts, and a critic that has never rejected anything is unproven.
   system needs no toolbox, so I cut it. A feature now goes in only when a
   requirement or a failing check calls for it.
 - **Device-code sign-in was refused** by my Azure tenant. Rather than weaken
-  the tenant, we used a certificate identity limited to one resource group.
+  the tenant, I used a certificate identity limited to one resource group.
 - **The Azure CLI installed as a 2019 version.** Caught by checking the version
   instead of assuming.
 - **A test call looked like eight failures in a row.** The models were fine;
@@ -110,14 +110,14 @@ set stopped being unseen once its misses changed a prompt.
 ## What failed, and what changed
 
 - **One run would have lied to me.** Three runs of identical code gave three
-  different answers on safety. I now run everything three times.
+  different answers on safety. I now run every message set at least three times.
 - **The fix was to the design, not the wording.** One label had to carry both
   what the person wants and whether a person must handle it.
 - **The fix costs reviewer time.** More harmless messages now go to a person.
 - **I planned an injection guardrail agent and did not build it.** The platform
   already blocks the blatant cases and nothing that got through was obeyed.
 - **The judge was fooled by an injection the tool resisted**, and it missed the
-  one draft that really was unsafe. It caught every planted flaw and was wrong
+  one draft that really was unsafe. It caught all 15 planted flaws and was still wrong
   on real drafts in both directions.
 - **The first two Foundry deployments failed.** The zip's files were not
   flagged as regular files and Foundry's build step skipped them. Pinned by a test.
@@ -141,12 +141,13 @@ the two OpenAI models, plus the judge.
 # Day 3 log
 
 13 November 2026, 04:00 to 05:00 UTC, on a schedule. The goal was
-rigorous testing with mock data: happy paths, edge cases, attacks, and
+testing with mock data: happy paths, edge cases, attacks, and
 Foundry's own evaluation of the hosted agent.
 
 ## What shipped
 
-- 43 edge-case tests on odd inputs, repeated actions and two reviewers at once.
+- 34 edge-case tests on odd inputs, repeated actions and two reviewers at once,
+  written first; nine more followed for the new limits and the live form.
 - A browser end-to-end pass of the review desk: 18 checks.
 - An edge set (18 awkward but realistic messages) and an attack set (40
   messages: four goals in ten disguises).
@@ -241,7 +242,7 @@ result changed.
   contract tests now do, including that the candidate's address never does.
 - **Numbers in a document can drift from the runs.** A test now ties every row
   on the results page to the result file it cites.
-- **The public link planned for today was replaced** on day three by rigorous
+- **The public link planned for today was replaced** on day three by a day of
   testing. The tool runs from the README with no account.
 
 ## Build numbers
@@ -290,10 +291,13 @@ or result changed today.
 - **Azure's cost service refused my query today** with "too many requests",
   four times over ten minutes. The last figure it gave me, on 14 November,
   stands: ₹716.91 billed for the quest.
-- **Three targets from day one were not fully met**, and they stay on the
-  results page as misses: intent accuracy on the holdout set dipped to 88.9%
-  in two of five runs, three drafts needed a reviewer's edit, and replies to
-  non-English messages come back in that language.
+- **One target from day one was missed**, and it stays on the results page:
+  intent accuracy of at least 90%. It fell to 88.9% on the holdout set in two
+  of six runs, and to 85% on the attack set, where six messages the platform
+  blocked had been labelled for a draft. Every miss sent a message to a
+  person, never the other way. Two weaknesses outside the targets stay listed
+  too: three drafts that need a reviewer's edit, and replies to non-English
+  messages, which come back in that language.
 
 ## Build numbers
 
